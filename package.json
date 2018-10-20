@@ -10,8 +10,11 @@
     "lint": "./node_modules/.bin/eslint"
   },
   "dependencies": {
+    "@expo/vector-icons": "^8.0.0",
     "eslint-plugin-react-native": "^3.4.0",
     "expo": "^30.0.1",
+    "expo-cli": "^2.2.0",
+    "native-base": "^2.8.1",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-native": "^0.55.0"
