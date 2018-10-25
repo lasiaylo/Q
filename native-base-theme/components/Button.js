@@ -1,6 +1,7 @@
 // @flow
 
 import variable from "./../variables/platform";
+import customVariables from './variable';
 
 export default (variables /*: * */ = variable) => {
   const platformStyle = variables.platformStyle;

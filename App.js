@@ -1,24 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Font } from 'expo';
+import Start from './components/Start';
+import { Root } from "native-base";
+import { Container, Content } from 'native-base';
 
-export default class App extends React.Component {
+export default class App extends Component {
+  state = {
+    fontLoaded: false,
+  };
+  constructor(props){
+    super(props);
+
+  }
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <Container>
+        <Content>
+          {
+            this.state.fontLoaded ? (
+              <Start />
+            ) : null
+          }
+
+        </Content>
+      </Container>
     );
   }
-  componentDidMount() {
-    Font.loadAsync({
-      'Roboto': require('native-base/Fonts/Roboto.ttf'),
-      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
-      'Avenir-Book': require('./assets/fonts/AvenirLTStd-Book.otf'),
-      'Avenir-Light': require('./assets/fonts/AvenirLTStd-Light.otf'),
-      'Avenir-Roman': require('./assets/fonts/AvenirLTStd-Roman.otf'),
-      'Glacial': require('./assets/fonts/GlacialIndifference-Regular.otf'),
-    })
+  async componentDidMount() {
+    try {
+      await Font.loadAsync({
+        'Avenir-Light': require('./assets/fonts/AvenirLTStd-Light.otf'),
+        'Glacial': require('./assets/fonts/GlacialIndifference-Regular.otf'),
+      })
+      this.setState({ fontLoaded: true });
+      console.log('fonts are loaded')
+    } catch (err) {
+      console.log(err)
+    }
   }
 }
 

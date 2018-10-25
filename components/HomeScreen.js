@@ -6,7 +6,9 @@ export default class HomeScreen extends React.Component {
   render() {
     return (
       <Container>
-          <Content></Content>
+          <Content>
+              
+          </Content>
       </Container>
     );
   }
