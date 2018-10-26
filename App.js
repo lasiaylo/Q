@@ -3,7 +3,21 @@ import { Container, Content } from "native-base";
 import { StyleSheet } from "react-native";
 import { Font } from "expo";
 import Start from "./components/Start";
+import Choose from "./components/Choose";
 import { createStackNavigator } from "react-navigation";
+
+const RootStack = createStackNavigator(
+  {
+    Start: Start,
+    Choose: Choose
+  },
+  {
+    initialRouteName: "Start",
+    navigationOptions: {
+      header: null
+    }
+  }
+);
 
 export default class App extends Component {
   constructor(props) {
@@ -19,35 +33,17 @@ export default class App extends Component {
         "Avenir-Light": require("./assets/fonts/AvenirLTStd-Light.otf"),
         Glacial: require("./assets/fonts/GlacialIndifference-Regular.otf")
       });
-      this.setState({ fontLoaded: true });
+      this.setState({ fontLoaded: !this.state.fontLoaded });
       console.log("fonts are loaded");
     } catch (err) {
-      console.log(err);
+      console.log("FECK FECK" + err);
     }
   }
 
   render() {
+    console.log(this.state);
     const { fontLoaded } = this.state;
-    return (
-      <RootStack />
-    );
-  }
-}
-
-const RootStack = createStackNavigator({
-  Home: HomeScreen,
-  // OAuth: OAuthScreen,
-  // Choose: ChooseScreen,
-});
-
-class HomeScreen extends Component {
-  render() {
-    return (
-      <Container>
-        <Content>
-          <Start />
-        </Content>
-      </Container>
-    );
+    if (fontLoaded) return <RootStack />;
+    else return null;
   }
 }

@@ -17,7 +17,7 @@
     "native-base": "^2.8.1",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
-    "react-native": "^0.55.0",
+    "react-native": "^0.55.4",
     "react-native-easy-grid": "^0.2.0",
     "react-navigation": "^2.18.1"
   },
