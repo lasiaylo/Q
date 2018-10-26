@@ -1,82 +1,35 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Col, Row, Grid } from "react-native-easy-grid";
-import { Container, Content, Button } from 'native-base';
-import { Dimensions } from "react-native";
-import { Font } from 'expo';
+import React from 'react';
+import { Text } from 'react-native';
+import {  Row, Grid } from "react-native-easy-grid";
+import { Button } from 'native-base';
+import style from '../style/style';
 
-var width = Dimensions.get('window').width;
-var height = Dimensions.get('window').height;
-
-export default class Start extends Component {
-    render() {
-        return (
-            <Grid style={styles.fs}>
-                <Row style={styles.titleRow} size={1.75}>
-                    <Text style={styles.titleText}> aux </Text>
-                </Row>
-                <Row style={styles.titleRow} size={1}>
-                    <Grid>
-                        <Row style={styles.subRow} size={1}>
-                            <Text style={styles.subText}>shared</Text>
-                        </Row>
-                        <Row style={styles.subRow} size={1}>
-                            <Text style={styles.subText}>listening</Text>
-                        </Row>
-                        <Row style={[styles.subRow, styles.lastRow]} size={1}>
-                            <Text style={styles.subText}>experiences</Text>
-                        </Row>
-                    </Grid>
-                </Row>
-                <Row style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center' }} size={1.5}>
-                    <Button rounded success block style={styles.greenBtn}>
-                        <Text style={styles.greenBtnText}>
+const Start = () => (
+  <Grid style={style.fs}>
+    <Row style={style.titleRow} size={1.75}>
+      <Text style={style.titleText}> aux </Text>
+    </Row>
+    <Row style={style.titleRow} size={1}>
+      <Grid>
+        <Row style={style.subRow} size={1}>
+          <Text style={style.subText}>shared</Text>
+        </Row>
+        <Row style={style.subRow} size={1}>
+          <Text style={style.subText}>listening</Text>
+        </Row>
+        <Row style={[style.subRow, style.lastRow]} size={1}>
+          <Text style={style.subText}>experiences</Text>
+        </Row>
+      </Grid>
+    </Row>
+    <Row style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center' }} size={1.5}>
+      <Button rounded success block style={style.greenBtn}>
+        <Text style={style.greenBtnText}>
                             sign in with spotify
-                            </Text>
-                    </Button>
-                </Row>
-            </Grid>
-        );
-    }
-}
+        </Text>
+      </Button>
+    </Row>
+  </Grid>
+);
 
-const styles = StyleSheet.create({
-    titleRow: {
-        flexDirection: 'row',
-        alignContent: 'center',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        padding: 50
-    },
-    titleText: {
-        fontFamily: 'Glacial',
-        fontSize: 101,
-        color: '#24D161',
-    },
-    subRow: {
-        flexDirection: 'row',
-        alignContent: 'center',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        paddingLeft: 35
-    },
-    subText: {
-        fontSize: 40,
-        fontFamily: 'Avenir-Light',
-        // padding: 80
-    },
-    fs: {
-        width: width,
-        height: height
-    },
-    greenBtnText: {
-        fontFamily: 'Avenir-Light',
-        color: 'white',
-        fontSize: 23,
-        padding: 45
-    },
-    greenBtn: {
-        backgroundColor: '#24D161',
-        alignItems: 'center'
-    }
-});
+export default Start;

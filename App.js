@@ -1,32 +1,18 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Container, Content } from 'native-base';
+import { StyleSheet } from 'react-native';
 import { Font } from 'expo';
 import Start from './components/Start';
-import { Root } from "native-base";
-import { Container, Content } from 'native-base';
 
 export default class App extends Component {
-  state = {
-    fontLoaded: false,
-  };
   constructor(props){
     super(props);
+    this.state = {
+      fontLoaded: false,
+    }
 
   }
-  render() {
-    return (
-      <Container>
-        <Content>
-          {
-            this.state.fontLoaded ? (
-              <Start />
-            ) : null
-          }
 
-        </Content>
-      </Container>
-    );
-  }
   async componentDidMount() {
     try {
       await Font.loadAsync({
@@ -39,6 +25,23 @@ export default class App extends Component {
       console.log(err)
     }
   }
+
+  render() {
+    const { fontLoaded } = this.state;
+    return (
+      <Container>
+        <Content>
+          {
+            fontLoaded ? (
+              <Start />
+            ) : null
+          }
+
+        </Content>
+      </Container>
+    );
+  }
+
 }
 
 const styles = StyleSheet.create({
