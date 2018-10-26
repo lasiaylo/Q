@@ -22,7 +22,7 @@ const Start = () => (
         </Row>
       </Grid>
     </Row>
-    <Row style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center' }} size={1.5}>
+    <Row style={{ flexDirection: 'row', justifyContent: 'center', alignContent: 'center' }} size={1.75}>
       <Button rounded success block style={style.greenBtn}>
         <Text style={style.greenBtnText}>
                             sign in with spotify
