@@ -14,6 +14,7 @@ const RootStack = createStackNavigator(
   {
     initialRouteName: "Start",
     navigationOptions: {
+      // BY DEFAULT header is hidden
       header: null
     }
   }
@@ -36,7 +37,7 @@ export default class App extends Component {
       this.setState({ fontLoaded: !this.state.fontLoaded });
       console.log("fonts are loaded");
     } catch (err) {
-      console.log("FECK FECK" + err);
+      console.log(err);
     }
   }
 

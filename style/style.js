@@ -30,7 +30,6 @@ export default StyleSheet.create({
   subText: {
     fontSize: 40,
     fontFamily: 'Avenir-Light',
-    // padding: 80
   },
   fs: {
     width,
@@ -45,5 +44,14 @@ export default StyleSheet.create({
   greenBtn: {
     backgroundColor: green,
     alignItems: 'center'
+  },
+
+  letsGo: {
+    fontFamily: 'Avenir-Light',
+    color: 'black',
+    fontSize: 58,
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10
   }
 });

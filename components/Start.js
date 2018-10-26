@@ -7,9 +7,9 @@ import style from "../style/style";
 import { createStackNavigator } from "react-navigation";
 
 export default class Start extends Component {
-  // static navigationOptions = {
+  static navigationOptions = {
     
-  // };
+  };
 
   constructor(props) {
     super(props);
