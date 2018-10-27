@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Text } from 'react-native';
-import { Button } from 'native-base';
+import React from "react";
+import PropTypes from "prop-types";
+import { Text } from "react-native";
+import { Button } from "native-base";
 
-import style from '../../style/style';
+import style from "../../style/style";
 
 const QButton = ({ children, type, onPress }) => (
   <Button

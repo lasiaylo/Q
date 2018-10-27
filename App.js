@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { Font } from "expo";
+import { createStackNavigator } from "react-navigation";
+
 import Start from "./components/Start";
 import Choose from "./components/Choose";
+
+import Home from './components/Home';
 import TestHome from "./components/TestHome";
 import { createStackNavigator } from "react-navigation";
 
@@ -35,6 +39,7 @@ export default class App extends Component {
       {
         Start: Start,
         Choose: Choose,
+        Home: Home,
         TestHome: TestHome
       },
       {
@@ -49,6 +54,5 @@ export default class App extends Component {
       }
     );
     if (fontLoaded) return <RootStack />;
-    return null;
   }
 }

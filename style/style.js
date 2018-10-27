@@ -1,10 +1,33 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-const { width, height } = Dimensions.get("window");
-const green = "#24D161";
-const purple = "#531EE3";
-const dgray = "#181818";
-const white = "white";
+const { width, height } = Dimensions.get('window');
+
+const black = 'black';
+const green = '#24D161';
+const gray = '#181818';
+const purple = '#531EE3';
+const white = 'white';
+
+const title = {
+  family: 'Glacial',
+  size: 101,
+};
+
+const header = {
+  family: 'Avenir-Light',
+  size: 32,
+};
+
+const btn = {
+  family: 'Avenir-Light',
+  size: 23,
+};
+
+const sublist = {
+  family: 'Avenir-Light',
+  size: 14,
+};
+
 
 export default StyleSheet.create({
   nowPlaying: {
@@ -29,8 +52,8 @@ export default StyleSheet.create({
     padding: 50
   },
   titleText: {
-    fontFamily: "Glacial",
-    fontSize: 101,
+    fontFamily: title.family,
+    fontSize: title.size,
     color: green,
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
@@ -52,16 +75,15 @@ export default StyleSheet.create({
     height
   },
   greenBtnText: {
-    fontFamily: "Avenir-Light",
+    fontFamily: btn.family,
+    fontSize: btn.size,
     color: white,
-    fontSize: 23,
     padding: 45
   },
   greenBtn: {
     backgroundColor: green,
     alignItems: "center"
   },
-
   letsGo: {
     fontFamily: "Avenir-Light",
     color: "black",
@@ -70,46 +92,20 @@ export default StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
   },
-  host: {
-    fontFamily: "Avenir-Light",
-    color: purple,
-    fontSize: 30
+  Hosted: {
+    fontFamily: header.fontFamily,
+    fontSize: header.fontSize,
+    color: white,
+    backgroundColor: purple,
   },
-  hostTop: {
-    fontFamily: "Avenir-Light",
-    color: purple,
-    fontSize: 30,
-    paddingRight: 107
+  Listening: {
+    fontFamily: header.fontFamily,
+    fontSize: header.fontSize,
+    color: white,
+    backgroundColor: black
   },
-  listener: {
-    fontFamily: "Avenir-Light",
-    color: green,
-    fontSize: 30
-  },
-  listenerTop: {
-    fontFamily: "Avenir-Light",
-    color: green,
-    fontSize: 30,
-    paddingRight: 107
-  },
-  hostIcon: {
-    fontFamily: "Avenir-Light",
-    color: purple,
-    fontSize: 50,
-    padding: 15
-  },
-  listenerIcon: {
-    fontFamily: "Avenir-Light",
-    color: green,
-    fontSize: 50,
-    padding: 15
-  },
-  center: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignContent: "center"
-  },
-  button: {
-    justifyContent: "flex-start"
+  listSubtitle: {
+    fontFamily: header.fontFamily,
+    fontSize: 12,
   }
 });

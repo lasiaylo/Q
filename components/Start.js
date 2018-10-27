@@ -33,7 +33,10 @@ const Start = ({ navigation }) => (
           }}
           size={1.75}
         >
-          <QButton onPress={() => navigation.navigate("Choose")} type="green">
+          <QButton
+            onPress={() => navigation.navigate("Choose")}
+            type="green"
+          >
             sign in with spotify
           </QButton>
         </Row>
