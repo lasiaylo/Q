@@ -20,6 +20,7 @@ export default class App extends Component {
         Roboto: require("native-base/Fonts/Roboto.ttf"),
         Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
         "Avenir-Light": require("./assets/fonts/AvenirLTStd-Light.otf"),
+        "Avenir-Book": require("./assets/fonts/AvenirLTStd-Book.otf"),
         Glacial: require("./assets/fonts/GlacialIndifference-Regular.otf")
       });
       this.setState({ fontLoaded: !this.state.fontLoaded });
@@ -39,6 +40,7 @@ export default class App extends Component {
       {
         initialRouteName: "TestHome",
         navigationOptions: {
+          headerMode: "screen",
           header: null
         },
         initialRouteParams: {
