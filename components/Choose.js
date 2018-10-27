@@ -6,7 +6,6 @@ import { Row, Grid, Col } from "react-native-easy-grid";
 import style from "../style/style";
 import QButton from "./reuse/QButton";
 import { createStackNavigator } from "react-navigation";
-import Start from "./Start";
 
 const Choose = ({ navigation }) => (
   <Container>
@@ -37,7 +36,6 @@ const Choose = ({ navigation }) => (
             <Text style={style.listenerTop}>Join a</Text>
             <Text style={style.listener}>Listening Party</Text>
           </Button>
-
         </Row>
       </Grid>
     </Content>

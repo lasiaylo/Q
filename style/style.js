@@ -6,6 +6,20 @@ const white = "white";
 const purple = "#531EE3";
 
 export default StyleSheet.create({
+  nowPlaying: {
+    fontFamily: "Avenir-Light",
+    color: white,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10
+  },
+  songText: {
+    fontSize: 29
+  },
+  artistText: {
+    fontSize: 21,
+    opacity: 0.73
+  },
   titleRow: {
     flexDirection: "row",
     alignContent: "center",
