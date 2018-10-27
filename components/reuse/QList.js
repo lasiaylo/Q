@@ -1,34 +1,32 @@
 import React from 'react';
-import {  List, ListItem, Body, Right, Thumbnail, Text } from 'native-base';
+import { Button, Left, List, ListItem, Body, Right, Thumbnail, Text, Icon } from 'native-base';
+import { Col, Row, Grid } from 'react-native-easy-grid';
 import PropTypes from "prop-types";
 
 
 function makeItem(item) {
-  // const { image, body, right } = item;
-  // console.log(i)
-  // console.log(body)
-  // console.log(right)
-  // const aaa = ( <Text>{item}</Text>);
-  const aaa = item;
-  // console.log(aaa);
-  // return
+  const { image, body, right } = item;
+  const uri = "https://mir-s3-cdn-cf.behance.net/projects/202/d039c063218895.Y3JvcCwxNjUwLDEyOTIsMzYsNTU4.jpg";
+
   return (
-    <ListItem avatar>
+    <ListItem icon>
+      <Left>
+        <Thumbnail small source={{uri}} />
+      </Left>
       <Body>
-        {aaa}
+        {body}
       </Body>
-      <Right>
-        {aaa}
-      </Right>
+      {right}
+
     </ListItem>
   )
 }
 
 const QList = ({ items }) => (
-    <List
-      dataArray={items}
-      renderRow={(item) => makeItem(item)}
-    />
+  <List
+    dataArray={items}
+    renderRow={(item) => makeItem(item)}
+  />
 );
 
 QList.propTypes = {

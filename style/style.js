@@ -1,10 +1,12 @@
 import { Dimensions, StyleSheet } from "react-native";
 
 const { width, height } = Dimensions.get('window');
-const green = '#24D161';
-const white = 'white';
+
 const black = 'black';
+const green = '#24D161';
+const gray = '#181818';
 const purple = '#531EE3';
+const white = 'white';
 
 const title = {
   family: 'Glacial',
@@ -19,6 +21,11 @@ const header = {
 const btn = {
   family: 'Avenir-Light',
   size: 23,
+};
+
+const sublist = {
+  family: 'Avenir-Light',
+  size: 14,
 };
 
 
@@ -71,10 +78,20 @@ export default StyleSheet.create({
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
   },
-  hostheader: {
+  Hosted: {
     fontFamily: header.fontFamily,
     fontSize: header.fontSize,
     color: white,
     backgroundColor: purple,
+  },
+  Listening: {
+    fontFamily: header.fontFamily,
+    fontSize: header.fontSize,
+    color: white,
+    backgroundColor: black
+  },
+  listSubtitle: {
+    fontFamily: header.fontFamily,
+    fontSize: 12,
   }
 });
