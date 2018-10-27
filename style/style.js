@@ -3,6 +3,7 @@ import { Dimensions, StyleSheet } from "react-native";
 const { width, height } = Dimensions.get("window");
 const green = "#24D161";
 const purple = "#531EE3";
+const dgray = "#181818";
 const white = "white";
 
 export default StyleSheet.create({

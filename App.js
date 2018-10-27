@@ -38,7 +38,7 @@ export default class App extends Component {
         TestHome: TestHome
       },
       {
-        initialRouteName: "TestHome",
+        initialRouteName: "Start",
         navigationOptions: {
           headerMode: "screen",
           header: null
