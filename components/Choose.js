@@ -23,16 +23,52 @@ const Choose = ({ navigation }) => (
         >
           <Text style={style.letsGo}> Let's go! </Text>
         </Row>
-        <Row size={1} style={style.center}>
-          <Icon name="md-home" style={style.hostIcon} />
-          <Button transparent vertical style={style.button}>
+        <Row
+          onPress={() => navigation.navigate("TestHome", { userMode: "host" })}
+          size={1}
+          style={style.center}
+        >
+          <Icon
+            name="md-home"
+            style={style.hostIcon}
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
+          />
+          <Button
+            transparent
+            vertical
+            style={style.button}
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
+          >
             <Text style={style.hostTop}>Host a</Text>
             <Text style={style.host}>Listening Party</Text>
           </Button>
         </Row>
-        <Row size={1} style={style.center}>
-          <Icon name="md-headset" style={style.listenerIcon} />
-          <Button transparent vertical style={style.button}>
+        <Row
+          onPress={() =>
+            navigation.navigate("TestHome", { userMode: "listen" })
+          }
+          size={1}
+          style={style.center}
+        >
+          <Icon
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
+            name="md-headset"
+            style={style.listenerIcon}
+          />
+          <Button
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
+            transparent
+            vertical
+            style={style.button}
+          >
             <Text style={style.listenerTop}>Join a</Text>
             <Text style={style.listener}>Listening Party</Text>
           </Button>

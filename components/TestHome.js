@@ -13,6 +13,7 @@ export default class TestHome extends Component {
     um = this.props.navigation.state.params.userMode;
     // change appearance according to user state
     this.state = { userMode: um };
+    console.log(this.state);
   }
 
   //   // override header visibility
@@ -37,7 +38,8 @@ export default class TestHome extends Component {
       },
       headerTitleContainerStyle: {
         justifyContent: "center",
-        alignContent: "center"
+        alignContent: "center",
+        marginLeft: -45
       }
     };
   };

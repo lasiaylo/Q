@@ -48,7 +48,6 @@ export default class NowPlaying extends Component {
             flex: 1,
             padding: 0,
             margin: 0,
-            color: style.purple,
             marginRight: -250
           }}
         >
