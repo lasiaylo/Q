@@ -6,7 +6,6 @@ import { Row, Grid } from "react-native-easy-grid";
 import style from "../style/style";
 import QButton from "./reuse/QButton";
 import { createStackNavigator } from "react-navigation";
-import Start from "./Start";
 
 const Choose = ({ navigation }) => (
   <Container>
@@ -24,9 +23,7 @@ const Choose = ({ navigation }) => (
           }}
           size={1.75}
         >
-          <QButton onPress={() => navigation.navigate("Home")} type="green">
-            go BACK
-          </QButton>
+          <QButton type="green">go to test</QButton>
         </Row>
       </Grid>
     </Content>
