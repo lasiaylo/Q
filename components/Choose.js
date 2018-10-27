@@ -4,10 +4,9 @@ import { Text } from "react-native";
 import { Container, Content } from "native-base";
 import { Row, Grid } from "react-native-easy-grid";
 import style from "../style/style";
-import QButton from './reuse/QButton';
+import QButton from "./reuse/QButton";
 import { createStackNavigator } from "react-navigation";
 import Start from "./Start";
-
 
 const Choose = ({ navigation }) => (
   <Container>
@@ -25,10 +24,7 @@ const Choose = ({ navigation }) => (
           }}
           size={1.75}
         >
-          <QButton
-            onPress={() => navigation.navigate("Home")}
-            type='green'
-          >
+          <QButton onPress={() => navigation.navigate("Home")} type="green">
             go BACK
           </QButton>
         </Row>
@@ -38,10 +34,7 @@ const Choose = ({ navigation }) => (
 );
 
 Choose.propTypes = {
-  navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 export default Choose;
-
-
-
