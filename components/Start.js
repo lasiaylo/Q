@@ -7,9 +7,7 @@ import style from "../style/style";
 import { createStackNavigator } from "react-navigation";
 
 export default class Start extends Component {
-  static navigationOptions = {
-    
-  };
+  static navigationOptions = {};
 
   constructor(props) {
     super(props);
@@ -61,7 +59,7 @@ export default class Start extends Component {
   }
 }
 
-// const appStack = createStackNavigator( 
+// const appStack = createStackNavigator(
 //   {
 //     Start: {
 //       screen: Start
