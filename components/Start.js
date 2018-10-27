@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Text } from 'react-native';
-import { Container, Content } from 'native-base';
-import { Row, Grid } from 'react-native-easy-grid';
-import style from '../style/style';
-import QButton from './reuse/QButton';
+import React from "react";
+import PropTypes from "prop-types";
+import { Text } from "react-native";
+import { Container, Content } from "native-base";
+import { Row, Grid } from "react-native-easy-grid";
+import style from "../style/style";
+import QButton from "./reuse/QButton";
 
 const Start = ({ navigation }) => (
   <Container>
@@ -28,15 +28,15 @@ const Start = ({ navigation }) => (
         </Row>
         <Row
           style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignContent: 'center'
+            flexDirection: "row",
+            justifyContent: "center",
+            alignContent: "center"
           }}
           size={1.75}
         >
           <QButton
-            onPress={() => navigation.navigate('Choose')}
-            type='green'
+            onPress={() => navigation.navigate("Choose")}
+            type="green"
           >
             sign in with spotify
           </QButton>
@@ -59,6 +59,6 @@ export default Start;
 //     }
 //   },
 //   {
-//     headerMode: 'screen'
+//     headerMode: "screen"
 //   }
 // );
