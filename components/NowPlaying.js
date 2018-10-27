@@ -114,5 +114,5 @@ export default class NowPlaying extends Component {
 
 NowPlaying.propTypes = {
   userMode: PropTypes.string,
-  nowPlaying: PropTypes.element
+  songState: PropTypes.object
 };
