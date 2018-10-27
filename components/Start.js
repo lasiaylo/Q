@@ -52,13 +52,3 @@ Start.propTypes = {
 };
 
 export default Start;
-// const appStack = createStackNavigator(
-//   {
-//     Start: {
-//       screen: Start
-//     }
-//   },
-//   {
-//     headerMode: 'screen'
-//   }
-// );
