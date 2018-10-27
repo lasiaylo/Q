@@ -45,6 +45,6 @@ export default class App extends Component {
     console.log(this.state);
     const { fontLoaded } = this.state;
     if (fontLoaded) return <RootStack />;
-    else return null;
+    return null;
   }
 }
