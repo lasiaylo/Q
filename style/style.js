@@ -30,35 +30,49 @@ const sublist = {
 
 
 export default StyleSheet.create({
+  nowPlaying: {
+    fontFamily: "Avenir-Light",
+    color: white,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10
+  },
+  songText: {
+    fontSize: 29
+  },
+  artistText: {
+    fontSize: 21,
+    opacity: 0.73
+  },
   titleRow: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "flex-start",
+    alignItems: "center",
     padding: 50
   },
   titleText: {
     fontFamily: title.family,
     fontSize: title.size,
     color: green,
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
   },
   subRow: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignContent: "center",
+    justifyContent: "flex-start",
+    alignItems: "center",
     paddingLeft: 35
   },
   subText: {
     fontSize: 40,
-    fontFamily: 'Avenir-Light',
+    fontFamily: "Avenir-Light"
   },
   fs: {
     width,
-    height,
+    height
   },
   greenBtnText: {
     fontFamily: btn.family,
@@ -68,13 +82,13 @@ export default StyleSheet.create({
   },
   greenBtn: {
     backgroundColor: green,
-    alignItems: 'center'
+    alignItems: "center"
   },
   letsGo: {
-    fontFamily: 'Avenir-Light',
-    color: 'black',
+    fontFamily: "Avenir-Light",
+    color: "black",
     fontSize: 58,
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
   },

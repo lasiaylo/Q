@@ -1,36 +1,77 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Text } from "react-native";
-import { Container, Content } from "native-base";
-import { Row, Grid } from "react-native-easy-grid";
+import { Container, Content, Icon, Button } from "native-base";
+import { Row, Grid, Col } from "react-native-easy-grid";
 import style from "../style/style";
-import QButton from './reuse/QButton';
+import QButton from "./reuse/QButton";
 import { createStackNavigator } from "react-navigation";
-import Start from "./Start";
-
 
 const Choose = ({ navigation }) => (
   <Container>
     <Content>
       <Grid style={style.fs}>
-        <Row style={style.centerRow} size={1.75}>
-          <Text style={style.letsGo}> Let's go! </Text>
-        </Row>
-        <Row style={style.titleRow} size={1} />
         <Row
           style={{
             flexDirection: "row",
             justifyContent: "center",
-            alignContent: "center"
+            alignContent: "center",
+            padding: 75,
+            marginTop: 50
           }}
-          size={1.75}
+          size={1}
         >
-          <QButton
-            onPress={() => navigation.navigate("Home")}
-            type='green'
+          <Text style={style.letsGo}> Let's go! </Text>
+        </Row>
+        <Row
+          onPress={() => navigation.navigate("TestHome", { userMode: "host" })}
+          size={1}
+          style={style.center}
+        >
+          <Icon
+            name="md-home"
+            style={style.hostIcon}
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
+          />
+          <Button
+            transparent
+            vertical
+            style={style.button}
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
           >
-            go BACK
-          </QButton>
+            <Text style={style.hostTop}>Host a</Text>
+            <Text style={style.host}>Listening Party</Text>
+          </Button>
+        </Row>
+        <Row
+          onPress={() =>
+            navigation.navigate("TestHome", { userMode: "listen" })
+          }
+          size={1}
+          style={style.center}
+        >
+          <Icon
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
+            name="md-headset"
+            style={style.listenerIcon}
+          />
+          <Button
+            onPress={() =>
+              navigation.navigate("TestHome", { userMode: "host" })
+            }
+            transparent
+            vertical
+            style={style.button}
+          >
+            <Text style={style.listenerTop}>Join a</Text>
+            <Text style={style.listener}>Listening Party</Text>
+          </Button>
         </Row>
       </Grid>
     </Content>
@@ -38,10 +79,7 @@ const Choose = ({ navigation }) => (
 );
 
 Choose.propTypes = {
-  navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 export default Choose;
-
-
-

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text } from "react-native";
-import { Container, Content } from "native-base";
+import { Container, Content, Text } from "native-base";
 import { Row, Grid } from "react-native-easy-grid";
 import style from "../style/style";
 import QButton from "./reuse/QButton";
@@ -46,19 +45,8 @@ const Start = ({ navigation }) => (
   </Container>
 );
 
-
 Start.propTypes = {
-  navigation: PropTypes.object.isRequired,
+  navigation: PropTypes.object.isRequired
 };
 
 export default Start;
-// const appStack = createStackNavigator(
-//   {
-//     Start: {
-//       screen: Start
-//     }
-//   },
-//   {
-//     headerMode: "screen"
-//   }
-// );
