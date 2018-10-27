@@ -69,5 +69,47 @@ export default StyleSheet.create({
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
+  },
+  host: {
+    fontFamily: "Avenir-Light",
+    color: purple,
+    fontSize: 30
+  },
+  hostTop: {
+    fontFamily: "Avenir-Light",
+    color: purple,
+    fontSize: 30,
+    paddingRight: 107
+  },
+  listener: {
+    fontFamily: "Avenir-Light",
+    color: green,
+    fontSize: 30
+  },
+  listenerTop: {
+    fontFamily: "Avenir-Light",
+    color: green,
+    fontSize: 30,
+    paddingRight: 107
+  },
+  hostIcon: {
+    fontFamily: "Avenir-Light",
+    color: purple,
+    fontSize: 50,
+    padding: 15
+  },
+  listenerIcon: {
+    fontFamily: "Avenir-Light",
+    color: green,
+    fontSize: 50,
+    padding: 15
+  },
+  center: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center"
+  },
+  button: {
+    justifyContent: "flex-start"
   }
 });

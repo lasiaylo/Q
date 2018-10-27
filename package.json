@@ -24,8 +24,11 @@
     "react-navigation": "^2.18.1"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "babel-eslint": "^10.0.1",
     "eslint": "^5.8.0",
+=======
+>>>>>>> 8843ee62f74d4f40f29e6958185f146d84d230bd
     "eslint-config-airbnb": "^17.1.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-config-prettier": "^3.1.0",
