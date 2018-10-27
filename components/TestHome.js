@@ -14,6 +14,31 @@ export default class TestHome extends Component {
     // change appearance according to user state
     this.state = { userMode: um };
     console.log(this.state);
+    this.themeScreen();
+  }
+
+  themeScreen() {
+    const { userMode } = this.state;
+
+    if (userMode.includes("host")) {
+      this.props.navigation.setParams({
+        headerTitle: "b",
+        headerTintColor: style.white,
+        headerStyle: {
+          backgroundColor: style.purple,
+          elevation: null
+        }
+      });
+    } else {
+      this.props.navigation.setParams({
+        headerTitle: "a",
+        headerTintColor: style.green,
+        headerStyle: {
+          backgroundColor: style.dgray,
+          elevation: null
+        }
+      });
+    }
   }
 
   //   // override header visibility
@@ -22,12 +47,9 @@ export default class TestHome extends Component {
     // REFACTOR WITH NAVIGATION PARAMS
     return {
       header: header,
-      headerTitle: "A Sample LP View",
-      headerTintColor: "white",
-      headerStyle: {
-        backgroundColor: "#531EE3",
-        elevation: null
-      },
+      headerTitle: params.headerStyle,
+      headerTintColor: params.headerTintColor,
+      headerStyle: params.headerStyle,
       headerTitleStyle: {
         fontFamily: "Avenir-Book",
         fontSize: 35,
@@ -67,6 +89,8 @@ export default class TestHome extends Component {
       </Container>
     );
   }
+
+  getTheme() {}
 
   toggleMode() {
     const { userMode } = this.state;
