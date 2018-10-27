@@ -1,5 +1,6 @@
 class Song {
   constructor(track) {
-    this.name = name;
+    this.name = track.name;
+    this.id = ;
   }
 }
