@@ -5,9 +5,8 @@ import { createStackNavigator } from "react-navigation";
 import Start from "./components/Start";
 import Choose from "./components/Choose";
 
-import Home from './components/Home';
+import Home from "./components/Home";
 import TestHome from "./components/TestHome";
-import { createStackNavigator } from "react-navigation";
 
 export default class App extends Component {
   constructor(props) {
@@ -54,5 +53,6 @@ export default class App extends Component {
       }
     );
     if (fontLoaded) return <RootStack />;
+    return null;
   }
 }

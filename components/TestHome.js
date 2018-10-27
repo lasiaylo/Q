@@ -34,7 +34,7 @@ export default class TestHome extends Component {
         headerTitle: "a",
         headerTintColor: style.green,
         headerStyle: {
-          backgroundColor: style.dgray,
+          backgroundColor: style.gray,
           elevation: null
         }
       });
@@ -44,7 +44,6 @@ export default class TestHome extends Component {
   //   // override header visibility
   static navigationOptions = ({ navigation, navigationOptions }) => {
     const { params } = navigation.state;
-    // REFACTOR WITH NAVIGATION PARAMS
     return {
       header: header,
       headerTitle: params.headerStyle,
@@ -88,19 +87,6 @@ export default class TestHome extends Component {
         </Content>
       </Container>
     );
-  }
-
-  getTheme() {}
-
-  toggleMode() {
-    const { userMode } = this.state;
-    if (userMode === "new") {
-      this.setState({ userMode: "listen" });
-    } else if (userMode === "listen") {
-      this.setState({ userMode: "host" });
-    } else if (userMode === "listen") {
-      this.setState({ userMode: "new" });
-    }
   }
 }
 
