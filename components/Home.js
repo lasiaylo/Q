@@ -11,14 +11,18 @@ import {
   Body,
   ListItem
 } from "native-base";
-import { View } from "react-native";
 import * as _ from "lodash";
 import { Row, Grid } from "react-native-easy-grid";
 import PropTypes from "prop-types";
-import { createBottomTabNavigator } from "react-navigation";
-
-import style from "../style/style";
+import {
+  createBottomTabNavigator,
+  createStackNavigator,
+  header
+} from "react-navigation";
 import QList from "./reuse/QList";
+import NowPlaying from "./NowPlaying";
+import style from "../style/style";
+import navStyle from "../style/navStyle";
 
 const right = () => (
   <Grid>
@@ -31,86 +35,24 @@ const right = () => (
   </Grid>
 );
 
-class Home extends Component {
-  // themeScreen() {
-  //   const { userMode } = this.state;
-
-  //   if (userMode.includes("host")) {
-  //     this.props.navigation.setParams({
-  //       headerTitle: "b",
-  //       headerTintColor: style.white,
-  //       headerStyle: {
-  //         backgroundColor: style.purple,
-  //         elevation: null
-  //       }
-  //     });
-  //   } else {
-  //     this.props.navigation.setParams({
-  //       headerTitle: "a",
-  //       headerTintColor: style.green,
-  //       headerStyle: {
-  //         backgroundColor: style.gray,
-  //         elevation: null
-  //       }
-  //     });
-  //   }
-  // }
-
-  // static navigationOptions = ({ navigation, navigationOptions }) => {
-  //   const { params } = navigation.state;
-  //   return {
-  //     header: header,
-  //     headerTitle: params.headerTitle,
-  //     headerTintColor: params.headerTintColor,
-  //     headerStyle: params.headerStyle,
-  //     headerTitleStyle: {
-  //       fontFamily: "Avenir-Book",
-  //       fontSize: 35,
-  //       fontWeight: "normal",
-  //       textShadowColor: "rgba(0, 0, 0, 0.3)",
-  //       textShadowOffset: { width: 1, height: 1 },
-  //       textShadowRadius: 10
-  //     },
-  //     headerTitleContainerStyle: {
-  //       justifyContent: "center",
-  //       alignContent: "center",
-  //       marginLeft: -45
-  //     }
-  //   };
-  // };
+export default class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.navigation = props.navigation;
+    this.state = {
+      userMode: this.navigation.getParam("userMode", "listen")
+    };
+  }
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
+    console.log(navigationOptions);
     const { params } = navigation.state;
-    return {
-      header: header,
-      headerTitle: "placeholder",
-      headerTintColor: "white",
-      headerStyle: {
-        backgroundColor: "#531EE3",
-        elevation: null
-      },
-      headerTitleStyle: {
-        fontFamily: "Avenir-Book",
-        fontSize: 35,
-        fontWeight: "normal",
-        textShadowColor: "rgba(0, 0, 0, 0.3)",
-        textShadowOffset: { width: 1, height: 1 },
-        textShadowRadius: 10
-      },
-      headerTitleContainerStyle: {
-        justifyContent: "center",
-        alignContent: "center",
-        marginLeft: -45
-      }
-    };
+    qHeader = params.qHeader;
+    qHeader.header = header;
+    return params.qHeader;
   };
 
   render() {
-    const {
-      navigation: {
-        state: { routeName }
-      }
-    } = props;
     const item = {
       body: <Text>Things Fall Apart</Text>,
       right: right()
@@ -119,7 +61,7 @@ class Home extends Component {
 
     return (
       <Container>
-        <NowPlaying navigation={this.navigation} />
+        <NowPlaying userMode={this.state.userMode} />
         <Content>
           <QList items={items} />
         </Content>
@@ -128,29 +70,7 @@ class Home extends Component {
   }
 }
 
-// const Home = props => {
-//   const {
-//     navigation: {
-//       state: { routeName }
-//     }
-//   } = props;
-//   const item = {
-//     body: <Text>Things Fall Apart</Text>,
-//     right: right()
-//   };
-//   const items = _.fill(Array(20), item);
-
-//   return (
-//     <Container>
-//       <NowPlaying navigation={this.navigation} />
-//       <Content>
-//         <QList items={items} />
-//       </Content>
-//     </Container>
-//   );
-// };
-
-export default createBottomTabNavigator({
-  Hosted: Home,
-  Listening: Home
-});
+// export default createBottomTabNavigator({
+//   host: Home,
+//   listen: Home
+// });

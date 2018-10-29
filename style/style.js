@@ -1,38 +1,32 @@
 import { Dimensions, StyleSheet } from "react-native";
+import colors from "./colors";
 
-const { width, height } = Dimensions.get('window');
-
-const black = 'black';
-const green = '#24D161';
-const gray = '#181818';
-const purple = '#531EE3';
-const white = 'white';
+const { width, height } = Dimensions.get("window");
 
 const title = {
-  family: 'Glacial',
-  size: 101,
+  family: "Glacial",
+  size: 101
 };
 
 const header = {
-  family: 'Avenir-Light',
-  size: 32,
+  family: "Avenir-Light",
+  size: 32
 };
 
 const btn = {
-  family: 'Avenir-Light',
-  size: 23,
+  family: "Avenir-Light",
+  size: 23
 };
 
 const sublist = {
-  family: 'Avenir-Light',
-  size: 14,
+  family: "Avenir-Light",
+  size: 14
 };
-
 
 export default StyleSheet.create({
   nowPlaying: {
     fontFamily: "Avenir-Light",
-    color: white,
+    color: colors.white,
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
@@ -54,7 +48,7 @@ export default StyleSheet.create({
   titleText: {
     fontFamily: title.family,
     fontSize: title.size,
-    color: green,
+    color: colors.green,
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
@@ -77,16 +71,16 @@ export default StyleSheet.create({
   greenBtnText: {
     fontFamily: btn.family,
     fontSize: btn.size,
-    color: white,
+    color: colors.white,
     padding: 45
   },
   greenBtn: {
-    backgroundColor: green,
+    backgroundColor: colors.green,
     alignItems: "center"
   },
   letsGo: {
     fontFamily: "Avenir-Light",
-    color: "black",
+    color: colors.black,
     fontSize: 58,
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
@@ -95,17 +89,27 @@ export default StyleSheet.create({
   Hosted: {
     fontFamily: header.fontFamily,
     fontSize: header.fontSize,
-    color: white,
-    backgroundColor: purple,
+    color: colors.white,
+    backgroundColor: colors.purple
   },
   Listening: {
     fontFamily: header.fontFamily,
     fontSize: header.fontSize,
-    color: white,
-    backgroundColor: black
+    color: colors.white,
+    backgroundColor: colors.black
   },
   listSubtitle: {
     fontFamily: header.fontFamily,
-    fontSize: 12,
+    fontSize: 12
+  },
+  npHeader: {
+    padding: 0,
+    marginLeft: -10
+  },
+  hostHeader: {
+    backgroundColor: colors.purple
+  },
+  listenHeader: {
+    backgroundColor: colors.gray
   }
 });

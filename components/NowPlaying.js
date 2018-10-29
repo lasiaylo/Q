@@ -21,18 +21,12 @@ import style from "../style/style";
 export default class NowPlaying extends Component {
   constructor(props) {
     super(props);
+    this.userMode = props.userMode;
   }
 
   render() {
     return (
-      <Header
-        span
-        style={{
-          padding: 0,
-          marginLeft: -10,
-          backgroundColor: "#531EE3"
-        }}
-      >
+      <Header span style={[style.npHeader, style[this.userMode + "Header"]]}>
         <Left>
           <Thumbnail
             square
@@ -71,20 +65,27 @@ export default class NowPlaying extends Component {
               </Body>
             </Left>
           </CardItem>
-          <CardItem
-            footer
-            style={{ backgroundColor: "transparent", padding: 0, margin: 0 }}
-          >
-            <Button light transparent>
-              <Icon name="skip-backward" />
-            </Button>
-            <Button light transparent>
-              <Icon name="pause" />
-            </Button>
-            <Button light transparent>
-              <Icon name="skip-forward" />
-            </Button>
-          </CardItem>
+          {this.userMode === "host" ? (
+            <CardItem
+              footer
+              style={{ backgroundColor: "transparent", padding: 0, margin: 0 }}
+            >
+              <Button light transparent>
+                <Icon name="skip-backward" />
+              </Button>
+              <Button light transparent>
+                <Icon name="pause" />
+              </Button>
+              <Button light transparent>
+                <Icon name="skip-forward" />
+              </Button>
+            </CardItem>
+          ) : (
+            <CardItem
+              footer
+              style={{ backgroundColor: "transparent", padding: 0, margin: 0 }}
+            />
+          )}
         </Card>
         <Right>
           <Grid>
