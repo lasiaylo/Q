@@ -1,12 +1,69 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Text } from "react-native";
-import { Container, Content, Icon, Button } from "native-base";
+import { StyleSheet } from "react-native";
+import { Container, Content, Icon, Button, Text } from "native-base";
 import { Row, Grid, Col } from "react-native-easy-grid";
 import style from "../style/style";
 import QButton from "./reuse/QButton";
 import { createStackNavigator } from "react-navigation";
 import navStyle from "../style/navStyle";
+import colors from "../style/colors";
+
+const styles = StyleSheet.create({
+  letsGo: {
+    fontFamily: "Avenir-Light",
+    color: "black",
+    fontFamily: "Avenir-Light",
+    color: "black",
+    fontSize: 58,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10
+  },
+  host: {
+    fontFamily: "Avenir-Light",
+    color: colors.purple,
+    fontSize: 30
+  },
+  hostTop: {
+    fontFamily: "Avenir-Light",
+    color: colors.purple,
+    fontSize: 30,
+    paddingRight: 107
+  },
+  listener: {
+    fontFamily: "Avenir-Light",
+    color: colors.green,
+    fontSize: 30
+  },
+  listenerTop: {
+    fontFamily: "Avenir-Light",
+    color: colors.green,
+    fontSize: 30,
+    paddingRight: 107
+  },
+  hostIcon: {
+    fontFamily: "Avenir-Light",
+    color: colors.purple,
+    fontSize: 50,
+    padding: 15
+  },
+  listenerIcon: {
+    fontFamily: "Avenir-Light",
+    color: colors.green,
+    fontSize: 50,
+    padding: 15
+  },
+  center: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center"
+  },
+  button: {
+    justifyContent: "flex-start"
+  }
+});
 
 export default class Choose extends Component {
   constructor(props) {
@@ -28,7 +85,7 @@ export default class Choose extends Component {
     return (
       <Container>
         <Content>
-          <Grid style={style.fs}>
+          <Grid style={styles.fs}>
             <Row
               style={{
                 flexDirection: "row",
@@ -39,38 +96,46 @@ export default class Choose extends Component {
               }}
               size={1}
             >
-              <Text style={style.letsGo}> Let's go! </Text>
+              <Text style={styles.letsGo}> Let's go! </Text>
             </Row>
-            <Row onPress={this.goHome("host")} size={1} style={style.center}>
+            <Row onPress={this.goHome("host")} size={1} style={styles.center}>
               <Icon
                 name="md-home"
-                style={style.hostIcon}
+                style={styles.hostIcon}
                 onPress={this.goHome("host")}
               />
               <Button
                 transparent
                 vertical
-                style={style.button}
+                style={styles.button}
                 onPress={this.goHome("host")}
               >
-                <Text style={style.hostTop}>Host a</Text>
-                <Text style={style.host}>Listening Party</Text>
+                <Text uppercase={false} style={styles.hostTop}>
+                  Host a
+                </Text>
+                <Text uppercase={false} style={styles.host}>
+                  Listening Party
+                </Text>
               </Button>
             </Row>
-            <Row onPress={this.goHome("listen")} size={1} style={style.center}>
+            <Row onPress={this.goHome("listen")} size={1} style={styles.center}>
               <Icon
                 onPress={this.goHome("listen")}
                 name="md-headset"
-                style={style.listenerIcon}
+                style={styles.listenerIcon}
               />
               <Button
                 onPress={this.goHome("listen")}
                 transparent
                 vertical
-                style={style.button}
+                style={styles.button}
               >
-                <Text style={style.listenerTop}>Join a</Text>
-                <Text style={style.listener}>Listening Party</Text>
+                <Text uppercase={false} style={styles.listenerTop}>
+                  Join a
+                </Text>
+                <Text uppercase={false} style={styles.listener}>
+                  Listening Party
+                </Text>
               </Button>
             </Row>
           </Grid>

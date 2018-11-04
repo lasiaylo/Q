@@ -35,7 +35,7 @@ const right = () => (
   </Grid>
 );
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
@@ -70,7 +70,22 @@ export default class Home extends Component {
   }
 }
 
-// export default createBottomTabNavigator({
-//   host: Home,
-//   listen: Home
-// });
+export default createBottomTabNavigator(
+  {
+    host: {
+      screen: Home
+    },
+    listen: {
+      screen: Home
+    }
+  },
+  {
+    navigationOptions: {
+      header: header,
+      qHeader: navStyle["listenHeader"],
+      userMode: "listen"
+    }
+  }
+);
+
+// export default createStackNavigator({ SwitchModeTabs }, { headerMode: "none" });
