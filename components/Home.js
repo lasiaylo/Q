@@ -23,7 +23,34 @@ import QList from "./reuse/QList";
 import NowPlaying from "./NowPlaying";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
-import { FloatingACtion } from "react-native-floating-action";
+import { FloatingAction } from "react-native-floating-action";
+import colors from "../style/colors";
+
+const listenActions = [{}];
+
+const hostActions = [
+  {
+    text: "Queue a song",
+    icon: require("../assets/icons/add_queue.png"),
+    name: "add_song",
+    color: colors.purple,
+    position: 1
+  },
+  {
+    text: "Settings",
+    icon: require("../assets/icons/settings.png"),
+    name: "settings",
+    color: colors.purple,
+    position: 2
+  },
+  {
+    text: "Invite friends!",
+    icon: require("../assets/icons/qr.png"),
+    name: "invite",
+    color: colors.purple,
+    position: 2
+  }
+];
 
 const right = () => (
   <Grid>
@@ -36,7 +63,7 @@ const right = () => (
   </Grid>
 );
 
-class Home extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
@@ -45,13 +72,13 @@ class Home extends Component {
     };
   }
 
-  // static navigationOptions = ({ navigation, navigationOptions }) => {
-  //   console.log(navigationOptions);
-  //   const { params } = navigation.state;
-  //   qHeader = params.qHeader;
-  //   qHeader.header = header;
-  //   return params.qHeader;
-  // };
+  static navigationOptions = ({ navigation, navigationOptions }) => {
+    console.log(navigationOptions);
+    const { params } = navigation.state;
+    qHeader = params.qHeader;
+    qHeader.header = header;
+    return params.qHeader;
+  };
 
   render() {
     const item = {
@@ -66,18 +93,36 @@ class Home extends Component {
         <Content>
           <QList items={items} />
         </Content>
+        {this.state.userMode === "host" ? (
+          <FloatingAction
+            color={colors.purple}
+            actions={hostActions}
+            onPressItem={name => {
+              console.log("selected button: ${name}");
+            }}
+            distanceToEdge={20}
+          />
+        ) : (
+          <FloatingAction
+            color={colors.green}
+            onPressMain={() => {
+              console.log(" I HAVE BEEN TITILLATED");
+            }}
+            distanceToEdge={20}
+          />
+        )}
       </Container>
     );
   }
 }
 
-const SwitchModeTabs = createBottomTabNavigator({
-  host: {
-    screen: Home
-  },
-  listen: {
-    screen: Home
-  }
-});
+// const SwitchModeTabs = createBottomTabNavigator({
+//   host: {
+//     screen: Home
+//   },
+//   listen: {
+//     screen: Home
+//   }
+// });
 
-export default createStackNavigator({ SwitchModeTabs });
+// export default createStackNavigator({ SwitchModeTabs });

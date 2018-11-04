@@ -111,5 +111,9 @@ export default StyleSheet.create({
   },
   listenHeader: {
     backgroundColor: colors.gray
+  },
+  actionBtn: {
+    position: "absolute",
+    bottom: 20
   }
 });
