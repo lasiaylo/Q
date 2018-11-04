@@ -23,6 +23,7 @@ import QList from "./reuse/QList";
 import NowPlaying from "./NowPlaying";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
+import { FloatingACtion } from "react-native-floating-action";
 
 const right = () => (
   <Grid>
@@ -44,13 +45,13 @@ class Home extends Component {
     };
   }
 
-  static navigationOptions = ({ navigation, navigationOptions }) => {
-    console.log(navigationOptions);
-    const { params } = navigation.state;
-    qHeader = params.qHeader;
-    qHeader.header = header;
-    return params.qHeader;
-  };
+  // static navigationOptions = ({ navigation, navigationOptions }) => {
+  //   console.log(navigationOptions);
+  //   const { params } = navigation.state;
+  //   qHeader = params.qHeader;
+  //   qHeader.header = header;
+  //   return params.qHeader;
+  // };
 
   render() {
     const item = {
@@ -70,22 +71,13 @@ class Home extends Component {
   }
 }
 
-export default createBottomTabNavigator(
-  {
-    host: {
-      screen: Home
-    },
-    listen: {
-      screen: Home
-    }
+const SwitchModeTabs = createBottomTabNavigator({
+  host: {
+    screen: Home
   },
-  {
-    navigationOptions: {
-      header: header,
-      qHeader: navStyle["listenHeader"],
-      userMode: "listen"
-    }
+  listen: {
+    screen: Home
   }
-);
+});
 
-// export default createStackNavigator({ SwitchModeTabs }, { headerMode: "none" });
+export default createStackNavigator({ SwitchModeTabs });
