@@ -108,6 +108,9 @@ export default class Home extends Component {
             onPressMain={() => {
               console.log(" I HAVE BEEN TITILLATED");
             }}
+            floatingIcon={require("../assets/icons/add_queue.png")}
+            iconWidth={25}
+            iconHeight={25}
             distanceToEdge={20}
           />
         )}
