@@ -14,12 +14,14 @@ import {
 import * as _ from "lodash";
 import { Row, Grid } from "react-native-easy-grid";
 import PropTypes from "prop-types";
+import { Dimensions, View } from "react-native";
 import {
   createBottomTabNavigator,
   createStackNavigator,
   header
 } from "react-navigation";
 import QList from "./reuse/QList";
+import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
@@ -44,7 +46,7 @@ const hostActions = [
     position: 2
   },
   {
-    text: "Invite friends!",
+    text: "Invite friends",
     icon: require("../assets/icons/qr.png"),
     name: "invite",
     color: colors.purple,
@@ -68,8 +70,12 @@ export default class Home extends Component {
     super(props);
     this.navigation = props.navigation;
     this.state = {
-      userMode: this.navigation.getParam("userMode", "listen")
+      userMode: this.navigation.getParam("userMode", "listen"),
+      qsearchVisible: false
     };
+    this.width = Dimensions.get("window").width;
+    this.height = Dimensions.get("window").height;
+    console.log(this.width);
   }
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -106,7 +112,9 @@ export default class Home extends Component {
           <FloatingAction
             color={colors.green}
             onPressMain={() => {
-              console.log(" I HAVE BEEN TITILLATED");
+              this.setState({ qsearchVisible: true });
+              console.log(this.state);
+              console.log(this.state.qsearchVisible);
             }}
             floatingIcon={require("../assets/icons/add_queue.png")}
             iconWidth={25}
@@ -114,6 +122,15 @@ export default class Home extends Component {
             distanceToEdge={20}
           />
         )}
+        <QModal
+          visible={this.state.qsearchVisible}
+          height={(this.height * 2) / 3}
+          width={this.width}
+          color={colors.green}
+          toggleVis={() =>
+            this.setState({ qsearchVisible: !this.state.qsearchVisible })
+          }
+        />
       </Container>
     );
   }
@@ -127,5 +144,3 @@ export default class Home extends Component {
 //     screen: Home
 //   }
 // });
-
-// export default createStackNavigator({ SwitchModeTabs });
