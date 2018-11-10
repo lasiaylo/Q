@@ -8,6 +8,7 @@ import {
   Button,
   Icon,
   Right,
+  Left,
   Body,
   ListItem
 } from "native-base";
@@ -131,7 +132,33 @@ export default class Home extends Component {
             this.setState({ qsearchVisible: !this.state.qsearchVisible })
           }
         >
-          <Text>FUCK ME IN THE BUTT</Text>
+          <Container
+            style={{
+              flex: 1,
+              backgroundColor: colors.green
+            }}
+          >
+            <Header style={{ paddingTop: -50 }} transparent>
+              <Body style={{ paddingTop: -50 }}>
+                <Text style={[style.nowPlaying, style.modalTitle]}>
+                  Queue a song
+                </Text>
+              </Body>
+              <Right>
+                <Button
+                  light
+                  transparent
+                  onPress={() =>
+                    this.setState({
+                      qsearchVisible: !this.state.qsearchVisible
+                    })
+                  }
+                >
+                  <Icon name="close" />
+                </Button>
+              </Right>
+            </Header>
+          </Container>
         </QModal>
       </Container>
     );

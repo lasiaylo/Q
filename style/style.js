@@ -34,6 +34,10 @@ export default StyleSheet.create({
   songText: {
     fontSize: 29
   },
+  modalTitle: {
+    fontWeight: "lighter",
+    fontSize: 35
+  },
   artistText: {
     fontSize: 21,
     opacity: 0.73
