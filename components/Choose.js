@@ -10,6 +10,7 @@ import navStyle from "../style/navStyle";
 import colors from "../style/colors";
 import JoinQR from "./JoinQR";
 import QModal from "./reuse/QModal";
+import CreateLP from "./CreateLP";
 
 const styles = StyleSheet.create({
   letsGo: {
@@ -115,17 +116,27 @@ export default class Choose extends Component {
             >
               <Text style={styles.letsGo}> Let's go! </Text>
             </Row>
-            <Row onPress={this.goHome("host")} size={1} style={styles.center}>
+            <Row
+              onPress={() =>
+                this.setState({ createLPVis: !this.state.createLPVis })
+              }
+              size={1}
+              style={styles.center}
+            >
               <Icon
                 name="md-home"
                 style={styles.hostIcon}
-                onPress={this.goHome("host")}
+                onPress={() =>
+                  this.setState({ createLPVis: !this.state.createLPVis })
+                }
               />
               <Button
                 transparent
                 vertical
                 style={styles.button}
-                onPress={this.goHome("host")}
+                onPress={() =>
+                  this.setState({ createLPVis: !this.state.createLPVis })
+                }
               >
                 <Text uppercase={false} style={styles.hostTop}>
                   Host a
@@ -175,9 +186,34 @@ export default class Choose extends Component {
           toggleVis={() => this.setState({ joinQRVis: !this.state.joinQRVis })}
         >
           <JoinQR
-            done={this.goHome("listen")}
+            done={() => {
+              console.log("fuck");
+              this.setState({ joinQRVis: !this.state.joinQRVis });
+              this.goHome("listen");
+            }}
             cancelClose={() =>
               this.setState({ joinQRVis: !this.state.joinQRVis })
+            }
+          />
+        </QModal>
+        <QModal
+          id="small create LP"
+          visible={this.state.createLPVis}
+          height={(this.height * 1) / 4}
+          width={this.width}
+          color={colors.gray}
+          toggleVis={() =>
+            this.setState({ createLPVis: !this.state.createLPVis })
+          }
+        >
+          <CreateLP
+            done={() => {
+              console.log("fuck");
+              this.setState({ createLPVis: !this.state.createLPVis });
+              this.goHome("host");
+            }}
+            cancelClose={() =>
+              this.setState({ createLPVis: !this.state.createLPVis })
             }
           />
         </QModal>

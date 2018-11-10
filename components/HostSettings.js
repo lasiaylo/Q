@@ -75,6 +75,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.anonSelected
                           ? colors.black
@@ -107,6 +108,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.namedSelected
                           ? colors.black
@@ -151,6 +153,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.singleSelected
                           ? colors.black
@@ -183,6 +186,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.silentSelected
                           ? colors.black
@@ -227,6 +231,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.hostPauseSelected
                           ? colors.black
@@ -259,6 +264,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.ffaPauseSelected
                           ? colors.black
@@ -303,6 +309,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.hostSkipSelected
                           ? colors.black
@@ -335,6 +342,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.ffaSkipSelected
                           ? colors.black
@@ -379,6 +387,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.chronSelected
                           ? colors.black
@@ -411,6 +420,7 @@ export default class HostSettings extends Component {
                     }
                   >
                     <Text
+                      uppercase={false}
                       style={{
                         color: this.state.popSelected
                           ? colors.black
@@ -428,12 +438,16 @@ export default class HostSettings extends Component {
             <Row>
               <Col style={[style.center]}>
                 <Button rounded style={[style.simpleBtn]}>
-                  <Text style={[style.simpleBtnText]}>Simple</Text>
+                  <Text uppercase={false} style={[style.simpleBtnText]}>
+                    Simple
+                  </Text>
                 </Button>
               </Col>
               <Col style={[style.center]}>
                 <Button rounded style={[style.createBtn]}>
-                  <Text style={[style.createBtnText]}>Create!</Text>
+                  <Text uppercase={false} style={[style.createBtnText]}>
+                    Create!
+                  </Text>
                 </Button>
               </Col>
             </Row>

@@ -132,6 +132,7 @@ export default class Home extends Component {
         </Content>
         {this.state.userMode === "host" ? (
           <FloatingAction
+            openOnMount={true}
             color={colors.purple}
             actions={hostActions}
             onPressItem={name => {

@@ -123,7 +123,7 @@ export default class JoinQR extends Component {
         </Content>
         <FloatingAction
           color={colors.white}
-          onPressMain={() => this.props.done}
+          onPress={() => this.props.done}
           floatingIcon={require("../assets/icons/done.png")}
           iconWidth={25}
           iconHeight={25}
