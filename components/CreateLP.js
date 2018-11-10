@@ -51,7 +51,7 @@ export default class CreateLP extends Component {
             </Title>
           </Left>
           <Right>
-            <Button transparent onPress={this.props.action}>
+            <Button transparent onPress={this.props.cancelClose}>
               <Icon name="md-close" style={[style.white]} />
             </Button>
           </Right>

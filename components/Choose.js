@@ -81,20 +81,17 @@ export default class Choose extends Component {
   }
 
   goHome(userMode) {
-    upper = this;
-    return function() {
-      upper.navigation.navigate("Home", {
-        qHeader: navStyle[userMode + "Header"],
-        userMode: userMode
-      });
-    };
+    console.log("been called");
+    this.navigation.navigate("Home", {
+      qHeader: navStyle[userMode + "Header"],
+      userMode: userMode
+    });
   }
 
   toggleJoinVis() {
     upper = this;
 
     return function() {
-      console.log("wollo");
       upper.setState({ joinQRVis: !this.state.joinQRVis });
     };
   }
@@ -208,7 +205,6 @@ export default class Choose extends Component {
         >
           <CreateLP
             done={() => {
-              console.log("fuck");
               this.setState({ createLPVis: !this.state.createLPVis });
               this.goHome("host");
             }}
