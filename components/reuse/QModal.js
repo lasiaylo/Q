@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal, View, TouchableWithoutFeedback } from "react-native";
 
-const QModal = ({ visible, width, height, color, toggleVis }) => (
+const QModal = ({ visible, width, height, color, toggleVis, children }) => (
   <Modal animationType="slide" visible={visible} transparent={true}>
     <View
       style={{
@@ -30,7 +30,9 @@ const QModal = ({ visible, width, height, color, toggleVis }) => (
           height: height,
           backgroundColor: color
         }}
-      />
+      >
+        {children}
+      </View>
     </View>
   </Modal>
 );

@@ -130,7 +130,9 @@ export default class Home extends Component {
           toggleVis={() =>
             this.setState({ qsearchVisible: !this.state.qsearchVisible })
           }
-        />
+        >
+          <Text>FUCK ME IN THE BUTT</Text>
+        </QModal>
       </Container>
     );
   }
