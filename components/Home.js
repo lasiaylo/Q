@@ -23,6 +23,7 @@ import {
   createStackNavigator,
   header
 } from "react-navigation";
+
 import QList from "./reuse/QList";
 import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
@@ -60,6 +61,8 @@ const hostActions = [
   }
 ];
 
+
+
 const right = () => (
   <Grid>
     <Row>
@@ -75,8 +78,8 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
+    this.count = 2
     this.state = {
-      userMode: this.navigation.getParam("userMode", "listen"),
       qsearchVisible: false,
       shareVisible: false,
       settingsVisible: false,
@@ -120,20 +123,33 @@ export default class Home extends Component {
     return params.qHeader;
   };
 
-  render() {
-    const item = {
-      body: <Text>Things Fall Apart</Text>,
-      right: right()
-    };
-    const items = _.fill(Array(20), item);
+  _renderItem(parties) {
+    return parties.map((party) => ({
+      body: <Text>{`${party.name}`}</Text>,
+      right:
+        <Grid>
+          <Row>
+            <Text style={style.listSubtitle}>{`${party.date} • ${party.songs} songs`}</Text>
+            <Button icon transparent>
+            </Button>
+          </Row>
+        </Grid>,
+    }));
+  }
 
+  render() {
+    const userMode = this.navigation.getParam("userMode", "listen");
+    const parties = this.navigation.getParam(`${userMode}Parties`, []);
+    console.log("USERRRMODEE", userMode);
+    console.log(this.navigation);
+    console.log("PARTIES", parties)
     return (
       <Container>
-        <NowPlaying userMode={this.state.userMode} />
+        <NowPlaying userMode={userMode} />
         <Content>
-          <QList items={items} />
+          <QList items={this._renderItem(parties)} />
         </Content>
-        {this.state.userMode === "host" ? (
+        {userMode === "host" ? (
           <FloatingAction
             openOnMount={true}
             color={colors.purple}

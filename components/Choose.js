@@ -12,6 +12,7 @@ import JoinQR from "./JoinQR";
 import QModal from "./reuse/QModal";
 import CreateLP from "./CreateLP";
 import ChooseRowButton from "./reuse/ChooseRowButton";
+import PartyManager from "../firebase/PartyManager";
 
 const styles = StyleSheet.create({
   letsGo: {
@@ -34,11 +35,26 @@ export default class Choose extends Component {
     this.height = Dimensions.get("window").height;
     this.state = {
       joinQRVis: false,
-      createLPVis: false
+      createLPVis: false,
+      listenParties: [],
+      hostParties: []
     };
 
     this.toggleJoinVis = this.toggleJoinVis.bind(this);
     this.toggleCreateVis = this.toggleCreateVis.bind(this);
+  }
+
+  componentDidMount() {
+    const manager = new PartyManager("user1");
+    manager.getParty("listening", listenParties => {
+      this.setState({ listenParties });
+      console.log("LISSST", listenParties);
+
+    }
+    );
+    manager.getParty("hosted", hostParties =>
+      this.setState({ hostParties })
+    );
   }
 
   goHome(userMode) {
