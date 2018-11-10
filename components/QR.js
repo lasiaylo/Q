@@ -1,31 +1,20 @@
 import React, { Component } from "react";
 import style from "../style/style";
-import PropTypes from "prop-types";
-import { StyleSheet } from "react-native";
-import colors from "../style/colors";
-import QButton from "./reuse/QButton";
 import {
   Container,
   Header,
   Text,
-  Left,
-  Body,
   Right,
   Button,
   Icon,
   Content,
   Grid,
-  Col,
-  Row,
-  Footer
+  Row
 } from "native-base";
 
 export default class QR extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      shareVisible: true
-    };
   }
 
   render() {

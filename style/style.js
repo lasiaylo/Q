@@ -150,5 +150,53 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignContent: "center"
+  },
+  marginTop10: {
+    marginTop: 10
+  },
+  settingsHeader: {
+    color: colors.white,
+    marginRight: 20,
+    marginLeft: 10,
+    fontFamily: header.family,
+    fontSize: header.size
+  },
+  settingsHeaderIcon: {
+    color: colors.white,
+    paddingTop: 5
+  },
+  settingsWhiteText: {
+    color: colors.white,
+    fontFamily: btn.family,
+    fontSize: 18,
+    marginLeft: 10,
+    padding: 3
+  },
+  settingsSegment: {
+    marginLeft: 10,
+    alignItems: "stretch",
+    flexDirection: "row"
+  },
+  simpleBtn: {
+    backgroundColor: colors.black,
+    marginTop: 15
+  },
+  simpleBtnText: {
+    color: colors.white,
+    fontFamily: btn.family,
+    fontSize: 16,
+    marginLeft: 30,
+    marginRight: 30
+  },
+  createBtn: {
+    backgroundColor: colors.white,
+    marginTop: 15
+  },
+  createBtnText: {
+    color: colors.black,
+    fontFamily: btn.family,
+    fontSize: 16,
+    marginLeft: 30,
+    marginRight: 30
   }
 });

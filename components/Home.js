@@ -24,6 +24,7 @@ import QList from "./reuse/QList";
 import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
 import QR from "./QR";
+import HostSettings from "./HostSettings";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
 import { FloatingAction } from "react-native-floating-action";
@@ -73,23 +74,33 @@ export default class Home extends Component {
     this.state = {
       userMode: this.navigation.getParam("userMode", "listen"),
       qsearchVisible: false,
-      shareVisible: false
+      shareVisible: false,
+      settingsVisible: false
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
     this.handler = this.handler.bind(this);
+    this.settingsHandler = this.settingsHandler.bind(this);
     console.log(this.width);
   }
 
   hostFAB(name) {
     if (name === "invite") {
       this.setState({ shareVisible: true });
+    } else if (name === "settings") {
+      this.setState({ settingsVisible: true });
     }
   }
 
   handler() {
     this.setState({
       shareVisible: !this.state.shareVisible
+    });
+  }
+
+  settingsHandler() {
+    this.setState({
+      settingsVisible: !this.state.settingsVisible
     });
   }
 
@@ -160,6 +171,18 @@ export default class Home extends Component {
           }
         >
           <QR action={this.handler} />
+        </QModal>
+
+        <QModal
+          visible={this.state.settingsVisible}
+          height={(this.height * 2) / 3}
+          width={this.width}
+          color={colors.gray}
+          toggleVis={() =>
+            this.setState({ settingsVisible: !this.state.settingsVisible })
+          }
+        >
+          <HostSettings action={this.settingsHandler} />
         </QModal>
       </Container>
     );
