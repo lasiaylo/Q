@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet } from "react-native";
+import { Dimensions, View, StyleSheet } from "react-native";
 import { Container, Content, Icon, Button, Text } from "native-base";
 import { Row, Grid, Col } from "react-native-easy-grid";
 import style from "../style/style";
@@ -8,6 +8,8 @@ import QButton from "./reuse/QButton";
 import { createStackNavigator } from "react-navigation";
 import navStyle from "../style/navStyle";
 import colors from "../style/colors";
+import JoinQR from "./JoinQR";
+import QModal from "./reuse/QModal";
 
 const styles = StyleSheet.create({
   letsGo: {
@@ -69,6 +71,12 @@ export default class Choose extends Component {
   constructor(props) {
     super(props);
     this.navigation = this.props.navigation;
+    this.width = Dimensions.get("window").width;
+    this.height = Dimensions.get("window").height;
+    this.state = {
+      joinQRVis: false,
+      createLPVis: false
+    };
   }
 
   goHome(userMode) {
@@ -78,6 +86,15 @@ export default class Choose extends Component {
         qHeader: navStyle[userMode + "Header"],
         userMode: userMode
       });
+    };
+  }
+
+  toggleJoinVis() {
+    upper = this;
+
+    return function() {
+      console.log("wollo");
+      upper.setState({ joinQRVis: !this.state.joinQRVis });
     };
   }
 
@@ -118,14 +135,24 @@ export default class Choose extends Component {
                 </Text>
               </Button>
             </Row>
-            <Row onPress={this.goHome("listen")} size={1} style={styles.center}>
+            <Row
+              onPress={() =>
+                this.setState({ joinQRVis: !this.state.joinQRVis })
+              }
+              size={1}
+              style={styles.center}
+            >
               <Icon
-                onPress={this.goHome("listen")}
+                onPress={() =>
+                  this.setState({ joinQRVis: !this.state.joinQRVis })
+                }
                 name="md-headset"
                 style={styles.listenerIcon}
               />
               <Button
-                onPress={this.goHome("listen")}
+                onPress={() =>
+                  this.setState({ joinQRVis: !this.state.joinQRVis })
+                }
                 transparent
                 vertical
                 style={styles.button}
@@ -140,6 +167,20 @@ export default class Choose extends Component {
             </Row>
           </Grid>
         </Content>
+        <QModal
+          visible={this.state.joinQRVis}
+          height={(this.height * 1) / 2}
+          width={this.width}
+          color={colors.green}
+          toggleVis={() => this.setState({ joinQRVis: !this.state.joinQRVis })}
+        >
+          <JoinQR
+            done={this.goHome("listen")}
+            cancelClose={() =>
+              this.setState({ joinQRVis: !this.state.joinQRVis })
+            }
+          />
+        </QModal>
       </Container>
     );
   }

@@ -12,7 +12,7 @@ import {
   Row
 } from "native-base";
 
-export default class QR extends Component {
+export default class ShareQR extends Component {
   constructor(props) {
     super(props);
   }

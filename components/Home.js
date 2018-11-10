@@ -10,7 +10,9 @@ import {
   Right,
   Left,
   Body,
-  ListItem
+  ListItem,
+  Input,
+  Item
 } from "native-base";
 import * as _ from "lodash";
 import { Row, Grid } from "react-native-easy-grid";
@@ -24,7 +26,7 @@ import {
 import QList from "./reuse/QList";
 import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
-import QR from "./QR";
+import ShareQR from "./ShareQR";
 import HostSettings from "./HostSettings";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
@@ -76,7 +78,9 @@ export default class Home extends Component {
       userMode: this.navigation.getParam("userMode", "listen"),
       qsearchVisible: false,
       shareVisible: false,
-      settingsVisible: false
+      settingsVisible: false,
+      joinQRVisible: false,
+      inLP: false
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
@@ -150,6 +154,7 @@ export default class Home extends Component {
             distanceToEdge={20}
           />
         )}
+
         <QModal
           visible={this.state.qsearchVisible}
           height={(this.height * 2) / 3}
@@ -185,19 +190,26 @@ export default class Home extends Component {
                 </Button>
               </Right>
             </Header>
+            <Content>
+              <Item rounded>
+                <Icon active name="search" />
+                <Input placeholder="Search on spotify" />
+              </Item>
+            </Content>
           </Container>
         </QModal>
 
         <QModal
           visible={this.state.shareVisible}
           height={(this.height * 2) / 3}
+          minHeight={800}
           width={this.width}
           color={colors.gray}
           toggleVis={() =>
             this.setState({ shareVisible: !this.state.shareVisible })
           }
         >
-          <QR action={this.handler} />
+          <ShareQR action={this.handler} />
         </QModal>
 
         <QModal
@@ -216,11 +228,11 @@ export default class Home extends Component {
   }
 }
 
-// const SwitchModeTabs = createBottomTabNavigator({
-//   host: {
-//     screen: Home
-//   },
-//   listen: {
-//     screen: Home
-//   }
-// });
+const SwitchModeTabs = createBottomTabNavigator({
+  host: {
+    screen: Home
+  },
+  listen: {
+    screen: Home
+  }
+});

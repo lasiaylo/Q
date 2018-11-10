@@ -1,8 +1,21 @@
 import React from "react";
 import { Modal, View, TouchableWithoutFeedback } from "react-native";
 
-const QModal = ({ visible, width, height, color, toggleVis, children }) => (
-  <Modal animationType="slide" visible={visible} transparent={true}>
+const QModal = ({
+  visible,
+  width,
+  height,
+  minHeight,
+  color,
+  toggleVis,
+  children
+}) => (
+  <Modal
+    animationType="slide"
+    visible={visible}
+    transparent={true}
+    onRequestClose={() => console.log("placeholder")}
+  >
     <View
       style={{
         flex: 1,
