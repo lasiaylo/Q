@@ -20,43 +20,60 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 58,
     textShadowColor: "rgba(0, 0, 0, 0.2)",
-    textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
   },
   host: {
     fontFamily: "Avenir-Light",
     color: colors.purple,
-    fontSize: 30
+    fontSize: 30,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5
   },
   hostTop: {
     fontFamily: "Avenir-Light",
     color: colors.purple,
     fontSize: 30,
-    paddingRight: 107
+    paddingRight: 107,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5
   },
   listener: {
     fontFamily: "Avenir-Light",
     color: colors.green,
-    fontSize: 30
+    fontSize: 30,
+    textShadowColor: "rgba(0, 0, 0, 0.1)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5
   },
   listenerTop: {
     fontFamily: "Avenir-Light",
     color: colors.green,
     fontSize: 30,
-    paddingRight: 107
+    paddingRight: 107,
+    textShadowColor: "rgba(0, 0, 0, 0.1)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5
   },
   hostIcon: {
     fontFamily: "Avenir-Light",
     color: colors.purple,
     fontSize: 50,
-    padding: 15
+    padding: 15,
+    textShadowColor: "rgba(0, 0, 0, 0.2)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5
   },
   listenerIcon: {
     fontFamily: "Avenir-Light",
     color: colors.green,
     fontSize: 50,
-    padding: 15
+    padding: 15,
+    textShadowColor: "rgba(0, 0, 0, 0.1)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 5
   },
   center: {
     flexDirection: "row",
@@ -107,7 +124,8 @@ export default class Choose extends Component {
                 justifyContent: "center",
                 alignContent: "center",
                 padding: 75,
-                marginTop: 50
+                marginTop: 50,
+                height: (this.height * 2) / 5
               }}
               size={1}
             >

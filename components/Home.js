@@ -144,6 +144,8 @@ export default class Home extends Component {
         ) : (
           <FloatingAction
             color={colors.green}
+            showBackground={false}
+            overlayColor="rgba(0, 0, 0, 0.0)"
             onPressMain={() => {
               this.setState({ qsearchVisible: true });
               console.log(this.state);
@@ -165,39 +167,7 @@ export default class Home extends Component {
             this.setState({ qsearchVisible: !this.state.qsearchVisible })
           }
         >
-          <Container
-            style={{
-              flex: 1,
-              backgroundColor: colors.green
-            }}
-          >
-            <Header style={{ paddingTop: -50 }} transparent>
-              <Body style={{ paddingTop: -50 }}>
-                <Text style={[style.nowPlaying, style.modalTitle]}>
-                  Queue a song
-                </Text>
-              </Body>
-              <Right>
-                <Button
-                  light
-                  transparent
-                  onPress={() =>
-                    this.setState({
-                      qsearchVisible: !this.state.qsearchVisible
-                    })
-                  }
-                >
-                  <Icon name="close" />
-                </Button>
-              </Right>
-            </Header>
-            <Content>
-              <Item rounded>
-                <Icon active name="search" />
-                <Input placeholder="Search on spotify" />
-              </Item>
-            </Content>
-          </Container>
+          <QueueSong />
         </QModal>
 
         <QModal
