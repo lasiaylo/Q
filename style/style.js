@@ -110,6 +110,33 @@ export default StyleSheet.create({
     padding: 0,
     marginLeft: -10
   },
+  qrBtn: {
+    backgroundColor: colors.white
+  },
+  qrBtnText: {
+    color: colors.gray,
+    fontFamily: btn.family,
+    fontSize: btn.size,
+    marginLeft: 15,
+    marginRight: 15
+  },
+  qrCode: {
+    color: colors.white,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    fontSize: 300,
+    paddingTop: 45
+  },
+  qrHeader: {
+    fontFamily: header.family,
+    fontSize: header.size,
+    color: colors.white,
+    marginLeft: 10
+  },
+  qrPadding: {
+    padding: 10
+  },
   hostHeader: {
     backgroundColor: colors.purple
   },
@@ -119,5 +146,61 @@ export default StyleSheet.create({
   actionBtn: {
     position: "absolute",
     bottom: 20
+  },
+  white: {
+    color: colors.white
+  },
+  center: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center"
+  },
+  marginTop10: {
+    marginTop: 10
+  },
+  settingsHeader: {
+    color: colors.white,
+    marginRight: 20,
+    marginLeft: 10,
+    fontFamily: header.family,
+    fontSize: header.size
+  },
+  settingsHeaderIcon: {
+    color: colors.white,
+    paddingTop: 5
+  },
+  settingsWhiteText: {
+    color: colors.white,
+    fontFamily: btn.family,
+    fontSize: 18,
+    marginLeft: 10,
+    padding: 3
+  },
+  settingsSegment: {
+    marginLeft: 10,
+    alignItems: "stretch",
+    flexDirection: "row"
+  },
+  simpleBtn: {
+    backgroundColor: colors.black,
+    marginTop: 15
+  },
+  simpleBtnText: {
+    color: colors.white,
+    fontFamily: btn.family,
+    fontSize: 16,
+    marginLeft: 30,
+    marginRight: 30
+  },
+  createBtn: {
+    backgroundColor: colors.white,
+    marginTop: 15
+  },
+  createBtnText: {
+    color: colors.black,
+    fontFamily: btn.family,
+    fontSize: 16,
+    marginLeft: 30,
+    marginRight: 30
   }
 });
