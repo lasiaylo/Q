@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     textShadowColor: "rgba(0, 0, 0, 0.2)",
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 10
-  },
+  }
 });
 
 export default class Choose extends Component {
@@ -36,6 +36,9 @@ export default class Choose extends Component {
       joinQRVis: false,
       createLPVis: false
     };
+
+    this.toggleJoinVis = this.toggleJoinVis.bind(this);
+    this.toggleCreateVis = this.toggleCreateVis.bind(this);
   }
 
   goHome(userMode) {
@@ -46,15 +49,16 @@ export default class Choose extends Component {
     });
   }
 
-  toggleJoinVis() {
-    upper = this;
+  toggleCreateVis() {
+    this.setState({ createLPVis: !this.state.createLPVis });
+  }
 
-    return function() {
-      upper.setState({ joinQRVis: !this.state.joinQRVis });
-    };
+  toggleJoinVis() {
+    this.setState({ joinQRVis: !this.state.joinQRVis });
   }
 
   render() {
+    const { createLPVis, joinQRVis } = this.state;
     return (
       <Container>
         <Content>
@@ -74,7 +78,7 @@ export default class Choose extends Component {
             </Row>
             <ChooseRowButton
               icon="md-home"
-              onPress={() => this.setState({ createLPVis: !this.state.createLPVis})}
+              onPress={this.toggleCreateVis}
               color="purple"
               upperText="Host a"
               lowerText="Listening Party"
@@ -82,48 +86,42 @@ export default class Choose extends Component {
             <ChooseRowButton
               color="green"
               icon="md-headset"
-              onPress={() => this.setState({ createLPVis: !this.state.createLPVis})}
+              onPress={this.toggleJoinVis}
               upperText="Join a"
               lowerText="Listening Party"
             />
           </Grid>
         </Content>
         <QModal
-          visible={this.state.joinQRVis}
+          visible={joinQRVis}
           height={(this.height * 1) / 2}
           width={this.width}
           color={colors.green}
-          toggleVis={() => this.setState({ joinQRVis: !this.state.joinQRVis })}
+          toggleVis={this.toggleJoinVis}
         >
           <JoinQR
             done={() => {
               console.log("fuck");
-              this.setState({ joinQRVis: !this.state.joinQRVis });
+              this.setState({ joinQRVis: !joinQRVis });
               this.goHome("listen");
             }}
-            cancelClose={() =>
-              this.setState({ joinQRVis: !this.state.joinQRVis })
-            }
+            cancelClose={this.toggleJoinVis}
           />
         </QModal>
         <QModal
           id="small create LP"
-          visible={this.state.createLPVis}
+          visible={createLPVis}
           height={(this.height * 1) / 4}
           width={this.width}
           color={colors.gray}
-          toggleVis={() =>
-            this.setState({ createLPVis: !this.state.createLPVis })
-          }
+          toggleVis={this.toggleCreateVis}
         >
           <CreateLP
             done={() => {
-              this.setState({ createLPVis: !this.state.createLPVis });
+              this.setState({ createLPVis: !createLPVis });
               this.goHome("host");
             }}
-            cancelClose={() =>
-              this.setState({ createLPVis: !this.state.createLPVis })
-            }
+            cancelClose={this.toggleCreateVis}
           />
         </QModal>
       </Container>
