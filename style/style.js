@@ -35,7 +35,7 @@ export default StyleSheet.create({
     fontSize: 29
   },
   modalTitle: {
-    fontWeight: "lighter",
+    fontWeight: "normal",
     fontSize: 35
   },
   artistText: {
