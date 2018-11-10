@@ -13,7 +13,9 @@ import {
   Row,
   Segment,
   Col,
-  Body
+  Body,
+  Title,
+  Left
 } from "native-base";
 import { FloatingAction } from "react-native-floating-action";
 import { Dimensions } from "react-native";
@@ -34,16 +36,23 @@ export default class CreateLP extends Component {
           backgroundColor: colors.gray
         }}
       >
-        <Header style={{ paddingTop: -50 }} transparent>
-          <Body style={{ paddingTop: -50 }}>
-            <Text style={[style.nowPlaying, style.modalTitle]}>
-              {this.lpName}
-            </Text>
-            <Icon name="md-create" style={[style.settingsHeaderIcon]} />
-          </Body>
+        <Header transparent>
+          <Left style={{ minWidth: this.width - 100 }}>
+            <Title
+              style={{
+                padding: 10,
+                paddingTop: -30
+              }}
+            >
+              <Text style={[style.nowPlaying, style.modalTitle]}>
+                {this.lpName}
+              </Text>
+              <Icon name="md-create" style={[style.settingsHeaderIcon]} />
+            </Title>
+          </Left>
           <Right>
-            <Button light transparent onPress={this.props.cancelClose}>
-              <Icon name="close" />
+            <Button transparent onPress={this.props.action}>
+              <Icon name="md-close" style={[style.white]} />
             </Button>
           </Right>
         </Header>
