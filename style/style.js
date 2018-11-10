@@ -106,6 +106,33 @@ export default StyleSheet.create({
     padding: 0,
     marginLeft: -10
   },
+  qrBtn: {
+    backgroundColor: colors.white
+  },
+  qrBtnText: {
+    color: colors.gray,
+    fontFamily: btn.family,
+    fontSize: btn.size,
+    marginLeft: 15,
+    marginRight: 15
+  },
+  qrCode: {
+    color: colors.white,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    fontSize: 300,
+    paddingTop: 45
+  },
+  qrHeader: {
+    fontFamily: header.family,
+    fontSize: header.size,
+    color: colors.white,
+    marginLeft: 10
+  },
+  qrPadding: {
+    padding: 10
+  },
   hostHeader: {
     backgroundColor: colors.purple
   },
@@ -115,5 +142,13 @@ export default StyleSheet.create({
   actionBtn: {
     position: "absolute",
     bottom: 20
+  },
+  white: {
+    color: colors.white
+  },
+  center: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center"
   }
 });

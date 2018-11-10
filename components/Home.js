@@ -23,6 +23,7 @@ import {
 import QList from "./reuse/QList";
 import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
+import QR from "./QR";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
 import { FloatingAction } from "react-native-floating-action";
@@ -71,11 +72,25 @@ export default class Home extends Component {
     this.navigation = props.navigation;
     this.state = {
       userMode: this.navigation.getParam("userMode", "listen"),
-      qsearchVisible: false
+      qsearchVisible: false,
+      shareVisible: false
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
+    this.handler = this.handler.bind(this);
     console.log(this.width);
+  }
+
+  hostFAB(name) {
+    if (name === "invite") {
+      this.setState({ shareVisible: true });
+    }
+  }
+
+  handler() {
+    this.setState({
+      shareVisible: !this.state.shareVisible
+    });
   }
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
@@ -105,6 +120,7 @@ export default class Home extends Component {
             actions={hostActions}
             onPressItem={name => {
               console.log("selected button: ${name}");
+              this.hostFAB(name);
             }}
             distanceToEdge={20}
           />
@@ -132,6 +148,18 @@ export default class Home extends Component {
           }
         >
           <Text>FUCK ME IN THE BUTT</Text>
+        </QModal>
+
+        <QModal
+          visible={this.state.shareVisible}
+          height={(this.height * 2) / 3}
+          width={this.width}
+          color={colors.gray}
+          toggleVis={() =>
+            this.setState({ shareVisible: !this.state.shareVisible })
+          }
+        >
+          <QR action={this.handler} />
         </QModal>
       </Container>
     );
