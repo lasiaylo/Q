@@ -28,6 +28,7 @@ import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
 import ShareQR from "./ShareQR";
 import HostSettings from "./HostSettings";
+import QueueSong from "./QueueSong";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
 import { FloatingAction } from "react-native-floating-action";
@@ -94,6 +95,8 @@ export default class Home extends Component {
       this.setState({ shareVisible: true });
     } else if (name === "settings") {
       this.setState({ settingsVisible: true });
+    } else if (name === "add_song") {
+      this.setState({ qsearchVisible: true });
     }
   }
 
@@ -167,7 +170,19 @@ export default class Home extends Component {
             this.setState({ qsearchVisible: !this.state.qsearchVisible })
           }
         >
-          <QueueSong />
+          <QueueSong
+            theme={this.state.userMode === "listen" ? "green" : "gray"}
+            cancelClose={() =>
+              this.setState({
+                qsearchVisible: !this.state.qsearchVisible
+              })
+            }
+            done={() =>
+              this.setState({
+                qsearchVisible: !this.state.qsearchVisible
+              })
+            }
+          />
         </QModal>
 
         <QModal

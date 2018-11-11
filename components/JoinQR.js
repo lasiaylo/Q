@@ -23,6 +23,9 @@ export default class JoinQR extends Component {
     super(props);
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
+    this.state = {
+      ready: false
+    };
   }
 
   render() {
@@ -63,8 +66,10 @@ export default class JoinQR extends Component {
                 style={{
                   backgroundColor: "#23AE54",
                   width: this.width - 30,
-                  alignItems: "center"
+                  alignItems: "center",
+                  justifyContent: "flex-start"
                 }}
+                onPress={() => this.setState({ ready: !this.state.ready })}
               >
                 <Icon light name="camera" style={{ color: "white" }} />
                 <Text
@@ -104,6 +109,7 @@ export default class JoinQR extends Component {
                 large
                 iconLeft
                 light
+                disabled
                 style={{
                   backgroundColor: "#23AE54",
                   width: this.width - 30,
@@ -121,16 +127,36 @@ export default class JoinQR extends Component {
             <Row size={2} />
           </Grid>
         </Content>
-        <FloatingAction
-          color={colors.white}
-          onPressMain={this.props.done}
-          showBackground={false}
-          overlayColor="rgba(0, 0, 0, 0.0)"
-          floatingIcon={require("../assets/icons/done.png")}
-          iconWidth={25}
-          iconHeight={25}
-          distanceToEdge={20}
-        />
+        {this.state.ready ? (
+          <FloatingAction
+            color={colors.white}
+            onPressMain={this.props.done}
+            showBackground={false}
+            overlayColor="rgba(0, 0, 0, 0.0)"
+            floatingIcon={require("../assets/icons/done_green.png")}
+            iconWidth={25}
+            iconHeight={25}
+            distanceToEdge={20}
+          />
+        ) : (
+          <FloatingAction
+            color="#23AE54"
+            disabled
+            stye={{
+              boxShadow: "none",
+              elevation: 0,
+              textShadowRadius: 0,
+              shadowOffset: { height: 0, width: 0 },
+              shadowOpacity: 0
+            }}
+            showBackground={false}
+            overlayColor="rgba(0, 0, 0, 0.0)"
+            floatingIcon={require("../assets/icons/done_dgreen.png")}
+            iconWidth={25}
+            iconHeight={25}
+            distanceToEdge={20}
+          />
+        )}
       </Container>
     );
   }
