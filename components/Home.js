@@ -23,6 +23,7 @@ import {
   createStackNavigator,
   header
 } from "react-navigation";
+
 import QList from "./reuse/QList";
 import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
@@ -76,7 +77,6 @@ export default class Home extends Component {
     super(props);
     this.navigation = props.navigation;
     this.state = {
-      userMode: this.navigation.getParam("userMode", "listen"),
       qsearchVisible: false,
       shareVisible: false,
       settingsVisible: false,
@@ -120,20 +120,33 @@ export default class Home extends Component {
     return params.qHeader;
   };
 
-  render() {
-    const item = {
-      body: <Text>Things Fall Apart</Text>,
-      right: right()
-    };
-    const items = _.fill(Array(20), item);
+  _renderItem(parties) {
+    return parties.map(party => ({
+      body: <Text>{`${party.name}`}</Text>,
+      right: (
+        <Grid>
+          <Row>
+            <Text style={style.listSubtitle}>{`${party.date} • ${
+              party.songs
+            } songs`}</Text>
+            <Button icon transparent />
+          </Row>
+        </Grid>
+      )
+    }));
+  }
 
+  render() {
+    const userMode = this.navigation.getParam("userMode", "listen");
+    const parties = this.navigation.getParam(`${userMode}Parties`, []);
+    const partyID = this.navigation.getParam("partyID", "");
     return (
       <Container>
-        <NowPlaying userMode={this.state.userMode} />
+        <NowPlaying userMode={userMode} />
         <Content>
-          <QList items={items} />
+          <QList items={this._renderItem(parties)} />
         </Content>
-        {this.state.userMode === "host" ? (
+        {userMode === "host" ? (
           <FloatingAction
             openOnMount={true}
             color={colors.purple}
@@ -195,7 +208,7 @@ export default class Home extends Component {
             this.setState({ shareVisible: !this.state.shareVisible })
           }
         >
-          <ShareQR action={this.handler} />
+          <ShareQR action={this.handler} partyID={partyID} />
         </QModal>
 
         <QModal
