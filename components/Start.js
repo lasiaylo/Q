@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text } from "react-native";
-import { Container, Content } from "native-base";
+import { Container, Content, Text } from "native-base";
 import { Row, Grid } from "react-native-easy-grid";
 import style from "../style/style";
 import QButton from "./reuse/QButton";
@@ -34,7 +33,11 @@ const Start = ({ navigation }) => (
           }}
           size={1.75}
         >
-          <QButton onPress={() => navigation.navigate("Choose")} type="green">
+          <QButton
+            width={250}
+            onPress={() => navigation.navigate("Choose")}
+            type="green"
+          >
             sign in with spotify
           </QButton>
         </Row>
