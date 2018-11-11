@@ -44,7 +44,7 @@ export default class JoinQR extends Component {
           </Body>
           <Right>
             <Button light transparent onPress={this.props.cancelClose}>
-              <Icon name="close" />
+              <Icon name="md-close" />
             </Button>
           </Right>
         </Header>
@@ -71,7 +71,7 @@ export default class JoinQR extends Component {
                 }}
                 onPress={() => this.setState({ ready: !this.state.ready })}
               >
-                <Icon light name="camera" style={{ color: "white" }} />
+                <Icon light name="md-camera" style={{ color: "white" }} />
                 <Text
                   uppercase={false}
                   style={[style.nowPlaying, { fontSize: 25 }]}

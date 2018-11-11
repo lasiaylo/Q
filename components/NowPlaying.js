@@ -32,7 +32,7 @@ export default class NowPlaying extends Component {
             square
             large
             source={{ uri: "https://i.imgur.com/RfZvIlj.png" }}
-            style={{ minHeight: 117, minWidth: 117, margin: 5 }}
+            style={{ height: "90%", width: "auto" }}
           />
         </Left>
         <Card
@@ -71,13 +71,13 @@ export default class NowPlaying extends Component {
               style={{ backgroundColor: "transparent", padding: 0, margin: 0 }}
             >
               <Button light transparent>
-                <Icon name="skip-backward" />
+                <Icon name="md-skip-backward" />
               </Button>
               <Button light transparent>
-                <Icon name="pause" />
+                <Icon name="md-pause" />
               </Button>
               <Button light transparent>
-                <Icon name="skip-forward" />
+                <Icon name="md-skip-forward" />
               </Button>
             </CardItem>
           ) : (
@@ -91,7 +91,7 @@ export default class NowPlaying extends Component {
           <Grid>
             <Row style={{ justifyContent: "flex-end", marginTop: 15 }}>
               <Button light transparent>
-                <Icon name="heart" style={{ opacity: 0.3, fontSize: 28 }} />
+                <Icon name="md-heart" style={{ opacity: 0.3, fontSize: 28 }} />
               </Button>
             </Row>
             <Row
@@ -102,7 +102,10 @@ export default class NowPlaying extends Component {
               }}
             >
               <Button light transparent>
-                <Icon name="checkmark" style={{ opacity: 0.3, fontSize: 28 }} />
+                <Icon
+                  name="md-checkmark"
+                  style={{ opacity: 0.3, fontSize: 28 }}
+                />
               </Button>
             </Row>
           </Grid>

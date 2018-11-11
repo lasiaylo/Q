@@ -35,14 +35,9 @@ export default class QueueSong extends Component {
       >
         <Header
           onPress={() => this.setState({ ready: !this.state.ready })}
-          style={{ paddingTop: -50 }}
           transparent
         >
-          <Body style={{ paddingTop: -50 }}>
-            <Text style={[style.nowPlaying, style.modalTitle]}>
-              Queue a song
-            </Text>
-          </Body>
+          <Text style={[style.nowPlaying, style.modalTitle]}>Queue a song</Text>
           <Right>
             <Button light transparent onPress={this.props.cancelClose}>
               <Icon name="close" />

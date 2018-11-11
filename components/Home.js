@@ -6,18 +6,19 @@ import {
   Title,
   Text,
   Button,
-  Icon,
   Right,
   Left,
   Body,
   ListItem,
   Input,
-  Item
+  Item,
+  Card,
+  Icon
 } from "native-base";
 import * as _ from "lodash";
 import { Row, Grid } from "react-native-easy-grid";
 import PropTypes from "prop-types";
-import { Dimensions, View } from "react-native";
+import { Dimensions, View, StatusBar } from "react-native";
 import {
   createBottomTabNavigator,
   createStackNavigator,
@@ -71,7 +72,7 @@ const right = () => (
   </Grid>
 );
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
@@ -81,13 +82,15 @@ export default class Home extends Component {
       shareVisible: false,
       settingsVisible: false,
       joinQRVisible: false,
-      inLP: false
+      playing: false,
+      inLP: false,
+      homeTitle: "placeholder"
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
     this.handler = this.handler.bind(this);
     this.settingsHandler = this.settingsHandler.bind(this);
-    console.log(this.width);
+    console.log(this.state.userMode);
   }
 
   hostFAB(name) {
@@ -116,7 +119,6 @@ export default class Home extends Component {
     console.log(navigationOptions);
     const { params } = navigation.state;
     qHeader = params.qHeader;
-    qHeader.header = header;
     return params.qHeader;
   };
 
@@ -129,6 +131,39 @@ export default class Home extends Component {
 
     return (
       <Container>
+        <View
+          style={[
+            style[this.state.userMode + "Header"],
+            {
+              minWidth: this.width,
+              minHeight: this.height * 0.09
+            }
+          ]}
+        >
+          <Container style={style[this.state.userMode + "Header"]}>
+            <Content>
+              <Grid>
+                <Row
+                  style={{
+                    flex: 1,
+                    alignContent: "center",
+                    justifyContent: "center"
+                  }}
+                >
+                  <Text
+                    style={[
+                      { paddingTop: StatusBar.currentHeight + 5 },
+                      style.headerTitle,
+                      style[this.state.userMode + "HeaderText"]
+                    ]}
+                  >
+                    {this.state.homeTitle}
+                  </Text>
+                </Row>
+              </Grid>
+            </Content>
+          </Container>
+        </View>
         <NowPlaying userMode={this.state.userMode} />
         <Content>
           <QList items={items} />
@@ -214,11 +249,46 @@ export default class Home extends Component {
   }
 }
 
-const SwitchModeTabs = createBottomTabNavigator({
-  host: {
-    screen: Home
+export default createBottomTabNavigator(
+  {
+    host: {
+      screen: Home
+    },
+    listen: {
+      screen: Home
+    }
   },
-  listen: {
-    screen: Home
+  {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === "host") {
+          iconName = "desktop";
+        } else if (routeName === "listen") {
+          iconName = "musical-note";
+        }
+        color = "#707070";
+        if (focused) {
+          color = "white";
+        }
+        console.log(iconName);
+        console.log(color);
+        return <Icon name={iconName} style={{ color: color }} />;
+      },
+      qHeader: () => {
+        const { routeName } = navigation.state;
+        return navStyle[routeName + "Header"];
+      },
+      userMode: navigation.state.routeName
+    }),
+    tabBarOptions: {
+      activeTintColor: "white",
+      inactiveTintColor: "#707070",
+      inactiveBackgroundColor: colors.gray,
+      activeBackgroundColor: colors.gray,
+      style: style.tabNav,
+      labelStyle: style.nowPlaying
+    }
   }
-});
+);

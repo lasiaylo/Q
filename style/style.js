@@ -32,7 +32,8 @@ export default StyleSheet.create({
     textShadowRadius: 10
   },
   songText: {
-    fontSize: 29
+    fontSize: 28,
+    textShadowOffset: { width: 0, height: 0 }
   },
   modalTitle: {
     fontWeight: "normal",
@@ -109,6 +110,22 @@ export default StyleSheet.create({
   npHeader: {
     padding: 0,
     marginLeft: -10
+  },
+  headerTitle: {
+    alignContent: "center",
+    justifyContent: "center",
+    fontFamily: "Avenir-Book",
+    fontSize: 35,
+    fontWeight: "normal",
+    textShadowColor: "rgba(0, 0, 0, 0.3)",
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 10
+  },
+  hostHeaderText: {
+    color: colors.white
+  },
+  listenHeaderText: {
+    color: colors.green
   },
   qrBtn: {
     backgroundColor: colors.white
@@ -202,5 +219,8 @@ export default StyleSheet.create({
     fontSize: 16,
     marginLeft: 30,
     marginRight: 30
+  },
+  tabNav: {
+    minHeight: height * 0.075
   }
 });
