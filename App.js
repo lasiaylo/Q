@@ -4,9 +4,8 @@ import { createStackNavigator } from "react-navigation";
 
 import Start from "./components/Start";
 import Choose from "./components/Choose";
-
-import Home from "./components/Home";
-import TestHome from "./components/TestHome";
+import QHome from "./components/QHome";
+import DashHome from "./components/DashHome";
 
 export default class App extends Component {
   constructor(props) {
@@ -38,8 +37,8 @@ export default class App extends Component {
       {
         Start: Start,
         Choose: Choose,
-        Home: Home,
-        TestHome: TestHome
+        QHome: QHome,
+        DashHome: DashHome
       },
       {
         initialRouteName: "Start",

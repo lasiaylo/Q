@@ -57,11 +57,11 @@ export default class Choose extends Component {
   }
 
   goHome(userMode, partyID) {
-    console.log("been called");
-    this.navigation.navigate("Home", {
+    console.log("\ngoHome: " + userMode + " " + partyID);
+    this.navigation.navigate("QHome", {
       qHeader: navStyle[userMode + "Header"],
       userMode: userMode,
-      partyID,
+      partyID: partyID
     });
   }
 
@@ -119,7 +119,7 @@ export default class Choose extends Component {
             done={() => {
               console.log("fuck");
               this.toggleJoinVis();
-              this.goHome("listen");
+              this.goHome("listen", 1234);
             }}
             cancelClose={this.toggleJoinVis}
           />
@@ -135,7 +135,9 @@ export default class Choose extends Component {
           <CreateLP
             done={() => {
               this.toggleCreateVis();
-              this.manager.makeParty("partyName", (partyID) => this.goHome("host", partyID));
+              this.manager.makeParty("partyName", partyID =>
+                this.goHome("host", partyID)
+              );
             }}
             cancelClose={this.toggleCreateVis}
           />

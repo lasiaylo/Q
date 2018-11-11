@@ -18,17 +18,13 @@ import {
 import * as _ from "lodash";
 import { Row, Grid } from "react-native-easy-grid";
 import PropTypes from "prop-types";
-import { Dimensions, View, StatusBar } from "react-native";
-import {
-  createBottomTabNavigator,
-  createStackNavigator,
-  header
-} from "react-navigation";
-
+import { Dimensions, View, StatusBar, BackHandler } from "react-native";
 import QList from "./reuse/QList";
 import QModal from "./reuse/QModal";
 import NowPlaying from "./NowPlaying";
 import ShareQR from "./ShareQR";
+import JoinQR from "./JoinQR";
+import CreateLP from "./CreateLP";
 import HostSettings from "./HostSettings";
 import QueueSong from "./QueueSong";
 import style from "../style/style";
@@ -73,26 +69,37 @@ const right = () => (
   </Grid>
 );
 
-class Home extends Component {
+export default class QHome extends Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
-    const { routeName } = this.navigation.state;
+    const { params, routeName } = this.navigation.state;
+    const { partyID, userMode } = params;
+
     this.state = {
       qsearchVisible: false,
       shareVisible: false,
       settingsVisible: false,
-      joinQRVisible: false,
       playing: false,
-      inLP: false,
+      inLP: true,
       homeTitle: "placeholder",
-      userMode: routeName
+      userMode: userMode ? userMode : routeName,
+      joinQRVis: false,
+      createLPVis: false
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
     this.handler = this.handler.bind(this);
     this.settingsHandler = this.settingsHandler.bind(this);
     console.log("\n\nuserMode: " + this.state.userMode);
+    // upper = this;
+    // BackHandler.addEventListener("hardwareBackPress", function() {
+    //   console.log("fuck me in the ass daddy");
+    //   if (!upper.props.tabbed) {
+    //     console.log("")
+    //     upper.navigation.navigate("QHome", this.navProps);
+    //   }
+    // });
   }
 
   hostFAB(name) {
@@ -140,18 +147,33 @@ class Home extends Component {
     }));
   }
 
+  toggleJoinVis() {
+    this.setState({ joinQRVis: !this.state.joinQRVis });
+  }
+
+  toggleCreateVis() {
+    this.setState({ createLPVis: !this.state.createLPVis });
+  }
+
+  navProps() {
+    return {
+      qHeader: navStyle[this.userMode + "Header"],
+      userMode: this.userMode
+    };
+  }
+
   render() {
     const userMode = this.navigation.getParam("userMode", "listen");
     const parties = this.navigation.getParam(`${userMode}Parties`, []);
     const partyID = this.navigation.getParam("partyID", "");
     return (
-      <Container>
+      <Container style={{ backgroundColor: "#090909" }}>
         <View
           style={[
             style[this.state.userMode + "Header"],
             {
               minWidth: this.width,
-              minHeight: this.height * 0.09
+              minHeight: this.height * 0.095
             }
           ]}
         >
@@ -165,6 +187,29 @@ class Home extends Component {
                     justifyContent: "center"
                   }}
                 >
+                  {!this.props.tabbed && (
+                    <Button
+                      icon
+                      light
+                      transparent
+                      onPress={() =>
+                        this.navigation.navigate("DashHome", this.navProps())
+                      }
+                      style={{
+                        position: "absolute",
+                        left: 5,
+                        paddingTop: StatusBar.currentHeight + 25
+                      }}
+                    >
+                      <Icon
+                        name="arrow-back"
+                        style={[
+                          style[this.state.userMode + "HeaderText"],
+                          { paddingBottom: 5 }
+                        ]}
+                      />
+                    </Button>
+                  )}
                   <Text
                     style={[
                       { paddingTop: StatusBar.currentHeight + 5 },
@@ -179,20 +224,49 @@ class Home extends Component {
             </Content>
           </Container>
         </View>
-        <NowPlaying userMode={this.state.userMode} />
+        {(this.state.inLP || this.state.playing) && (
+          <NowPlaying userMode={this.state.userMode} />
+        )}
 
         <Content>
           <QList items={this._renderItem(parties)} />
         </Content>
         {this.state.userMode === "host" ? (
+          this.state.inLP ? (
+            <FloatingAction
+              openOnMount={true}
+              color={colors.purple}
+              actions={hostActions}
+              onPressItem={name => {
+                this.hostFAB(name);
+              }}
+              iconWidth={35}
+              iconHeight={35}
+              floatingIcon={require("../assets/icons/palette.png")}
+              distanceToEdge={20}
+            />
+          ) : (
+            <FloatingAction
+              color={colors.purple}
+              showBackground={false}
+              overlayColor="rgba(0, 0, 0, 0.0)"
+              onPressMain={() => {
+                this.setState({ createLPVis: true });
+              }}
+              distanceToEdge={20}
+            />
+          )
+        ) : this.state.inLP ? (
           <FloatingAction
-            openOnMount={true}
-            color={colors.purple}
-            actions={hostActions}
-            onPressItem={name => {
-              console.log("selected button: ${name}");
-              this.hostFAB(name);
+            color={colors.green}
+            showBackground={false}
+            overlayColor="rgba(0, 0, 0, 0.0)"
+            onPressMain={() => {
+              this.setState({ qsearchVisible: true });
             }}
+            floatingIcon={require("../assets/icons/add_queue.png")}
+            iconWidth={25}
+            iconHeight={25}
             distanceToEdge={20}
           />
         ) : (
@@ -201,13 +275,8 @@ class Home extends Component {
             showBackground={false}
             overlayColor="rgba(0, 0, 0, 0.0)"
             onPressMain={() => {
-              this.setState({ qsearchVisible: true });
-              console.log(this.state);
-              console.log(this.state.qsearchVisible);
+              this.setState({ joinQRVis: true });
             }}
-            floatingIcon={require("../assets/icons/add_queue.png")}
-            iconWidth={25}
-            iconHeight={25}
             distanceToEdge={20}
           />
         )}
@@ -260,54 +329,48 @@ class Home extends Component {
         >
           <HostSettings action={this.settingsHandler} />
         </QModal>
+
+        <QModal
+          visible={this.state.joinQRVis}
+          height={(this.height * 1) / 2}
+          width={this.width}
+          color={colors.green}
+          toggleVis={this.toggleJoinVis}
+        >
+          <JoinQR
+            done={() => {
+              this.toggleJoinVis();
+              this.goHome("listen", 1234);
+            }}
+            cancelClose={this.toggleJoinVis}
+          />
+        </QModal>
+
+        <QModal
+          id="small create LP"
+          visible={this.state.createLPVis}
+          height={(this.height * 1) / 4}
+          width={this.width}
+          color={colors.gray}
+          toggleVis={this.toggleCreateVis}
+        >
+          <CreateLP
+            done={() => {
+              this.toggleCreateVis();
+              this.manager.makeParty("partyName", partyID =>
+                this.goHome("host", partyID)
+              );
+            }}
+            cancelClose={this.toggleCreateVis}
+          />
+        </QModal>
       </Container>
     );
   }
 }
+// };
 
-export default createBottomTabNavigator(
-  {
-    host: {
-      screen: Home
-    },
-    listen: {
-      screen: Home
-    }
-  },
-  {
-    navigationOptions: ({ navigation }) => ({
-      tabBarIcon: ({ focused, horizontal, tintColor }) => {
-        const { routeName } = navigation.state;
-        let iconName;
-        if (routeName === "host") {
-          iconName = "desktop";
-        } else if (routeName === "listen") {
-          iconName = "musical-note";
-        }
-        color = "#707070";
-        if (focused) {
-          color = "white";
-        }
-        return <Icon name={iconName} style={{ color: color }} />;
-      },
-      qHeader: () => {
-        const { routeName } = navigation.state;
-        return navStyle[routeName + "Header"];
-      },
-      userMode: navigation.state.routeName,
-      tabBarOnPress: ({ navigation, defaultHandler }) => {
-        const { routeName } = navigation.state;
-        console.log("Visiting: " + routeName);
-        defaultHandler();
-      }
-    }),
-    tabBarOptions: {
-      activeTintColor: "white",
-      inactiveTintColor: "#707070",
-      inactiveBackgroundColor: colors.gray,
-      activeBackgroundColor: colors.gray,
-      style: style.tabNav,
-      labelStyle: style.nowPlaying
-    }
-  }
-);
+//   ({ navigation }) => {
+//   console.log(navigation);
+//   const { params } = navigation.state;
+//   return
