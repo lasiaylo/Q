@@ -12,6 +12,7 @@ import JoinQR from "./JoinQR";
 import QModal from "./reuse/QModal";
 import CreateLP from "./CreateLP";
 import ChooseRowButton from "./reuse/ChooseRowButton";
+import PartyManager from "../firebase/PartyManager";
 
 const styles = StyleSheet.create({
   letsGo: {
@@ -34,18 +35,33 @@ export default class Choose extends Component {
     this.height = Dimensions.get("window").height;
     this.state = {
       joinQRVis: false,
-      createLPVis: false
+      createLPVis: false,
+      listenParties: [],
+      hostParties: []
     };
 
     this.toggleJoinVis = this.toggleJoinVis.bind(this);
     this.toggleCreateVis = this.toggleCreateVis.bind(this);
+    this.goHome = this.goHome.bind(this);
   }
 
-  goHome(userMode) {
+  componentDidMount() {
+    this.manager = new PartyManager("user1");
+    this.manager.getParty("listening", listenParties => {
+      this.setState({ listenParties });
+      console.log("LISSST", listenParties);
+    });
+    this.manager.getParty("hosted", hostParties =>
+      this.setState({ hostParties })
+    );
+  }
+
+  goHome(userMode, partyID) {
     console.log("been called");
     this.navigation.navigate("Home", {
       qHeader: navStyle[userMode + "Header"],
-      userMode: userMode
+      userMode: userMode,
+      partyID,
     });
   }
 
@@ -102,7 +118,7 @@ export default class Choose extends Component {
           <JoinQR
             done={() => {
               console.log("fuck");
-              this.setState({ joinQRVis: !joinQRVis });
+              this.toggleJoinVis();
               this.goHome("listen");
             }}
             cancelClose={this.toggleJoinVis}
@@ -118,8 +134,8 @@ export default class Choose extends Component {
         >
           <CreateLP
             done={() => {
-              this.setState({ createLPVis: !createLPVis });
-              this.goHome("host");
+              this.toggleCreateVis();
+              this.manager.makeParty("partyName", (partyID) => this.goHome("host", partyID));
             }}
             cancelClose={this.toggleCreateVis}
           />

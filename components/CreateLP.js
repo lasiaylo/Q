@@ -20,73 +20,66 @@ import {
 import { FloatingAction } from "react-native-floating-action";
 import { Dimensions } from "react-native";
 
-export default class CreateLP extends Component {
-  constructor(props) {
-    super(props);
-    this.width = Dimensions.get("window").width;
-    this.height = Dimensions.get("window").height;
-    this.lpName = "New LP";
-  }
+const CreateLP = ({ cancelClose, done }) => {
+  const width = Dimensions.get("window").width;
+  const height = Dimensions.get("window").height;
+  const lpName = "New LP";
 
-  render() {
-    return (
-      <Container
-        style={{
-          flex: 1,
-          backgroundColor: colors.gray
-        }}
-      >
-        <Header transparent>
-          <Left style={{ minWidth: this.width - 100 }}>
-            <Title
-              style={{
-                padding: 10,
-                paddingTop: -30
-              }}
-            >
-              <Text style={[style.nowPlaying, style.modalTitle]}>
-                {this.lpName}
-              </Text>
-              <Icon name="md-create" style={[style.settingsHeaderIcon]} />
-            </Title>
-          </Left>
-          <Right>
-            <Button transparent onPress={this.props.cancelClose}>
-              <Icon name="md-close" style={[style.white]} />
-            </Button>
-          </Right>
-        </Header>
-        <Content>
-          <Grid stye={{ flex: 1 }}>
-            <Row>
-              <Col style={[style.center]}>
-                <Button rounded style={[style.simpleBtn]}>
-                  <Text
-                    uppercase={false}
-                    style={[style.simpleBtnText, { fontSize: 17 }]}
-                  >
-                    Advanced
-                  </Text>
-                </Button>
-              </Col>
-              <Col style={[style.center]}>
-                <Button
-                  rounded
-                  style={[style.createBtn]}
-                  onPress={this.props.done}
+  return (
+    <Container
+      style={{
+        flex: 1,
+        backgroundColor: colors.gray
+      }}
+    >
+      <Header transparent>
+        <Left style={{ minWidth: width - 100 }}>
+          <Title
+            style={{
+              padding: 10,
+              paddingTop: -30
+            }}
+          >
+            <Text style={[style.nowPlaying, style.modalTitle]}>
+              {lpName}
+            </Text>
+            <Icon name="md-create" style={[style.settingsHeaderIcon]} />
+          </Title>
+        </Left>
+        <Right>
+          <Button transparent onPress={cancelClose}>
+            <Icon name="md-close" style={[style.white]} />
+          </Button>
+        </Right>
+      </Header>
+      <Content>
+        <Grid stye={{ flex: 1 }}>
+          <Row>
+            <Col style={[style.center]}>
+              <Button rounded style={[style.simpleBtn]}>
+                <Text
+                  uppercase={false}
+                  style={[style.simpleBtnText, { fontSize: 17 }]}
                 >
-                  <Text
-                    uppercase={false}
-                    style={[style.createBtnText, { fontSize: 17 }]}
-                  >
-                    Create!
-                  </Text>
-                </Button>
-              </Col>
-            </Row>
-          </Grid>
-        </Content>
-      </Container>
-    );
-  }
-}
+                  Advanced
+                </Text>
+              </Button>
+            </Col>
+            <Col style={[style.center]}>
+              <Button rounded style={[style.createBtn]} onPress={done}>
+                <Text
+                  uppercase={false}
+                  style={[style.createBtnText, { fontSize: 17 }]}
+                >
+                  Create!
+                </Text>
+              </Button>
+            </Col>
+          </Row>
+        </Grid>
+      </Content>
+    </Container>
+  );
+};
+
+export default CreateLP;
