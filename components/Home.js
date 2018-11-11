@@ -77,6 +77,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
+    const { routeName } = this.navigation.state;
     this.state = {
       qsearchVisible: false,
       shareVisible: false,
@@ -84,13 +85,14 @@ class Home extends Component {
       joinQRVisible: false,
       playing: false,
       inLP: false,
-      homeTitle: "placeholder"
+      homeTitle: "placeholder",
+      userMode: routeName
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
     this.handler = this.handler.bind(this);
     this.settingsHandler = this.settingsHandler.bind(this);
-    console.log(this.state.userMode);
+    console.log("\n\nuserMode: " + this.state.userMode);
   }
 
   hostFAB(name) {
@@ -182,7 +184,7 @@ class Home extends Component {
         <Content>
           <QList items={this._renderItem(parties)} />
         </Content>
-        {userMode === "host" ? (
+        {this.state.userMode === "host" ? (
           <FloatingAction
             openOnMount={true}
             color={colors.purple}
@@ -286,15 +288,18 @@ export default createBottomTabNavigator(
         if (focused) {
           color = "white";
         }
-        console.log(iconName);
-        console.log(color);
         return <Icon name={iconName} style={{ color: color }} />;
       },
       qHeader: () => {
         const { routeName } = navigation.state;
         return navStyle[routeName + "Header"];
       },
-      userMode: navigation.state.routeName
+      userMode: navigation.state.routeName,
+      tabBarOnPress: ({ navigation, defaultHandler }) => {
+        const { routeName } = navigation.state;
+        console.log("Visiting: " + routeName);
+        defaultHandler();
+      }
     }),
     tabBarOptions: {
       activeTintColor: "white",
