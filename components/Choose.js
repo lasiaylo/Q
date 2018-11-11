@@ -117,7 +117,6 @@ export default class Choose extends Component {
         >
           <JoinQR
             done={() => {
-              console.log("fuck");
               this.toggleJoinVis();
               this.goHome("listen", 1234);
             }}

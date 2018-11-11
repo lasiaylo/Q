@@ -77,9 +77,6 @@ export default createBottomTabNavigator(
         if (focused) {
           color = "white";
         }
-        console.log("\nROUTE" + routeName);
-        console.log("ICON" + iconName);
-        console.log("COLOR" + color);
         return <Icon name={iconName} style={{ color: color }} />;
       }
     }),

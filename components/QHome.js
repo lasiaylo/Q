@@ -91,15 +91,6 @@ export default class QHome extends Component {
     this.height = Dimensions.get("window").height;
     this.handler = this.handler.bind(this);
     this.settingsHandler = this.settingsHandler.bind(this);
-    console.log("\n\nuserMode: " + this.state.userMode);
-    // upper = this;
-    // BackHandler.addEventListener("hardwareBackPress", function() {
-    //   console.log("fuck me in the ass daddy");
-    //   if (!upper.props.tabbed) {
-    //     console.log("")
-    //     upper.navigation.navigate("QHome", this.navProps);
-    //   }
-    // });
   }
 
   hostFAB(name) {
@@ -125,7 +116,6 @@ export default class QHome extends Component {
   }
 
   static navigationOptions = ({ navigation, navigationOptions }) => {
-    console.log(navigationOptions);
     const { params } = navigation.state;
     qHeader = params.qHeader;
     return params.qHeader;
