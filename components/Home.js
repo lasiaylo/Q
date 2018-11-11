@@ -61,8 +61,6 @@ const hostActions = [
   }
 ];
 
-
-
 const right = () => (
   <Grid>
     <Row>
@@ -78,7 +76,6 @@ export default class Home extends Component {
   constructor(props) {
     super(props);
     this.navigation = props.navigation;
-    this.count = 2
     this.state = {
       qsearchVisible: false,
       shareVisible: false,
@@ -124,25 +121,25 @@ export default class Home extends Component {
   };
 
   _renderItem(parties) {
-    return parties.map((party) => ({
+    return parties.map(party => ({
       body: <Text>{`${party.name}`}</Text>,
-      right:
+      right: (
         <Grid>
           <Row>
-            <Text style={style.listSubtitle}>{`${party.date} • ${party.songs} songs`}</Text>
-            <Button icon transparent>
-            </Button>
+            <Text style={style.listSubtitle}>{`${party.date} • ${
+              party.songs
+            } songs`}</Text>
+            <Button icon transparent />
           </Row>
-        </Grid>,
+        </Grid>
+      )
     }));
   }
 
   render() {
     const userMode = this.navigation.getParam("userMode", "listen");
     const parties = this.navigation.getParam(`${userMode}Parties`, []);
-    console.log("USERRRMODEE", userMode);
-    console.log(this.navigation);
-    console.log("PARTIES", parties)
+    const partyID = this.navigation.getParam("partyID", "");
     return (
       <Container>
         <NowPlaying userMode={userMode} />
@@ -211,7 +208,7 @@ export default class Home extends Component {
             this.setState({ shareVisible: !this.state.shareVisible })
           }
         >
-          <ShareQR action={this.handler} />
+          <ShareQR action={this.handler} partyID={partyID} />
         </QModal>
 
         <QModal

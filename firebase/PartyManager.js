@@ -1,4 +1,5 @@
 import * as firebase from "firebase";
+import dateFormat from "dateformat";
 
 //  Built using this guide: https://firebase.googleblog.com/2016/01/the-beginners-guide-to-react-native-and_84.html
 
@@ -60,28 +61,32 @@ class PartyManager {
     updates[`users/${uid}/hostedParties/${partyID}`] = true;
     updates[`parties/${partyID}/members/${this.uid}`] = true;
     this.ref.update(updates).then(callback());
-
   }
 
   addHost(uid, partyID, callback) {
-    this.addMember(uid, partyID, null);
+    this.addMember(uid, partyID, () => null);
     const updates = {};
     updates[`parties/${partyID}/hosts/${this.uid}`] = true;
     this.ref.update(updates).then(callback());
   }
 
-  makeParty(callback) {
+  makeParty(name, callback) {
+    const date = new Date()
+    const format = dateFormat(date, "mm.dd.yy").toString();
     const partyRef = this.ref.child("parties").push();
+
     partyRef
       .set({
         meta: {
-          name: "Party",
-          date: "05.24.18",
+          name,
+          date: format,
           songs: 0
         },
         songs: true
       })
-      .then(() => this.addHost(this.uid, partyRef.key, callback(partyRef.key)));
+      .then(() =>
+        this.addHost(this.uid, partyRef.key, () => callback(partyRef.key))
+      );
   }
 
   joinParty(partyID, callback) {
