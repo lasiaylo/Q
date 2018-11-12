@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Alert } from "react-native";
 import PropTypes from "prop-types";
 import { Container, Content, Text } from "native-base";
 import { Row, Grid } from "react-native-easy-grid";
