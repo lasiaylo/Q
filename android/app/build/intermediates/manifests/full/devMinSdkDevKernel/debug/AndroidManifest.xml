@@ -117,8 +117,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:supportsRtl="true"
-        android:testOnly="true" >
+        android:supportsRtl="true" >
         <activity
             android:name="host.exp.exponent.LauncherActivity"
             android:exported="true"
@@ -380,7 +379,11 @@
         <meta-data
             android:name="standaloneStripeScheme"
             android:value="ca3b3bd3-2c07-4d83-ade0-2557439f1230" />
-        <!-- Scheduled notifications -->
+
+        <activity
+            android:name="com.lufinkey.react.spotify.AuthActivity"
+            android:theme="@style/Theme.AppCompat.Dialog" >
+        </activity> <!-- Scheduled notifications -->
         <receiver
             android:name="host.exp.exponent.notifications.ScheduledNotificationReceiver"
             android:exported="false" />
@@ -454,6 +457,27 @@
         <service
             android:name="io.nlopez.smartlocation.geocoding.providers.AndroidGeocodingProvider$AndroidGeocodingService"
             android:exported="false" />
+
+        <activity
+            android:name="com.spotify.sdk.android.authentication.AuthCallbackActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="@string/com_spotify_sdk_redirect_host"
+                    android:scheme="@string/com_spotify_sdk_redirect_scheme" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.spotify.sdk.android.authentication.LoginActivity"
+            android:launchMode="singleInstance"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+        </activity>
 
         <provider
             android:name="com.facebook.marketing.internal.MarketingInitProvider"

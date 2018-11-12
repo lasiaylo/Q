@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/lasialo/Documents/workspace/Q/android/app/build/intermediates/incremental/mergeDevMinSdkDevKernelDebugResources/merged.dir/values-ml-rIN/values-ml-rIN.xml",
+            "outputFile": "/Users/jennychin/Desktop/Q/android/app/build/intermediates/incremental/mergeDevMinSdkDevKernelDebugResources/merged.dir/values-ml-rIN/values-ml-rIN.xml",
             "map": [
                 {
-                    "source": "/Users/lasialo/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-2.6.1.aar/a142be46b8bbdd7b0ddced8d8e783a50/res/values-ml-rIN/values-ml-rIN.xml",
+                    "source": "/Users/jennychin/.gradle/caches/transforms-1/files-1.1/exoplayer-ui-2.6.1.aar/ed4c5c03ec1090685fbb51e9e2dd7dad/res/values-ml-rIN/values-ml-rIN.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4",

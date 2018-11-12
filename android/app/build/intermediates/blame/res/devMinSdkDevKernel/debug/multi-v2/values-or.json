@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/lasialo/Documents/workspace/Q/android/app/build/intermediates/incremental/mergeDevMinSdkDevKernelDebugResources/merged.dir/values-or/values-or.xml",
+            "outputFile": "/Users/jennychin/Desktop/Q/android/app/build/intermediates/incremental/mergeDevMinSdkDevKernelDebugResources/merged.dir/values-or/values-or.xml",
             "map": [
                 {
-                    "source": "/Users/lasialo/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.1.0.aar/7b13cb50706783a0ff54b0a16d7e6e9c/res/values-or/values.xml",
+                    "source": "/Users/jennychin/.gradle/caches/transforms-1/files-1.1/firebase-messaging-17.1.0.aar/b74f78075a7d5f52c64a4ef693e13d46/res/values-or/values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",

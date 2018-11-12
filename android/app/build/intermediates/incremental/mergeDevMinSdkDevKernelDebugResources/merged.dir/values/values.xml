@@ -1280,6 +1280,9 @@
     <string name="com_facebook_smart_login_confirmation_continue_as">Continue as <ns1:g id="user name">%1$s</ns1:g></string>
     <string name="com_facebook_smart_login_confirmation_title">Confirm Login</string>
     <string name="com_facebook_tooltip_default">You\'re in control - choose what info you want to share with apps.</string>
+    <string name="com_spotify_sdk_login_progress">Loading…</string>
+    <string name="com_spotify_sdk_redirect_host"/>
+    <string name="com_spotify_sdk_redirect_scheme"/>
     <string msgid="2523291102206661146" name="common_google_play_services_enable_button">Enable</string>
     <string msgid="227660514972886228" name="common_google_play_services_enable_text"><ns1:g id="app_name">%1$s</ns1:g> won\'t work unless you enable Google Play services.</string>
     <string msgid="5122002158466380389" name="common_google_play_services_enable_title">Enable Google Play services</string>

@@ -35,7 +35,7 @@ allprojects {
       url "$rootDir/../home/node_modules/jsc-android/android"
     }
     flatDir {
-      dirs 'libs'
+      dirs project(':rn-spotify-sdk').file('libs'), 'libs'
       // dirs project(':expoview').file('libs')
     }
     maven { url "https://jitpack.io" }

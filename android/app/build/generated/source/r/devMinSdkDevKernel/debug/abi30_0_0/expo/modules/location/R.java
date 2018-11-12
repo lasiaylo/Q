@@ -46,34 +46,34 @@ public final class R {
         public static final int adjust_height = 0x7f090021;
         public static final int adjust_width = 0x7f090022;
         public static final int auto = 0x7f09002e;
-        public static final int dark = 0x7f09007f;
-        public static final int icon_only = 0x7f0900e2;
-        public static final int light = 0x7f0900f8;
-        public static final int none = 0x7f090113;
-        public static final int standard = 0x7f09017d;
-        public static final int wide = 0x7f0901c0;
+        public static final int dark = 0x7f090081;
+        public static final int icon_only = 0x7f0900e4;
+        public static final int light = 0x7f0900fa;
+        public static final int none = 0x7f090115;
+        public static final int standard = 0x7f09017f;
+        public static final int wide = 0x7f0901c2;
     }
     public static final class integer {
         public static final int google_play_services_version = 0x7f0a000a;
     }
     public static final class string {
-        public static final int common_google_play_services_enable_button = 0x7f0f008e;
-        public static final int common_google_play_services_enable_text = 0x7f0f008f;
-        public static final int common_google_play_services_enable_title = 0x7f0f0090;
-        public static final int common_google_play_services_install_button = 0x7f0f0091;
-        public static final int common_google_play_services_install_text = 0x7f0f0092;
-        public static final int common_google_play_services_install_title = 0x7f0f0093;
-        public static final int common_google_play_services_notification_ticker = 0x7f0f0095;
-        public static final int common_google_play_services_unknown_issue = 0x7f0f0096;
-        public static final int common_google_play_services_unsupported_text = 0x7f0f0097;
-        public static final int common_google_play_services_update_button = 0x7f0f0098;
-        public static final int common_google_play_services_update_text = 0x7f0f0099;
-        public static final int common_google_play_services_update_title = 0x7f0f009a;
-        public static final int common_google_play_services_updating_text = 0x7f0f009b;
-        public static final int common_google_play_services_wear_update_text = 0x7f0f009c;
-        public static final int common_open_on_phone = 0x7f0f009d;
-        public static final int common_signin_button_text = 0x7f0f009e;
-        public static final int common_signin_button_text_long = 0x7f0f009f;
+        public static final int common_google_play_services_enable_button = 0x7f0f0091;
+        public static final int common_google_play_services_enable_text = 0x7f0f0092;
+        public static final int common_google_play_services_enable_title = 0x7f0f0093;
+        public static final int common_google_play_services_install_button = 0x7f0f0094;
+        public static final int common_google_play_services_install_text = 0x7f0f0095;
+        public static final int common_google_play_services_install_title = 0x7f0f0096;
+        public static final int common_google_play_services_notification_ticker = 0x7f0f0098;
+        public static final int common_google_play_services_unknown_issue = 0x7f0f0099;
+        public static final int common_google_play_services_unsupported_text = 0x7f0f009a;
+        public static final int common_google_play_services_update_button = 0x7f0f009b;
+        public static final int common_google_play_services_update_text = 0x7f0f009c;
+        public static final int common_google_play_services_update_title = 0x7f0f009d;
+        public static final int common_google_play_services_updating_text = 0x7f0f009e;
+        public static final int common_google_play_services_wear_update_text = 0x7f0f009f;
+        public static final int common_open_on_phone = 0x7f0f00a0;
+        public static final int common_signin_button_text = 0x7f0f00a1;
+        public static final int common_signin_button_text_long = 0x7f0f00a2;
     }
     public static final class styleable {
         public static final int[] LoadingImageView = { 0x7f040075, 0x7f040116, 0x7f040117 };
