@@ -39,7 +39,7 @@ class Start extends Component {
           this.setState({ spotifyInitialized: true });
           // handle initialization
           if (loggedIn) {
-            this.goToPlayer();
+            this.navigation.navigate("Choose");
           }
         })
         .catch(error => {
