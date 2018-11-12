@@ -22,7 +22,7 @@ class Start extends Component {
       var spotifyOptions = {
         clientID: "9644c9ae58d4469e8358562fadd90aaf",
         sessionUserDefaultsKey: "SpotifySession",
-        redirectURL: "examplespotifyapp://auth",
+        redirectURL: "aux://auth",
         scopes: [
           "user-read-private",
           "user-library-modify",
