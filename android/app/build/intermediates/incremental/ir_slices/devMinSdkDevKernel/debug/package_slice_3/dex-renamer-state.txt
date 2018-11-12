@@ -1,4 +1,0 @@
-#Mon Nov 12 14:09:37 EST 2018
-base.0=/Users/jennychin/Desktop/Q/android/app/build/intermediates/transforms/dexMerger/devMinSdkDevKernel/debug/3
-path.0=classes.dex
-renamed.0=classes.dex
