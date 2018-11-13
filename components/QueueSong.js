@@ -17,28 +17,84 @@ import {
 import style from "../style/style";
 import colors from "../style/colors";
 import { FloatingAction } from "react-native-floating-action";
+import QList from "./reuse/QList";
 import Spotify from "rn-spotify-sdk";
+import * as _ from "lodash";
 
-const songTypes = ["album", "artist", "track"];
+const FILL_AVATAR =
+  "https://lh6.googleusercontent.com/k1N3NsI_W9iKZK8H5wuQZBO50koFIzerKvthQFE2fsLs9HpWfss0-VNit7Z8nJ9gPitoWavQWpTVQzE_pOny=w2880-h1544";
+
+// const songTypes = ["album", "artist", "track"];
+const songTypes = ["track"];
 
 export default class QueueSong extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reaady: false,
+      selected: {},
       song: "",
-      query: ""
+      searchResults: []
     };
   }
-  async textToQuery() {
-    this.setState({ song: this.state.song.split(" ").join("%20") });
-    this.setState({ query: "q=" + this.state.song });
 
-    let a = Spotify.search(this.query, songTypes);
-    console.log(a);
-    let b = await a;
-    console.log(b);
+  genResults(response) {
+    this.setState({ searchResults: [] });
+    let songs = response.tracks.items;
+    let results = [];
+    for (var i = 0; i < songs.length; i++) {
+      let diet = ({ name, artists, uri }) => {
+        artists = artists.map(a => a.name);
+        color = this.chooseColor();
+        return { name, artists, uri, color };
+      };
+      results.push(diet(songs[i]));
+      this.setState({ searchResults: results });
+    }
   }
+
+  async textToQuery() {
+    let query = this.state.song;
+    query.split(" ").join("%20");
+    Spotify.search(query, songTypes).then(results => this.genResults(results));
+  }
+
+  chooseColor() {
+    var randomColor = require("randomcolor"); // import the script
+    return randomColor(); // a hex code for an attractive color
+  }
+
+  makeResult(song) {
+    console.log("makeResult called for: " + song.name);
+    return (
+      <ListItem
+        icon
+        onPress={() => {
+          if (this.state.selected == song) {
+            this.setState({ selected: {} });
+          } else {
+            this.setState({ selected: song });
+          }
+        }}
+      >
+        <Left>
+          <Thumbnail
+            small
+            source={{ uri: FILL_AVATAR }}
+            style={{ backGroundColor: song.color }}
+          />
+        </Left>
+        <Body>
+          <Title>
+            <Text style={[style.nowPlaying]}>{song.name}</Text>
+          </Title>
+          <Subtitle style={[style.nowPlaying, { opacity: 0.73 }]}>
+            {song.artists.join(", ")}
+          </Subtitle>
+        </Body>
+      </ListItem>
+    );
+  }
+
   render() {
     return (
       <Container
@@ -47,10 +103,7 @@ export default class QueueSong extends Component {
           backgroundColor: colors[this.props.theme]
         }}
       >
-        <Header
-          onPress={() => this.setState({ ready: !this.state.ready })}
-          transparent
-        >
+        <Header transparent>
           <Text style={[style.nowPlaying, style.modalTitle]}>Queue a song</Text>
           <Right>
             <Button light transparent onPress={this.props.cancelClose}>
@@ -67,19 +120,19 @@ export default class QueueSong extends Component {
               light
               placeholder="Search on spotify"
               onChangeText={text => {
-                //console.log(text);
                 this.setState({ song: text });
               }}
               onEndEditing={() => {
                 this.textToQuery();
-                console.log(this.state.song);
-                console.log(this.state.query);
               }}
             />
           </Item>
+          <List
+            dataArray={this.state.searchResults}
+            renderRow={song => this.makeResult(song)}
+          />
         </Content>
-
-        {this.state.ready && (
+        {!_.isEmpty(this.state.selected) && (
           <FloatingAction
             color={colors.white}
             onPressMain={this.props.done}
