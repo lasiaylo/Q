@@ -110,6 +110,10 @@ class PartyManager {
     });
   }
 
+  addSong(song, partyID, callback) {
+
+  }
+
 }
 
 export default PartyManager;
