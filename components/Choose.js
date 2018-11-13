@@ -47,13 +47,6 @@ export default class Choose extends Component {
 
   componentDidMount() {
     this.manager = new PartyManager("user1");
-    this.manager.getParty("listening", listenParties => {
-      this.setState({ listenParties });
-      console.log("LISSST", listenParties);
-    });
-    this.manager.getParty("hosted", hostParties =>
-      this.setState({ hostParties })
-    );
   }
 
   goHome(userMode, partyID) {
@@ -116,9 +109,9 @@ export default class Choose extends Component {
           toggleVis={this.toggleJoinVis}
         >
           <JoinQR
-            done={() => {
+            done={(partyID) => {
               this.toggleJoinVis();
-              this.goHome("listen", 1234);
+              this.manager.joinParty((partyID), id => this.goHome("listen", id))
             }}
             cancelClose={this.toggleJoinVis}
           />

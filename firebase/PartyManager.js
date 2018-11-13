@@ -90,7 +90,7 @@ class PartyManager {
   }
 
   joinParty(partyID, callback) {
-    this.addMember(this.uid, partyID, () => callback());
+    this.addMember(this.uid, partyID, (partyID) => callback());
   }
 
   getSongs(partyID, callback) {
