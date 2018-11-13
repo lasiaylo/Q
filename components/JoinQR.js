@@ -119,7 +119,7 @@ export default class JoinQR extends Component {
                 <Text
                   uppercase={false}
                   style={[style.nowPlaying, { fontSize: 25 }]}
-                >
+          a      >
                   Type Code
                 </Text>
               </Button>

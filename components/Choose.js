@@ -46,14 +46,9 @@ export default class Choose extends Component {
   }
 
   componentDidMount() {
-    this.manager = new PartyManager("user1");
-    this.manager.getParty("listening", listenParties => {
-      this.setState({ listenParties });
-      console.log("LISSST", listenParties);
-    });
-    this.manager.getParty("hosted", hostParties =>
-      this.setState({ hostParties })
-    );
+    const { id, name, image } = this.navigation.getParam("profile", "");
+    this.manager = new PartyManager(id);
+    this.manager.makeUser(id, name, image);
   }
 
   goHome(userMode, partyID) {
