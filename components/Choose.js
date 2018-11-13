@@ -105,15 +105,15 @@ export default class Choose extends Component {
         </Content>
         <QModal
           visible={joinQRVis}
-          height={(this.height * 1) / 2}
+          height={this.height}
           width={this.width}
-          color={colors.green}
+          color={"rgba(0, 0, 0, 0)"}
           toggleVis={this.toggleJoinVis}
         >
           <JoinQR
-            done={() => {
+            done={partyID => {
               this.toggleJoinVis();
-              this.goHome("listen", 1234);
+              this.manager.joinParty(partyID, id => this.goHome("listen", id));
             }}
             cancelClose={this.toggleJoinVis}
           />
@@ -127,9 +127,9 @@ export default class Choose extends Component {
           toggleVis={this.toggleCreateVis}
         >
           <CreateLP
-            done={() => {
+            done={partyName => {
               this.toggleCreateVis();
-              this.manager.makeParty("partyName", partyID =>
+              this.manager.makeParty(partyName, partyID =>
                 this.goHome("host", partyID)
               );
             }}

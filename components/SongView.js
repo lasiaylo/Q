@@ -24,39 +24,26 @@ import QList from "./reuse/QList";
 import Spotify from "rn-spotify-sdk";
 import * as _ from "lodash";
 
-export default class SearchResult extends Component {
+export default class SongView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      selected: false
-    };
-  }
-
-  select() {
-    if (this.state.selected) {
-      this.props.callback({});
-    } else {
-      this.props.callback(this.props.song);
-    }
-    this.setState({ selected: !this.state.selected });
   }
 
   render() {
     return (
       <ListItem
         style={{
-          backgroundColor: this.state.selected ? "white" : "rgba(0, 0, 0, 0)",
           paddingRight: 20,
           paddingLeft: -35
         }}
         icon
-        onPress={() => this.select()}
+        onPress={() => console.log("touch me daddy")}
       >
         <Left style={{ borderRadius: 50 }}>
           <Thumbnail
             small
             source={require("../assets/icons/fill-avatar.png")}
-            style={{ backgroundColor: this.props.song.color }}
+            style={{ backgroundColor: this.props.color }}
           />
         </Left>
         <Body
@@ -67,27 +54,12 @@ export default class SearchResult extends Component {
           }}
         >
           <Title>
-            <Text
-              style={[
-                style.nowPlaying,
-                {
-                  color: this.state.selected ? this.props.song.color : "white"
-                }
-              ]}
-            >
-              {this.props.song.name}
+            <Text style={[style.nowPlaying, { color: "white" }]}>
+              {this.props.name}
             </Text>
           </Title>
-          <Subtitle
-            style={[
-              style.nowPlaying,
-              {
-                opacity: 0.73,
-                color: this.state.selected ? this.props.song.color : "white"
-              }
-            ]}
-          >
-            {this.props.song.artists.join(", ")}
+          <Subtitle style={[style.nowPlaying, { color: "white" }]}>
+            {this.props.artists.join(", ")}
           </Subtitle>
         </Body>
       </ListItem>

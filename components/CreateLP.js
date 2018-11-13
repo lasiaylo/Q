@@ -15,71 +15,119 @@ import {
   Col,
   Body,
   Title,
-  Left
+  Left,
+  Input
 } from "native-base";
 import { FloatingAction } from "react-native-floating-action";
 import { Dimensions } from "react-native";
 
-const CreateLP = ({ cancelClose, done }) => {
-  const width = Dimensions.get("window").width;
-  const height = Dimensions.get("window").height;
-  const lpName = "New LP";
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
-  return (
-    <Container
-      style={{
-        flex: 1,
-        backgroundColor: colors.gray
-      }}
-    >
-      <Header transparent>
-        <Left style={{ minWidth: width - 100 }}>
-          <Title
-            style={{
-              padding: 10,
-              paddingTop: -30
-            }}
-          >
-            <Text style={[style.nowPlaying, style.modalTitle]}>
-              {lpName}
-            </Text>
-            <Icon name="md-create" style={[style.settingsHeaderIcon]} />
-          </Title>
-        </Left>
-        <Right>
-          <Button transparent onPress={cancelClose}>
-            <Icon name="md-close" style={[style.white]} />
-          </Button>
-        </Right>
-      </Header>
-      <Content>
-        <Grid stye={{ flex: 1 }}>
-          <Row>
-            <Col style={[style.center]}>
-              <Button rounded style={[style.simpleBtn]}>
-                <Text
-                  uppercase={false}
-                  style={[style.simpleBtnText, { fontSize: 17 }]}
+class CreateLP extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      partyName: "New LP",
+      tempName: "",
+      editing: false
+    };
+  }
+
+  render() {
+    return (
+      <Container
+        style={{
+          flex: 1,
+          backgroundColor: colors.gray
+        }}
+      >
+        <Header transparent>
+          <Left style={{ minWidth: width - 150 }}>
+            <Row>
+              {this.state.editing ? (
+                <Input
+                  placeholder={this.state.partyName}
+                  style={[style.nowPlaying, { color: "white", fontSize: 30 }]}
+                  onEndEditing={() => {
+                    this.setState({ partyName: this.state.tempName });
+                  }}
+                  onChangeText={text => {
+                    this.setState({ tempName: text });
+                  }}
+                />
+              ) : (
+                <Title
+                  style={{
+                    padding: 10,
+                    paddingTop: -30
+                  }}
                 >
-                  Advanced
-                </Text>
+                  <Text style={[style.nowPlaying, style.modalTitle]}>
+                    {this.state.partyName}
+                  </Text>
+                </Title>
+              )}
+              <Button
+                onPress={() => {
+                  if (this.state.editing) {
+                    this.setState({ partyName: this.state.tempName });
+                  } else {
+                    this.setState({ tempName: this.state.partyName });
+                  }
+                  this.setState({ editing: !this.state.editing });
+                }}
+                icon
+                light
+                transparent
+                style={{ paddingBottom: 20 }}
+              >
+                <Icon
+                  name={this.state.editing ? "checkmark" : "md-create"}
+                  style={[style.settingsHeaderIcon]}
+                />
               </Button>
-            </Col>
-            <Col style={[style.center]}>
-              <Button rounded style={[style.createBtn]} onPress={done}>
-                <Text
-                  uppercase={false}
-                  style={[style.createBtnText, { fontSize: 17 }]}
+            </Row>
+          </Left>
+          <Right>
+            <Button transparent onPress={this.props.cancelClose}>
+              <Icon name="md-close" style={[style.white]} />
+            </Button>
+          </Right>
+        </Header>
+        <Content>
+          <Grid stye={{ flex: 1 }}>
+            <Row>
+              <Col style={[style.center]}>
+                <Button rounded style={[style.simpleBtn]}>
+                  <Text
+                    uppercase={false}
+                    style={[style.simpleBtnText, { fontSize: 17 }]}
+                  >
+                    Advanced
+                  </Text>
+                </Button>
+              </Col>
+              <Col style={[style.center]}>
+                <Button
+                  rounded
+                  style={[style.createBtn]}
+                  onPress={() => this.props.done(this.state.partyName)}
                 >
-                  Create!
-                </Text>
-              </Button>
-            </Col>
-          </Row>
-        </Grid>
-      </Content>
-    </Container>
-  );
-};
+                  <Text
+                    uppercase={false}
+                    style={[style.createBtnText, { fontSize: 17 }]}
+                  >
+                    Create!
+                  </Text>
+                </Button>
+              </Col>
+            </Row>
+          </Grid>
+        </Content>
+      </Container>
+    );
+  }
+}
 
 export default CreateLP;
