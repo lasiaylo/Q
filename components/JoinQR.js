@@ -16,17 +16,33 @@ import {
   Body
 } from "native-base";
 import { FloatingAction } from "react-native-floating-action";
-import { Dimensions } from "react-native";
+import { Dimensions, Vibration } from "react-native";
+import { BarCodeScanner, Permissions } from 'expo';
 
 export default class JoinQR extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
     this.state = {
-      ready: false
+      ready: false,
+      hasCameraPermission: null
     };
+    this.onScanned = this.onScanned.bind(this);
   }
+
+  async componentDidMount() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({ hasCameraPermission: status === 'granted' });
+  }
+
+  onScanned({ data }) {
+    console.log(data);
+    this.props.done(data);
+    Vibration.vibrate(80);
+  }
+
 
   render() {
     return (
@@ -59,6 +75,11 @@ export default class JoinQR extends Component {
                 padding: 5
               }}
             >
+              <BarCodeScanner
+                onBarCodeScanned={this.onScanned}
+                style={{ height: 200, width: 200 }}
+                barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
+              />
               <Button
                 large
                 iconLeft

@@ -111,9 +111,9 @@ export default class Choose extends Component {
           toggleVis={this.toggleJoinVis}
         >
           <JoinQR
-            done={() => {
+            done={(partyID) => {
               this.toggleJoinVis();
-              this.goHome("listen", 1234);
+              this.manager.joinParty((partyID), id => this.goHome("listen", id))
             }}
             cancelClose={this.toggleJoinVis}
           />
