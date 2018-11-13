@@ -29,7 +29,9 @@ export default class NowPlaying extends Component {
       playing: true,
       currSong: this.props.currSong,
       currName: this.props.currSong.name,
-      currArtist: this.props.currSong.artists[0]
+      currArtist: this.props.currSong.artists[0],
+      canSkip: true,
+      canBack: true
     };
     this.play = this.play.bind(this);
   }
@@ -49,11 +51,17 @@ export default class NowPlaying extends Component {
   }
 
   back() {
-    this.props.prev(song => this.play(song));
+    this.props.prev(
+      song => this.play(song),
+      (b, c) => this.setState({ canSkip: b, canBack: c })
+    );
   }
 
   skip() {
-    this.props.next(song => this.play(song));
+    this.props.next(
+      song => this.play(song),
+      (b, c) => this.setState({ canSkip: b, canBack: c })
+    );
   }
 
   async play(song) {
@@ -114,7 +122,10 @@ export default class NowPlaying extends Component {
               style={{ backgroundColor: "transparent", padding: 0, margin: 0 }}
             >
               <Button light transparent onPress={() => this.back()}>
-                <Icon name="md-skip-backward" />
+                <Icon
+                  name="md-skip-backward"
+                  style={{ opacity: this.state.canBack ? 1 : 0.25 }}
+                />
               </Button>
               <Button
                 light
@@ -127,7 +138,10 @@ export default class NowPlaying extends Component {
                 <Icon name={this.state.playing ? "md-pause" : "md-play"} />
               </Button>
               <Button light transparent onPress={() => this.skip()}>
-                <Icon name="md-skip-forward" />
+                <Icon
+                  name="md-skip-forward"
+                  style={{ opacity: this.state.canSkip ? 1 : 0.25 }}
+                />
               </Button>
             </CardItem>
           ) : (
