@@ -30,6 +30,7 @@ export default class SearchResult extends Component {
     this.state = {
       selected: false
     };
+    console.log(this.state.selected);
   }
 
   select() {
@@ -47,14 +48,12 @@ export default class SearchResult extends Component {
         style={{
           backgroundColor: this.state.selected ? "white" : "rgba(0, 0, 0, 0)",
           paddingRight: 20,
-          paddingLeft: -35,
-          paddingTop: 20,
-          paddingBottom: 20
+          paddingLeft: -35
         }}
         icon
-        onPress={this.select}
+        onPress={() => this.select()}
       >
-        <Left>
+        <Left style={{ borderRadius: 50 }}>
           <Thumbnail
             small
             source={require("../assets/icons/fill-avatar.png")}
@@ -73,7 +72,7 @@ export default class SearchResult extends Component {
               style={[
                 style.nowPlaying,
                 {
-                  color: this.state.selected ? "white" : this.props.song.color
+                  color: this.state.selected ? this.props.song.color : "white"
                 }
               ]}
             >
@@ -85,7 +84,7 @@ export default class SearchResult extends Component {
               style.nowPlaying,
               {
                 opacity: 0.73,
-                color: this.state.selected ? "white" : this.props.song.color
+                color: this.state.selected ? this.props.song.color : "white"
               }
             ]}
           >

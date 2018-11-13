@@ -19,6 +19,7 @@ import {
 } from "native-base";
 import style from "../style/style";
 import colors from "../style/colors";
+import { Row, Grid, Col } from "react-native-easy-grid";
 import { FloatingAction } from "react-native-floating-action";
 import QList from "./reuse/QList";
 import SearchResult from "./SearchResult";
@@ -64,14 +65,13 @@ export default class QueueSong extends Component {
     return randomColor(); // a hex code for an attractive color
   }
 
+  chooseResult(song) {
+    this.setState({ selectedResult: song });
+  }
+
   makeResult(song) {
     console.log("makeResult called for: " + song.name);
-    return (
-      <SearchResult
-        song={song}
-        callback={s => this.setState({ selected: s })}
-      />
-    );
+    return <SearchResult song={song} callback={s => this.chooseResult(s)} />;
   }
 
   render() {
@@ -79,10 +79,11 @@ export default class QueueSong extends Component {
       <Container
         style={{
           flex: 1,
-          backgroundColor: colors[this.props.theme]
+          backgroundColor: colors[this.props.theme],
+          paddingTop: 10
         }}
       >
-        <Header transparent>
+        <Header style={{ backgroundColor: colors[this.props.theme] }}>
           <Text style={[style.nowPlaying, style.modalTitle]}>Queue a song</Text>
           <Right>
             <Button light transparent onPress={this.props.cancelClose}>
@@ -90,36 +91,40 @@ export default class QueueSong extends Component {
             </Button>
           </Right>
         </Header>
-        <Header
-          transparent
-          style={{ paddingLeft: 15, paddingRight: 15, height: 35 }}
-        >
-          <Item rounded>
-            <Icon style={{ color: "white" }} light active name="search" />
-            <Input
-              style={[style.nowPlaying, { color: "white", fontSize: 17 }]}
-              placeholderTextColor="white"
-              light
-              placeholder="Search on spotify"
-              onChangeText={text => {
-                this.setState({ song: text });
-              }}
-              onEndEditing={() => {
-                this.textToQuery();
-              }}
-            />
-          </Item>
+        <Header span transparent style={{ justifyContent: "center" }}>
+          <Content
+            style={{
+              paddingLeft: 15,
+              paddingRight: 15
+            }}
+            contentContainerStyle={{ alignContent: "center" }}
+          >
+            <Item rounded>
+              <Icon style={{ color: "white" }} light active name="search" />
+              <Input
+                style={[style.nowPlaying, { color: "white", fontSize: 17 }]}
+                placeholderTextColor="white"
+                light
+                placeholder="Search on spotify"
+                onChangeText={text => {
+                  this.setState({ song: text });
+                }}
+                onEndEditing={() => {
+                  this.textToQuery();
+                }}
+              />
+            </Item>
+          </Content>
         </Header>
-        <Content>
-          <List
-            dataArray={this.state.searchResults}
-            renderRow={song => this.makeResult(song)}
-          />
-        </Content>
-        {!_.isEmpty(this.state.selected) && (
+        <List
+          dataArray={this.state.searchResults}
+          renderRow={song => this.makeResult(song)}
+          style={{ paddingLeft: -40 }}
+        />
+        {!_.isEmpty(this.state.selectedResult) && (
           <FloatingAction
             color={colors.white}
-            onPressMain={() => this.props.done(this.state.selected)}
+            onPressMain={() => this.props.done(this.state.selectedResult)}
             showBackground={false}
             overlayColor="rgba(0, 0, 0, 0.0)"
             floatingIcon={require("../assets/icons/done_green.png")}
