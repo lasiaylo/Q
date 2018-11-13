@@ -29,10 +29,21 @@ class PartyManager {
     if (!firebase.apps.length) {
       firebase.initializeApp(config);
     }
-    if (uid) {
-      this.uid = uid;
-    }
+
+    this.uid = uid;
     this.ref = firebase.database().ref();
+
+  }
+
+  makeUser(uid, name, image) {
+    this.ref.child(`users/${uid}`).once('value', (child) => {
+      if (child.val() == null) {
+        const updates =  {};
+        updates[`users/${uid}/profile/user`] = name;
+        updates[`users/${uid}/profile/userIcon`] = image;
+        this.ref.update(updates);
+      }
+    })
   }
 
   getParty(type, callback) {
@@ -98,6 +109,7 @@ class PartyManager {
       console.log(child);
     });
   }
+
 }
 
 export default PartyManager;
