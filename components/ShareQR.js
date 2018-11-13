@@ -27,7 +27,7 @@ const ShareQR = ({ action, partyID }) => (
     </Header>
     <Content style={[style.listenHeader]}>
       <Grid>
-        <Row style={[style.center, {marginTop: 20}]}>
+        <Row style={[style.center, { marginTop: 20 }]}>
           <QRCode
             value={partyID}
             size={250}
@@ -40,12 +40,10 @@ const ShareQR = ({ action, partyID }) => (
         </Row>
         <Row style={[style.qrPadding]}>
           <Right style={[style.qrPadding]}>
-            <Button
-              rounded
-              style={[style.qrBtn]}
-              onPress={action}
-            >
-              <Text style={[style.qrBtnText]}>Done</Text>
+            <Button rounded style={[style.qrBtn]} onPress={action}>
+              <Text uppercase={false} style={[style.qrBtnText]}>
+                Done
+              </Text>
             </Button>
           </Right>
         </Row>

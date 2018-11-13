@@ -62,7 +62,7 @@ export default class QueueSong extends Component {
 
   chooseColor() {
     var randomColor = require("randomcolor"); // import the script
-    return randomColor(); // a hex code for an attractive color
+    return randomColor([0.6, 0.5]); // a hex code for an attractive color
   }
 
   chooseResult(song) {
@@ -70,7 +70,6 @@ export default class QueueSong extends Component {
   }
 
   makeResult(song) {
-    console.log("makeResult called for: " + song.name);
     return <SearchResult song={song} callback={s => this.chooseResult(s)} />;
   }
 
@@ -97,7 +96,9 @@ export default class QueueSong extends Component {
               paddingLeft: 15,
               paddingRight: 15
             }}
-            contentContainerStyle={{ alignContent: "center" }}
+            contentContainerStyle={{
+              alignContent: "center"
+            }}
           >
             <Item rounded>
               <Icon style={{ color: "white" }} light active name="search" />

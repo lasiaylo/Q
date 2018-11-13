@@ -30,7 +30,6 @@ export default class SearchResult extends Component {
     this.state = {
       selected: false
     };
-    console.log(this.state.selected);
   }
 
   select() {

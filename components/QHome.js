@@ -85,13 +85,16 @@ export default class QHome extends Component {
       homeTitle: "placeholder",
       userMode: userMode ? userMode : routeName,
       joinQRVis: false,
-      createLPVis: false
+      createLPVis: false,
+      party: null
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
     this.handler = this.handler.bind(this);
     this.settingsHandler = this.settingsHandler.bind(this);
   }
+
+  componentDidMount() {}
 
   hostFAB(name) {
     if (name === "invite") {
