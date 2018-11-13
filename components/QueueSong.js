@@ -61,7 +61,7 @@ export default class QueueSong extends Component {
   }
 
   chooseColor() {
-    var randomColor = require("randomcolor"); // import the script
+    var randomColor = require("random-color"); // import the script
     return randomColor([0.6, 0.5]); // a hex code for an attractive color
   }
 

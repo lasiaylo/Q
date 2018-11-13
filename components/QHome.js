@@ -196,22 +196,34 @@ export default class QHome extends Component {
     this.setState({ createLPVis: !this.state.createLPVis });
   }
 
-  prev(callback) {
+  prev(callback, enable) {
     console.log("prev called on pos: " + this.state.queuePos);
-    callback(this.state.queue[this.state.queuePos - 1]);
-    this.setState({
-      queuePos: this.state.queuePos - 1,
-      currSong: this.state.queue[this.state.queuePos - 1]
-    });
+    if (this.state.queuePos > 0) {
+      callback(this.state.queue[this.state.queuePos - 1]);
+      this.setState({
+        queuePos: this.state.queuePos - 1,
+        currSong: this.state.queue[this.state.queuePos - 1]
+      });
+    }
+    enable(
+      this.state.queuePos < Object.keys(this.state.queue).length,
+      this.state.queuePos > 1
+    );
   }
 
-  next(callback) {
+  next(callback, enable) {
     console.log("next called on pos: " + this.state.queuePos);
-    callback(this.state.queue[this.state.queuePos + 1]);
-    this.setState({
-      queuePos: this.state.queuePos + 1,
-      currSong: this.state.queue[this.state.queuePos + 1]
-    });
+    if (this.state.queuePos < Object.keys(this.state.queue).length - 1) {
+      callback(this.state.queue[this.state.queuePos + 1]);
+      this.setState({
+        queuePos: this.state.queuePos + 1,
+        currSong: this.state.queue[this.state.queuePos + 1]
+      });
+    }
+    enable(
+      this.state.queuePos < Object.keys(this.state.queue).length - 2,
+      this.state.queuePos >= 0
+    );
   }
 
   navProps() {
