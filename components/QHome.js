@@ -68,9 +68,9 @@ const fakeQueue = {
     color: colors.purple
   },
   1: {
-    name: "Good Bad",
-    artists: ["Ella Mai"],
-    uri: "spotify:track:4KUR9agGDxQZURJ9liWVHD",
+    name: "CANT GET OVER YOU",
+    artists: ["papa franku"],
+    uri: "spotify:track:7ewESHEg3P3JN66IcWwDho",
     color: colors.gray
   },
   2: {

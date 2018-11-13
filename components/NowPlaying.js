@@ -17,6 +17,7 @@ import {
   Thumbnail
 } from "native-base";
 import style from "../style/style";
+
 import Spotify from "rn-spotify-sdk";
 
 export default class NowPlaying extends Component {
@@ -37,6 +38,9 @@ export default class NowPlaying extends Component {
     Spotify.getMe().then(result => {
       this.setState({ playing: true });
       this.play(this.state.currSong);
+    });
+    Spotify.addListener("trackDelivered", result => {
+      this.skip();
     });
   }
 
