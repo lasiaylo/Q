@@ -14,7 +14,7 @@ const QModal = ({
     animationType="slide"
     visible={visible}
     transparent={true}
-    onRequestClose={() => console.log("placeholder")}
+    onRequestClose={() => toggleVis()}
   >
     <View
       style={{

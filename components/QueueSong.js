@@ -103,7 +103,7 @@ export default class QueueSong extends Component {
             <Item rounded>
               <Icon style={{ color: "white" }} light active name="search" />
               <Input
-                style={[style.nowPlaying, { color: "white", fontSize: 17 }]}
+                style={[style.nowPlaying, { color: "white", fontSize: 20 }]}
                 placeholderTextColor="white"
                 light
                 placeholder="Search on spotify"

@@ -17,11 +17,50 @@ import {
   Thumbnail
 } from "native-base";
 import style from "../style/style";
+import Spotify from "rn-spotify-sdk";
 
 export default class NowPlaying extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.userMode = props.userMode;
+    this.state = {
+      playing: true,
+      currSong: this.props.currSong,
+      currName: this.props.currSong.name,
+      currArtist: this.props.currSong.artists[0]
+    };
+    this.play = this.play.bind(this);
+  }
+
+  componentDidMount() {
+    Spotify.getMe().then(result => {
+      this.setState({ playing: true });
+      this.play(this.state.currSong);
+    });
+  }
+
+  async playPause() {
+    return await Spotify.setPlaying(!this.state.playing);
+  }
+
+  back() {
+    this.props.prev(song => this.play(song));
+  }
+
+  skip() {
+    this.props.next(song => this.play(song));
+  }
+
+  async play(song) {
+    console.log("play called on:" + song.name);
+    this.setState({
+      currSong: song,
+      currName: song.name,
+      currArtist: song.artists[0]
+    });
+
+    await Spotify.playURI(song.uri, 0, 0);
   }
 
   render() {
@@ -57,10 +96,10 @@ export default class NowPlaying extends Component {
             <Left>
               <Body>
                 <Text style={[style.nowPlaying, style.songText]}>
-                  Country Roads
+                  {this.state.currName}
                 </Text>
                 <Text style={[style.nowPlaying, style.artistText]} light note>
-                  John Denver
+                  {this.state.currArtist}
                 </Text>
               </Body>
             </Left>
@@ -70,13 +109,20 @@ export default class NowPlaying extends Component {
               footer
               style={{ backgroundColor: "transparent", padding: 0, margin: 0 }}
             >
-              <Button light transparent>
+              <Button light transparent onPress={() => this.back()}>
                 <Icon name="md-skip-backward" />
               </Button>
-              <Button light transparent>
-                <Icon name="md-pause" />
+              <Button
+                light
+                transparent
+                onPress={() => {
+                  this.setState({ playing: !this.state.playing });
+                  this.playPause();
+                }}
+              >
+                <Icon name={this.state.playing ? "md-pause" : "md-play"} />
               </Button>
-              <Button light transparent>
+              <Button light transparent onPress={() => this.skip()}>
                 <Icon name="md-skip-forward" />
               </Button>
             </CardItem>
@@ -114,8 +160,3 @@ export default class NowPlaying extends Component {
     );
   }
 }
-
-NowPlaying.propTypes = {
-  userMode: PropTypes.string,
-  songState: PropTypes.object
-};

@@ -11,6 +11,7 @@ import {
   Body,
   ListItem,
   Input,
+  List,
   Item,
   Card,
   Icon
@@ -30,6 +31,7 @@ import QueueSong from "./QueueSong";
 import style from "../style/style";
 import navStyle from "../style/navStyle";
 import { FloatingAction } from "react-native-floating-action";
+import SongView from "./SongView";
 import colors from "../style/colors";
 
 const listenActions = [{}];
@@ -57,6 +59,33 @@ const hostActions = [
     position: 2
   }
 ];
+
+const fakeQueue = {
+  0: {
+    name: "thank u, next",
+    artists: ["Ariana Grande"],
+    uri: "spotify:track:2rPE9A1vEgShuZxxzR2tZH",
+    color: colors.purple
+  },
+  1: {
+    name: "Good Bad",
+    artists: ["Ella Mai"],
+    uri: "spotify:track:4KUR9agGDxQZURJ9liWVHD",
+    color: colors.gray
+  },
+  2: {
+    name: "WAKE UP",
+    artists: ["Travis Scott", "The Weeknd"],
+    uri: "spotify:track:20MuVazoNMv6xjKPnRFOxG",
+    color: colors.green
+  },
+  3: {
+    name: "Potato Salad",
+    artists: ["Tyler, the Creator", "A$AP Rocky"],
+    uri: "spotify:track:1jzIJcHCXneHw7ojC6LXiF",
+    color: colors.white
+  }
+};
 
 const right = () => (
   <Grid>
@@ -86,15 +115,18 @@ export default class QHome extends Component {
       userMode: userMode ? userMode : routeName,
       joinQRVis: false,
       createLPVis: false,
-      party: null
+      party: null,
+      queue: fakeQueue,
+      queuePos: 1,
+      parties: []
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
     this.handler = this.handler.bind(this);
     this.settingsHandler = this.settingsHandler.bind(this);
+    this.next = this.next.bind(this);
+    this.prev = this.prev.bind(this);
   }
-
-  componentDidMount() {}
 
   hostFAB(name) {
     if (name === "invite") {
@@ -140,12 +172,46 @@ export default class QHome extends Component {
     }));
   }
 
+  _filterQueue(queue) {
+    var numSongs = Object.keys(queue).length;
+    var keys = Array.from(
+      new Array(numSongs - this.state.queuePos - 1),
+      (x, i) => i + this.state.queuePos + 1
+    );
+    var a = _.map(keys, key => queue[key]);
+    return a;
+  }
+
+  _renderSong(song) {
+    return (
+      <SongView name={song.name} artists={song.artists} color={song.color} />
+    );
+  }
+
   toggleJoinVis() {
     this.setState({ joinQRVis: !this.state.joinQRVis });
   }
 
   toggleCreateVis() {
     this.setState({ createLPVis: !this.state.createLPVis });
+  }
+
+  prev(callback) {
+    console.log("prev called on pos: " + this.state.queuePos);
+    callback(this.state.queue[this.state.queuePos - 1]);
+    this.setState({
+      queuePos: this.state.queuePos - 1,
+      currSong: this.state.queue[this.state.queuePos - 1]
+    });
+  }
+
+  next(callback) {
+    console.log("next called on pos: " + this.state.queuePos);
+    callback(this.state.queue[this.state.queuePos + 1]);
+    this.setState({
+      queuePos: this.state.queuePos + 1,
+      currSong: this.state.queue[this.state.queuePos + 1]
+    });
   }
 
   navProps() {
@@ -218,9 +284,26 @@ export default class QHome extends Component {
           </Container>
         </View>
         {(this.state.inLP || this.state.playing) && (
-          <NowPlaying userMode={this.state.userMode} />
+          <NowPlaying
+            currSong={this.state.queue[this.state.queuePos]}
+            userMode={this.state.userMode}
+            next={this.next}
+            prev={this.prev}
+          />
         )}
 
+        <Content
+          contentContainerStyle={{
+            justifyContent: "flex-start",
+            paddingTop: 20
+          }}
+        >
+          <List
+            dataArray={this._filterQueue(this.state.queue)}
+            renderRow={song => this._renderSong(song)}
+            style={{ paddingLeft: -40 }}
+          />
+        </Content>
         <Content>
           <QList items={this._renderItem(parties)} />
         </Content>
@@ -297,10 +380,14 @@ export default class QHome extends Component {
               })
             }
             done={selected => {
+              var i = Object.keys(this.state.queue);
+              var copy = this.state.queue;
+              copy[i] = selected;
+              console.log(JSON.stringify(selected));
               this.setState({
-                qsearchVisible: !this.state.qsearchVisible
+                qsearchVisible: !this.state.qsearchVisible,
+                queue: copy
               });
-              console.log("ADDED NEW SONG TO QUEUE: " + selected.name);
             }}
           />
         </QModal>
