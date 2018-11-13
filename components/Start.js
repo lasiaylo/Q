@@ -39,7 +39,10 @@ class Start extends Component {
           this.setState({ spotifyInitialized: true });
           // handle initialization
           if (loggedIn) {
-            this.navigation.navigate("Choose");
+            Spotify.getMe().then(({ display_name, id, images}) => {
+              const profile = { name: display_name, id, image: images[0].url }
+              this.navigation.navigate("Choose", {profile});
+            });
           }
         })
         .catch(error => {

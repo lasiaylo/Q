@@ -46,7 +46,9 @@ export default class Choose extends Component {
   }
 
   componentDidMount() {
-    this.manager = new PartyManager("user1");
+    const { id, name, image } = this.navigation.getParam("profile", "");
+    this.manager = new PartyManager(id);
+    this.manager.makeUser(id, name, image);
   }
 
   goHome(userMode, partyID) {
