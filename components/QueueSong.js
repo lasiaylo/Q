@@ -17,13 +17,27 @@ import {
 import style from "../style/style";
 import colors from "../style/colors";
 import { FloatingAction } from "react-native-floating-action";
+import Spotify from "rn-spotify-sdk";
+
+const songTypes = ["album", "artist", "track"];
 
 export default class QueueSong extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      reaady: false
+      reaady: false,
+      song: "",
+      query: ""
     };
+  }
+  async textToQuery() {
+    this.setState({ song: this.state.song.split(" ").join("%20") });
+    this.setState({ query: "q=" + this.state.song });
+
+    let a = Spotify.search(this.query, songTypes);
+    console.log(a);
+    let b = await a;
+    console.log(b);
   }
   render() {
     return (
@@ -52,6 +66,15 @@ export default class QueueSong extends Component {
               placeholderTextColor="white"
               light
               placeholder="Search on spotify"
+              onChangeText={text => {
+                //console.log(text);
+                this.setState({ song: text });
+              }}
+              onEndEditing={() => {
+                this.textToQuery();
+                console.log(this.state.song);
+                console.log(this.state.query);
+              }}
             />
           </Item>
         </Content>

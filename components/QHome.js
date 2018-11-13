@@ -222,7 +222,7 @@ export default class QHome extends Component {
           <QList items={this._renderItem(parties)} />
         </Content>
         {this.state.userMode === "host" ? (
-          this.state.inLP ? (
+          !this.props.tabbed ? (
             <FloatingAction
               openOnMount={true}
               color={colors.purple}
@@ -240,13 +240,16 @@ export default class QHome extends Component {
               color={colors.purple}
               showBackground={false}
               overlayColor="rgba(0, 0, 0, 0.0)"
+              iconWidth={35}
+              iconHeight={35}
+              floatingIcon={require("../assets/icons/add.png")}
               onPressMain={() => {
                 this.setState({ createLPVis: true });
               }}
               distanceToEdge={20}
             />
           )
-        ) : this.state.inLP ? (
+        ) : !this.props.tabbed ? (
           <FloatingAction
             color={colors.green}
             showBackground={false}
@@ -264,6 +267,9 @@ export default class QHome extends Component {
             color={colors.green}
             showBackground={false}
             overlayColor="rgba(0, 0, 0, 0.0)"
+            iconWidth={35}
+            iconHeight={35}
+            floatingIcon={require("../assets/icons/add.png")}
             onPressMain={() => {
               this.setState({ joinQRVis: true });
             }}
@@ -325,24 +331,27 @@ export default class QHome extends Component {
           height={(this.height * 1) / 2}
           width={this.width}
           color={colors.green}
-          toggleVis={this.toggleJoinVis}
+          toggleVis={() => this.setState({ joinQRVis: !this.state.joinQRVis })}
         >
           <JoinQR
             done={() => {
               this.toggleJoinVis();
               this.goHome("listen", 1234);
             }}
-            cancelClose={this.toggleJoinVis}
+            cancelClose={() => {
+              this.setState({ joinQRVis: !this.state.joinQRVis });
+            }}
           />
         </QModal>
 
         <QModal
-          id="small create LP"
           visible={this.state.createLPVis}
           height={(this.height * 1) / 4}
           width={this.width}
           color={colors.gray}
-          toggleVis={this.toggleCreateVis}
+          toggleVis={() =>
+            this.setState({ createLPVis: !this.state.createLPVis })
+          }
         >
           <CreateLP
             done={() => {
@@ -351,16 +360,12 @@ export default class QHome extends Component {
                 this.goHome("host", partyID)
               );
             }}
-            cancelClose={this.toggleCreateVis}
+            cancelClose={() =>
+              this.setState({ createLPVis: !this.state.createLPVis })
+            }
           />
         </QModal>
       </Container>
     );
   }
 }
-// };
-
-//   ({ navigation }) => {
-//   console.log(navigation);
-//   const { params } = navigation.state;
-//   return
