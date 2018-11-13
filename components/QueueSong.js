@@ -11,6 +11,9 @@ import {
   Left,
   Body,
   ListItem,
+  List,
+  Thumbnail,
+  Subtitle,
   Input,
   Item
 } from "native-base";
@@ -18,11 +21,9 @@ import style from "../style/style";
 import colors from "../style/colors";
 import { FloatingAction } from "react-native-floating-action";
 import QList from "./reuse/QList";
+import SearchResult from "./SearchResult";
 import Spotify from "rn-spotify-sdk";
 import * as _ from "lodash";
-
-const FILL_AVATAR =
-  "https://lh6.googleusercontent.com/k1N3NsI_W9iKZK8H5wuQZBO50koFIzerKvthQFE2fsLs9HpWfss0-VNit7Z8nJ9gPitoWavQWpTVQzE_pOny=w2880-h1544";
 
 // const songTypes = ["album", "artist", "track"];
 const songTypes = ["track"];
@@ -31,7 +32,7 @@ export default class QueueSong extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selected: {},
+      selectedResult: {},
       song: "",
       searchResults: []
     };
@@ -66,32 +67,10 @@ export default class QueueSong extends Component {
   makeResult(song) {
     console.log("makeResult called for: " + song.name);
     return (
-      <ListItem
-        icon
-        onPress={() => {
-          if (this.state.selected == song) {
-            this.setState({ selected: {} });
-          } else {
-            this.setState({ selected: song });
-          }
-        }}
-      >
-        <Left>
-          <Thumbnail
-            small
-            source={{ uri: FILL_AVATAR }}
-            style={{ backGroundColor: song.color }}
-          />
-        </Left>
-        <Body>
-          <Title>
-            <Text style={[style.nowPlaying]}>{song.name}</Text>
-          </Title>
-          <Subtitle style={[style.nowPlaying, { opacity: 0.73 }]}>
-            {song.artists.join(", ")}
-          </Subtitle>
-        </Body>
-      </ListItem>
+      <SearchResult
+        song={song}
+        callback={s => this.setState({ selected: s })}
+      />
     );
   }
 
@@ -111,7 +90,10 @@ export default class QueueSong extends Component {
             </Button>
           </Right>
         </Header>
-        <Content style={{ paddingLeft: 15, paddingRight: 15, height: 35 }}>
+        <Header
+          transparent
+          style={{ paddingLeft: 15, paddingRight: 15, height: 35 }}
+        >
           <Item rounded>
             <Icon style={{ color: "white" }} light active name="search" />
             <Input
@@ -127,6 +109,8 @@ export default class QueueSong extends Component {
               }}
             />
           </Item>
+        </Header>
+        <Content>
           <List
             dataArray={this.state.searchResults}
             renderRow={song => this.makeResult(song)}
@@ -135,14 +119,10 @@ export default class QueueSong extends Component {
         {!_.isEmpty(this.state.selected) && (
           <FloatingAction
             color={colors.white}
-            onPressMain={this.props.done}
+            onPressMain={() => this.props.done(this.state.selected)}
             showBackground={false}
             overlayColor="rgba(0, 0, 0, 0.0)"
-            floatingIcon={
-              this.props.theme === "gray"
-                ? require("../assets/icons/done_gray.png")
-                : require("../assets/icons/done_green.png")
-            }
+            floatingIcon={require("../assets/icons/done_green.png")}
             iconWidth={25}
             iconHeight={25}
             distanceToEdge={20}
