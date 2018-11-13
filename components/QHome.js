@@ -293,11 +293,12 @@ export default class QHome extends Component {
                 qsearchVisible: !this.state.qsearchVisible
               })
             }
-            done={() =>
+            done={selected => {
               this.setState({
                 qsearchVisible: !this.state.qsearchVisible
-              })
-            }
+              });
+              console.log("ADDED NEW SONG TO QUEUE: " + selected.name);
+            }}
           />
         </QModal>
 
