@@ -46,26 +46,6 @@ class PartyManager {
     })
   }
 
-  getParty(type, callback) {
-    this.ref.child(`users/${this.uid}`).on("value", child => {
-      const partyIDs = Object.keys(child.val()[`${type}Parties`]);
-      const buffer = [];
-
-      partyIDs.forEach(party => {
-        const partyRef = this.ref.child(`parties/${party}/meta`);
-        partyRef.once("value").then(snapshot => {
-          const { date, icon, name, songs } = snapshot.val();
-          buffer.push({
-            date,
-            icon,
-            name,
-            songs
-          });
-          callback(buffer);
-        });
-      });
-    });
-  }
 
   addMember(uid, partyID, callback) {
     const updates = {};
@@ -93,11 +73,26 @@ class PartyManager {
           date: format,
           songs: 0
         },
-        songs: true
+        songs: {"THINGS": "THAT", "ANOTHERSONG": "ASDALKJ"}
       })
       .then(() =>
         this.addHost(this.uid, partyRef.key, () => callback(partyRef.key))
       );
+  }
+
+  getParty(type, callback) {
+    this.ref.child(`users/${this.uid}`).on("value", child => {
+      const partyIDs = Object.keys(child.val()[`${type}Parties`]);
+      const buffer = [];
+
+      partyIDs.forEach(party => {
+        const partyRef = this.ref.child(`parties/${party}/meta`);
+        partyRef.once("value").then(snapshot => {
+          buffer.push(snapshot.val());
+          callback(buffer);
+        });
+      });
+    });
   }
 
   joinParty(partyID, callback) {
@@ -106,14 +101,25 @@ class PartyManager {
 
   getSongs(partyID, callback) {
     this.ref.child(`parties/${partyID}/songs`).on("value", child => {
-      console.log(child);
+      callback(child.val())
     });
   }
 
   addSong(song, partyID, callback) {
-
+    song.color = "black";
+    const partyRef = this.ref.child(`parties/${partyID}/`);
+    partyRef.child('length').once("value", child => {
+      if (child.val() == null) {
+        partyRef.child('length').set(1);
+      } else {
+        partyRef.child('length').set(child.val() + 1);
+      }
+      const updates = {};
+      updates[`parties/${partyID}/songs/${child.val() + 1}`] = song;
+      this.ref.update(updates).then(callback());
+      callback();
+    });
   }
-
 }
 
 export default PartyManager;

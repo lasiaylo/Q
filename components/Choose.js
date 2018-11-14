@@ -36,8 +36,7 @@ export default class Choose extends Component {
     this.state = {
       joinQRVis: false,
       createLPVis: false,
-      listenParties: [],
-      hostParties: []
+      songs: []
     };
 
     this.toggleJoinVis = this.toggleJoinVis.bind(this);
@@ -52,11 +51,17 @@ export default class Choose extends Component {
   }
 
   goHome(userMode, partyID) {
-    console.log("\ngoHome: " + userMode + " " + partyID);
-    this.navigation.navigate("QHome", {
-      qHeader: navStyle[userMode + "Header"],
-      userMode: userMode,
-      partyID: partyID
+    partyID = "AAAA";
+    this.manager.getSongs(partyID, songs => {
+      console.log("YOOOOO", songs);
+      this.setState({songs}, () => {
+        this.navigation.navigate("QHome", {
+          qHeader: navStyle[userMode + "Header"],
+          userMode: userMode,
+          songs: this.state.songs,
+          manager: this.manager,
+        });
+      });
     });
   }
 
