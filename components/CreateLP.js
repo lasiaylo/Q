@@ -28,7 +28,7 @@ class CreateLP extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      partyName: "New LP",
+      partyName: "Nameless Queue",
       tempName: "",
       editing: false
     };

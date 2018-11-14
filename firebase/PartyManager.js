@@ -38,10 +38,40 @@ class PartyManager {
     this.ref.child(`users/${uid}`).once("value", child => {
       if (child.val() == null) {
         const updates = {};
-        updates[`users/${uid}/profile/user`] = "ASDSAD";
+]
+        // updates[`users/${uid}/profile/user`] = "ASDSAD";
+        
+        updates[`users/${uid}/profile/user`] = name;
         // updates[`users/${uid}/profile/userIcon`] = image;
         this.ref.update(updates);
       }
+    });
+  }
+
+  newUser(uid, callback) {
+    this.ref.child(`users/${uid}`).once("value", function(snapshot) {
+      callback(!snapshot.exists());
+    });
+  }
+
+  getParty(type, callback) {
+    this.ref.child(`users/${this.uid}`).on("value", child => {
+      const partyIDs = Object.keys(child.val()[`${type}Parties`]);
+      const buffer = [];
+
+      partyIDs.forEach(party => {
+        const partyRef = this.ref.child(`parties/${party}/meta`);
+        partyRef.once("value").then(snapshot => {
+          const { date, icon, name, songs } = snapshot.val();
+          buffer.push({
+            date,
+            icon,
+            name,
+            songs
+          });
+          callback(buffer);
+        });
+      });
     });
   }
 

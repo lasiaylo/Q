@@ -6,6 +6,7 @@ import { Row, Grid } from "react-native-easy-grid";
 import style from "../style/style";
 import QButton from "./reuse/QButton";
 import Spotify from "rn-spotify-sdk";
+import PartyManager from "../firebase/PartyManager";
 
 class Start extends Component {
   constructor(props) {
@@ -17,9 +18,7 @@ class Start extends Component {
     );
   }
   componentDidMount() {
-    // initialize Spotify if it hasn't been initialized yet
     if (!Spotify.isInitialized()) {
-      // initialize spotify
       var spotifyOptions = {
         clientID: "9644c9ae58d4469e8358562fadd90aaf",
         sessionUserDefaultsKey: "SpotifySession",
@@ -35,13 +34,25 @@ class Start extends Component {
       };
       Spotify.initialize(spotifyOptions)
         .then(loggedIn => {
-          // update UI state
           this.setState({ spotifyInitialized: true });
-          // handle initialization
           if (loggedIn) {
-            Spotify.getMe().then(({ display_name, id, images}) => {
-              const profile = { name: display_name, id, image: images[0].url }
-              this.navigation.navigate("Choose", {profile});
+            Spotify.getMe().then(({ display_name, id, images }) => {
+              // console.log("YOUR ID: ", id);
+
+              const profile = { name: display_name, id, image: images[0].url };
+              // var manager = new PartyManager(id);
+              // manager.newUser(id, ye => {
+              //   if (ye) {
+              //     this.navigation.navigate("Choose", { profile });
+              //   } else {
+              //     this.navigation.navigate("DashHome", {
+              //       userMode: "listen",
+              //       profile,
+              //       tabbed: true
+              //     });
+              //   }
+              // });
+              this.navigation.navigate("Choose", { profile });
             });
           }
         })
@@ -56,7 +67,10 @@ class Start extends Component {
       });
       // handle logged in
       if (Spotify.isLoggedIn()) {
-        this.navigation.navigate("Choose");
+        Spotify.getMe().then(({ display_name, id, images }) => {
+          const profile = { name: display_name, id, image: images[0].url };
+          this.navigation.navigate("DashHome", { userMode: "listen", profile });
+        });
       }
     }
   }

@@ -33,6 +33,7 @@ import navStyle from "../style/navStyle";
 import { FloatingAction } from "react-native-floating-action";
 import SongList from "./SongList";
 import colors from "../style/colors";
+import PartyManager from "../firebase/PartyManager";
 
 const listenActions = [{}];
 
@@ -96,15 +97,15 @@ export default class QHome extends Component {
     super(props);
     this.navigation = props.navigation;
     const { params, routeName } = this.navigation.state;
-    const userMode = this.navigation.getParam("userMode", "listen");
-
+    const { partyID, userMode, profile } = params;
+    console.log("\n\n TABBED IS not: " + !this.props.tabbed);
     this.state = {
+      profile: profile,
       qsearchVisible: false,
       shareVisible: false,
       settingsVisible: false,
       playing: false,
-      inLP: true,
-      homeTitle: "placeholder",
+      homeTitle: "",
       userMode: userMode ? userMode : routeName,
       joinQRVis: false,
       createLPVis: false,
@@ -184,6 +185,27 @@ export default class QHome extends Component {
     );
   }
 
+  componentDidMount() {
+    const partyID = this.navigation.getParam("partyID", "");
+    const userMode = this.navigation.getParam("userMode", "listen");
+    this.manager = new PartyManager(this.state.profile.id);
+    const parties = this.navigation.getParam(`${userMode}Parties`, []);
+    if (this.props.tabbed) {
+      console.log("fuck me right????");
+      this.setState({
+        homeTitle: userMode == "host" ? "Hosted Parties" : "Listening Parties"
+      });
+      this.manager.getParty("listening", listenParties => {
+        this.setState({ listenParties });
+        console.log("Listener parties: ", listenParties);
+      });
+      this.manager.getParty("hosted", hostParties => {
+        this.setState({ hostParties });
+        console.log("Hosted parties: ", hostParties);
+      });
+    }
+  }
+
   next(callback, enable) {
     console.log("next called on pos: " + this.state.queuePos);
     console.log(
@@ -245,12 +267,16 @@ export default class QHome extends Component {
             style[this.state.userMode + "Header"],
             {
               minWidth: this.width,
-              minHeight: this.height * 0.095
+              minHeight: this.height * 0.125
             }
           ]}
         >
-          <Container style={style[this.state.userMode + "Header"]}>
-            <Content>
+          <Container style={[style[this.state.userMode + "Header"]]}>
+            <Content
+              sylte={{
+                minHeight: this.height * 0.15
+              }}
+            >
               <Grid>
                 <Row
                   style={{
@@ -259,14 +285,13 @@ export default class QHome extends Component {
                     justifyContent: "center"
                   }}
                 >
-                  {!this.props.tabbed && (
+                  {(!this.props.tabbed ||
+                    this.navigation.state.routeName == "QHome") && (
                     <Button
                       icon
                       light
                       transparent
-                      onPress={() =>
-                        this.navigation.navigate("DashHome", this.navProps())
-                      }
+                      onPress={() => this.navigation.navigate("Choose")}
                       style={{
                         position: "absolute",
                         left: 5,
@@ -297,6 +322,7 @@ export default class QHome extends Component {
           </Container>
         </View>
         {PLAYING}
+
 
         <Content
           contentContainerStyle={{
