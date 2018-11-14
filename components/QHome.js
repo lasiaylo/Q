@@ -33,6 +33,7 @@ import navStyle from "../style/navStyle";
 import { FloatingAction } from "react-native-floating-action";
 import SongView from "./SongView";
 import colors from "../style/colors";
+import PartyManager from "../firebase/PartyManager";
 
 const listenActions = [{}];
 
@@ -103,15 +104,15 @@ export default class QHome extends Component {
     super(props);
     this.navigation = props.navigation;
     const { params, routeName } = this.navigation.state;
-    const { partyID, userMode } = params;
-
+    const { partyID, userMode, profile } = params;
+    console.log("\n\n TABBED IS not: " + !this.props.tabbed);
     this.state = {
+      profile: profile,
       qsearchVisible: false,
       shareVisible: false,
       settingsVisible: false,
       playing: false,
-      inLP: true,
-      homeTitle: "placeholder",
+      homeTitle: "",
       userMode: userMode ? userMode : routeName,
       joinQRVis: false,
       createLPVis: false,
@@ -211,6 +212,27 @@ export default class QHome extends Component {
     );
   }
 
+  componentDidMount() {
+    const partyID = this.navigation.getParam("partyID", "");
+    const userMode = this.navigation.getParam("userMode", "listen");
+    this.manager = new PartyManager(this.state.profile.id);
+    const parties = this.navigation.getParam(`${userMode}Parties`, []);
+    if (this.props.tabbed) {
+      console.log("fuck me right????");
+      this.setState({
+        homeTitle: userMode == "host" ? "Hosted Parties" : "Listening Parties"
+      });
+      this.manager.getParty("listening", listenParties => {
+        this.setState({ listenParties });
+        console.log("Listener parties: ", listenParties);
+      });
+      this.manager.getParty("hosted", hostParties => {
+        this.setState({ hostParties });
+        console.log("Hosted parties: ", hostParties);
+      });
+    }
+  }
+
   next(callback, enable) {
     console.log("next called on pos: " + this.state.queuePos);
     if (this.state.queuePos < Object.keys(this.state.queue).length - 1) {
@@ -244,12 +266,16 @@ export default class QHome extends Component {
             style[this.state.userMode + "Header"],
             {
               minWidth: this.width,
-              minHeight: this.height * 0.095
+              minHeight: this.height * 0.125
             }
           ]}
         >
-          <Container style={style[this.state.userMode + "Header"]}>
-            <Content>
+          <Container style={[style[this.state.userMode + "Header"]]}>
+            <Content
+              sylte={{
+                minHeight: this.height * 0.15
+              }}
+            >
               <Grid>
                 <Row
                   style={{
@@ -258,14 +284,13 @@ export default class QHome extends Component {
                     justifyContent: "center"
                   }}
                 >
-                  {!this.props.tabbed && (
+                  {(!this.props.tabbed ||
+                    this.navigation.state.routeName == "QHome") && (
                     <Button
                       icon
                       light
                       transparent
-                      onPress={() =>
-                        this.navigation.navigate("DashHome", this.navProps())
-                      }
+                      onPress={() => this.navigation.navigate("Choose")}
                       style={{
                         position: "absolute",
                         left: 5,
@@ -295,7 +320,7 @@ export default class QHome extends Component {
             </Content>
           </Container>
         </View>
-        {(this.state.inLP || this.state.playing) && (
+        {(!this.props.tabbed || this.state.playing) && (
           <NowPlaying
             currSong={this.state.queue[this.state.queuePos]}
             userMode={this.state.userMode}
@@ -315,9 +340,6 @@ export default class QHome extends Component {
             renderRow={song => this._renderSong(song)}
             style={{ paddingLeft: -40 }}
           />
-        </Content>
-        <Content>
-          <QList items={this._renderItem(parties)} />
         </Content>
         {this.state.userMode === "host" ? (
           !this.props.tabbed ? (

@@ -32,18 +32,23 @@ class PartyManager {
 
     this.uid = uid;
     this.ref = firebase.database().ref();
-
   }
 
   makeUser(uid, name, image) {
-    this.ref.child(`users/${uid}`).once('value', (child) => {
+    this.ref.child(`users/${uid}`).once("value", child => {
       if (child.val() == null) {
-        const updates =  {};
+        const updates = {};
         updates[`users/${uid}/profile/user`] = name;
         updates[`users/${uid}/profile/userIcon`] = image;
         this.ref.update(updates);
       }
-    })
+    });
+  }
+
+  newUser(uid, callback) {
+    this.ref.child(`users/${uid}`).once("value", function(snapshot) {
+      callback(!snapshot.exists());
+    });
   }
 
   getParty(type, callback) {
@@ -82,7 +87,7 @@ class PartyManager {
   }
 
   makeParty(name, callback) {
-    const date = new Date()
+    const date = new Date();
     const format = dateFormat(date, "mm.dd.yy").toString();
     const partyRef = this.ref.child("parties").push();
 
@@ -101,7 +106,7 @@ class PartyManager {
   }
 
   joinParty(partyID, callback) {
-    this.addMember(this.uid, partyID, (partyID) => callback());
+    this.addMember(this.uid, partyID, partyID => callback());
   }
 
   getSongs(partyID, callback) {
@@ -110,10 +115,7 @@ class PartyManager {
     });
   }
 
-  addSong(song, partyID, callback) {
-
-  }
-
+  addSong(song, partyID, callback) {}
 }
 
 export default PartyManager;

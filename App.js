@@ -7,6 +7,8 @@ import Choose from "./components/Choose";
 import QHome from "./components/QHome";
 import DashHome from "./components/DashHome";
 
+console.disableYellowBox = true;
+
 export default class App extends Component {
   constructor(props) {
     super(props);

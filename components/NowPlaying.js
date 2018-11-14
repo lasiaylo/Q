@@ -38,8 +38,10 @@ export default class NowPlaying extends Component {
 
   componentDidMount() {
     Spotify.getMe().then(result => {
-      this.setState({ playing: true });
-      this.play(this.state.currSong);
+      if (this.userMode === "host") {
+        this.setState({ playing: true });
+        this.play(this.state.currSong);
+      }
     });
     Spotify.addListener("trackDelivered", result => {
       this.skip();
@@ -107,7 +109,11 @@ export default class NowPlaying extends Component {
           >
             <Left>
               <Body>
-                <Text style={[style.nowPlaying, style.songText]}>
+                <Text
+                  ellipsizeMode={"tail"}
+                  numberOfLines={1}
+                  style={[style.nowPlaying, style.songText]}
+                >
                   {this.state.currName}
                 </Text>
                 <Text style={[style.nowPlaying, style.artistText]} light note>

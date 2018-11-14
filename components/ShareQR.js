@@ -15,10 +15,10 @@ import {
   Row
 } from "native-base";
 
-const ShareQR = ({ action, partyID }) => (
+const ShareQR = ({ action, partyID, partyName }) => (
   <Container>
     <Header style={[style.listenHeader]}>
-      <Text style={[style.qrHeader]}>Join LP NAME</Text>
+      <Text style={[style.qrHeader]}>Join {partyName}</Text>
       <Right>
         <Button transparent onPress={action}>
           <Icon name="md-close" style={[style.white]} />

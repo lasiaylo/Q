@@ -53,10 +53,12 @@ export default class Choose extends Component {
 
   goHome(userMode, partyID) {
     console.log("\ngoHome: " + userMode + " " + partyID);
+    const profile = this.navigation.getParam("profile", "");
     this.navigation.navigate("QHome", {
       qHeader: navStyle[userMode + "Header"],
       userMode: userMode,
-      partyID: partyID
+      partyID: partyID,
+      profile: profile
     });
   }
 
