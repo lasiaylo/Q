@@ -117,8 +117,8 @@ export default class QHome extends Component {
       joinQRVis: false,
       createLPVis: false,
       party: null,
-      queue: fakeQueue,
-      queuePos: 1,
+      queue: [],
+      queuePos: 0,
       parties: []
     };
     this.width = Dimensions.get("window").width;
@@ -222,14 +222,14 @@ export default class QHome extends Component {
       this.setState({
         homeTitle: userMode == "host" ? "Hosted Parties" : "Listening Parties"
       });
-      this.manager.getParty("listening", listenParties => {
-        this.setState({ listenParties });
-        console.log("Listener parties: ", listenParties);
-      });
-      this.manager.getParty("hosted", hostParties => {
-        this.setState({ hostParties });
-        console.log("Hosted parties: ", hostParties);
-      });
+      // this.manager.getParty("listening", listenParties => {
+      //   this.setState({ listenParties });
+      //   console.log("Listener parties: ", listenParties);
+      // });
+      // this.manager.getParty("hosted", hostParties => {
+      //   this.setState({ hostParties });
+      //   console.log("Hosted parties: ", hostParties);
+      // });
     }
   }
 
