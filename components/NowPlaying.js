@@ -39,14 +39,16 @@ export default class NowPlaying extends Component {
       manager: this.props.manager
     };
     this.play = this.play.bind(this);
+    console.log("USERMODE", this.userMode);
     if (this.userMode === "listen") {
-      this.state.manager.getPos(this.partyID, pos => {
-        // this.setState({ refresh: !this.state.refresh });
+      console.log("THINGS ARE FALLING APART")
+      this.props.manager.getPos(this.partyID, pos => {
+        console.log("LISTENING", pos);
+        console.log("QUEUE", this.props.queue);
+        console.log("CURRSONG", this.props.queue[pos]);
         this.setState({ queuePos: pos });
-        this.setState({ currSong: this.state.queue[this.state.queuePos] });
-        // if (this.userMode != "host") {
-        //   this.child.current.play(this.state.queue[this.state.queuePos], false);
-        // }
+        this.setState({ currSong: this.props.queue[pos] });
+
       });
     }
   }
@@ -128,10 +130,10 @@ export default class NowPlaying extends Component {
                   numberOfLines={1}
                   style={[style.nowPlaying, style.songText]}
                 >
-                  {this.state.currName}
+                  {this.props.currSong.name}
                 </Text>
                 <Text style={[style.nowPlaying, style.artistText]} light note>
-                  {this.state.currArtist}
+                  {this.props.currSong.artists[0]}
                 </Text>
               </Body>
             </Left>
