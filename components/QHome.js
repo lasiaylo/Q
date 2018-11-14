@@ -339,7 +339,8 @@ export default class QHome extends Component {
             renderRow={song => this._renderSong(song)}
             style={{ paddingLeft: -40 }}
           />
-          {this.state.queue.length === 0 && (
+          {this._filterQueue(this.state.queue, this.state.queuePos).length ===
+            0 && (
             <Container
               style={{
                 backgroundColor: "rgba(0,0,0,0)",
