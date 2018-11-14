@@ -326,6 +326,8 @@ export default class QHome extends Component {
               prev={this.prev}
               refr={this.state.refresh}
               ref={this.child}
+              partyID={this.state.partyID}
+              manager={this.state.manager}
             />
           )}
         <Content

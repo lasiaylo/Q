@@ -34,9 +34,21 @@ export default class NowPlaying extends Component {
       currArtist: this.props.currSong.artists[0],
       canSkip: true,
       canBack: true,
-      refresh: this.props.refresh
+      refresh: this.props.refresh,
+      partyID: this.props.partyID,
+      manager: this.props.manager
     };
     this.play = this.play.bind(this);
+    if (this.userMode === "listen") {
+      this.state.manager.getPos(this.partyID, pos => {
+        // this.setState({ refresh: !this.state.refresh });
+        this.setState({ queuePos: pos });
+        this.setState({ currSong: this.state.queue[this.state.queuePos] });
+        // if (this.userMode != "host") {
+        //   this.child.current.play(this.state.queue[this.state.queuePos], false);
+        // }
+      });
+    }
   }
 
   componentDidMount() {
