@@ -76,7 +76,7 @@ export default class QHome extends Component {
       shareVisible: false,
       settingsVisible: false,
       playing: false,
-      homeTitle: "",
+      homeTitle: params.homeTitle,
       userMode: userMode ? userMode : routeName,
       joinQRVis: false,
       createLPVis: false,
@@ -172,24 +172,28 @@ export default class QHome extends Component {
   }
 
   componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", function() {
+      this.navigation.navigate("Choose");
+      return true;
+    });
     const partyID = this.navigation.getParam("partyID", "");
     const userMode = this.navigation.getParam("userMode", "listen");
     const manager = this.navigation.getParam("manager", null);
     const parties = this.navigation.getParam(`${userMode}Parties`, []);
-    if (this.props.tabbed) {
-      console.log("fuck me right????");
-      this.setState({
-        homeTitle: userMode == "host" ? "Hosted Parties" : "Listening Parties"
-      });
-      // this.manager.getParty("listening", listenParties => {
-      //   this.setState({ listenParties });
-      //   console.log("Listener parties: ", listenParties);
-      // });
-      // this.manager.getParty("hosted", hostParties => {
-      //   this.setState({ hostParties });
-      //   console.log("Hosted parties: ", hostParties);
-      // });
-    }
+    // if (this.props.tabbed) {
+    //   console.log("fuck me right????");
+    //   this.setState({
+    //     homeTitle: userMode == "host" ? "Hosted Parties" : "Listening Parties"
+    //   });
+    // this.manager.getParty("listening", listenParties => {
+    //   this.setState({ listenParties });
+    //   console.log("Listener parties: ", listenParties);
+    // });
+    // this.manager.getParty("hosted", hostParties => {
+    //   this.setState({ hostParties });
+    //   console.log("Hosted parties: ", hostParties);
+    // });
+    // }
     manager.updatePos(0, partyID, () => console.log("init queue pos"));
   }
 
@@ -256,7 +260,7 @@ export default class QHome extends Component {
             style[this.state.userMode + "Header"],
             {
               minWidth: this.width,
-              minHeight: this.height * 0.125
+              minHeight: this.height * 0.12
             }
           ]}
         >
@@ -275,7 +279,7 @@ export default class QHome extends Component {
                   }}
                 >
                   {(!this.props.tabbed ||
-                    this.navigation.state.routeName == "QHome") && (
+                    this.navigation.state.routeName == "Choose") && (
                     <Button
                       icon
                       light
@@ -284,7 +288,7 @@ export default class QHome extends Component {
                       style={{
                         position: "absolute",
                         left: 5,
-                        paddingTop: StatusBar.currentHeight + 25
+                        paddingTop: StatusBar.currentHeight + 30
                       }}
                     >
                       <Icon
@@ -298,7 +302,7 @@ export default class QHome extends Component {
                   )}
                   <Text
                     style={[
-                      { paddingTop: StatusBar.currentHeight + 5 },
+                      { paddingTop: StatusBar.currentHeight + 12 },
                       style.headerTitle,
                       style[this.state.userMode + "HeaderText"]
                     ]}
@@ -335,6 +339,47 @@ export default class QHome extends Component {
             renderRow={song => this._renderSong(song)}
             style={{ paddingLeft: -40 }}
           />
+          {this.state.queue.length === 0 && (
+            <Container
+              style={{
+                backgroundColor: "rgba(0,0,0,0)",
+                minHeight: this.height,
+                alignItems: "center"
+              }}
+              contentContainerStyle={{
+                alignContent: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Content
+                style={{
+                  backgroundColor: "rgba(0,0,0,0)",
+                  minHeight: this.height
+                }}
+                contentContainerStyle={{
+                  alignContent: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Text
+                  style={[
+                    style.nowPlaying,
+
+                    {
+                      flex: 1,
+                      fontSize: 22,
+                      opacity: 0.6,
+                      margin: "auto",
+                      width: 0.8 * this.width
+                    }
+                  ]}
+                >
+                  No songs... Click the action button to add a song to the
+                  queue!
+                </Text>
+              </Content>
+            </Container>
+          )}
         </Content>
         {this.state.userMode === "host" ? (
           !this.props.tabbed ? (
@@ -457,7 +502,7 @@ export default class QHome extends Component {
           <JoinQR
             done={partyID => {
               this.toggleJoinVis();
-              this.goHome("listen", partyID);
+              this.goHome("listen", partyID, partyID);
             }}
             cancelClose={() => {
               this.setState({ joinQRVis: !this.state.joinQRVis });
@@ -475,10 +520,10 @@ export default class QHome extends Component {
           }
         >
           <CreateLP
-            done={() => {
+            done={name => {
               this.toggleCreateVis();
-              this.manager.makeParty("partyName", partyID =>
-                this.goHome("host", partyID)
+              this.manager.makeParty(name, (partyID, name) =>
+                this.goHome("host", partyID, name)
               );
             }}
             cancelClose={() =>

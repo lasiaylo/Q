@@ -104,7 +104,7 @@ class PartyManager {
         }
       })
       .then(() =>
-        this.addHost(this.uid, partyRef.key, () => callback(partyRef.key))
+        this.addHost(this.uid, partyRef.key, () => callback(partyRef.key, name))
       );
   }
 
