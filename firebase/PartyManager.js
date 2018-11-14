@@ -39,8 +39,8 @@ class PartyManager {
     this.ref.child(`users/${uid}`).once('value', (child) => {
       if (child.val() == null) {
         const updates =  {};
-        updates[`users/${uid}/profile/user`] = name;
-        updates[`users/${uid}/profile/userIcon`] = image;
+        updates[`users/${uid}/profile/user`] = "ASDSAD";
+        // updates[`users/${uid}/profile/userIcon`] = image;
         this.ref.update(updates);
       }
     })
@@ -73,7 +73,6 @@ class PartyManager {
           date: format,
           songs: 0
         },
-        songs: {"THINGS": "THAT", "ANOTHERSONG": "ASDALKJ"}
       })
       .then(() =>
         this.addHost(this.uid, partyRef.key, () => callback(partyRef.key))
@@ -100,23 +99,28 @@ class PartyManager {
   }
 
   getSongs(partyID, callback) {
-    this.ref.child(`parties/${partyID}/songs`).on("value", child => {
-      callback(child.val())
+    this.ref.child(`parties/${partyID}/queue`).on("value", child => {
+      if (child.val() != null) {
+        callback(child.val())
+      }
     });
   }
 
   addSong(song, partyID, callback) {
     song.color = "black";
-    const partyRef = this.ref.child(`parties/${partyID}/`);
-    partyRef.child('length').once("value", child => {
+    const partyRef = this.ref;
+    partyRef.child(`parties/${partyID}/length`).once("value", child => {
+      let index = 0;
       if (child.val() == null) {
-        partyRef.child('length').set(1);
+        partyRef.child(`parties/${partyID}/length`).set(1);
       } else {
-        partyRef.child('length').set(child.val() + 1);
+        partyRef.child(`parties/${partyID}/length`).set(child.val() + 1);
+        index = child.val();
       }
       const updates = {};
-      updates[`parties/${partyID}/songs/${child.val() + 1}`] = song;
-      this.ref.update(updates).then(callback());
+      partyRef.child(`parties/${partyID}/queue/${index}`).set(song);
+      // updates[`songs/${child.val() + 1}`] = song;
+      // partyRef.update(updates).then(callback());
       callback();
     });
   }

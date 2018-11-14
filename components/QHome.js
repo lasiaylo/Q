@@ -96,7 +96,7 @@ export default class QHome extends Component {
     super(props);
     this.navigation = props.navigation;
     const { params, routeName } = this.navigation.state;
-    const { partyID, userMode } = params;
+    const userMode = this.navigation.getParam("userMode", "listen");
 
     this.state = {
       qsearchVisible: false,
@@ -109,8 +109,8 @@ export default class QHome extends Component {
       joinQRVis: false,
       createLPVis: false,
       party: null,
-      queue: fakeQueue,
-      queuePos: 1
+      queue: [],
+      queuePos: 0
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
@@ -118,6 +118,12 @@ export default class QHome extends Component {
     this.settingsHandler = this.settingsHandler.bind(this);
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
+
+    const partyID = this.navigation.getParam("partyID", "");
+    const manager = this.navigation.getParam("manager", null);
+    manager.getSongs(partyID, queue => {
+      this.setState({ queue, playing: true }, console.log(queue));
+    });
   }
 
   hostFAB(name) {
@@ -173,7 +179,14 @@ export default class QHome extends Component {
 
   next(callback, enable) {
     console.log("next called on pos: " + this.state.queuePos);
-    if (this.state.queuePos < Object.keys(this.state.queue).length - 1) {
+    console.log(
+      "LENGTH OF QUEUE TO ME: ",
+      Object.keys(this.state.queue).length - 1
+    );
+    if (
+      this.state.queuePos < Object.keys(this.state.queue).length - 1 ||
+      (Object.keys(this.state.queue).length === 2 && this.state.queuePos === 0)
+    ) {
       callback(this.state.queue[this.state.queuePos + 1]);
       this.setState({
         queuePos: this.state.queuePos + 1,
@@ -195,9 +208,27 @@ export default class QHome extends Component {
 
   render() {
     const userMode = this.navigation.getParam("userMode", "listen");
-    const songs = this.navigation.getParam("songs", []);
     const manager = this.navigation.getParam("manager", null);
     const partyID = this.navigation.getParam("partyID", "");
+    let { queue } = this.state;
+    if (queue == null) {
+      queue = [];
+    } else {
+      queue = Object.values(queue);
+    }
+
+    let PLAYING = null;
+    if (this.state.playing && this.state.queue.length) {
+      PLAYING = (
+        <NowPlaying
+          currSong={this.state.queue[this.state.queuePos]}
+          userMode={this.state.userMode}
+          next={this.next}
+          prev={this.prev}
+        />
+      );
+    }
+
     return (
       <Container style={{ backgroundColor: "#090909" }}>
         <View
@@ -256,14 +287,7 @@ export default class QHome extends Component {
             </Content>
           </Container>
         </View>
-        {(this.state.inLP || this.state.playing) && (
-          <NowPlaying
-            currSong={this.state.queue[this.state.queuePos]}
-            userMode={this.state.userMode}
-            next={this.next}
-            prev={this.prev}
-          />
-        )}
+        {PLAYING}
 
         <Content
           contentContainerStyle={{
@@ -272,7 +296,7 @@ export default class QHome extends Component {
           }}
         >
           <SongList
-            songs={Object.values(fakeQueue)}
+            songs={queue}
             style={{ paddingLeft: -40 }}
             pos={this.state.queuePos}
           />
@@ -354,14 +378,12 @@ export default class QHome extends Component {
               let copy = this.state.queue;
               copy[i] = selected;
               console.log("SELECTED", JSON.stringify(selected));
-              manager.addSong(
-                selected,
-                partyID,
-                () => this.setState({
+              manager.addSong(selected, partyID, () =>
+                this.setState({
                   qsearchVisible: !this.state.qsearchVisible,
-                  queue: copy
                 })
               );
+
             }}
           />
         </QModal>

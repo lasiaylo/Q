@@ -5,13 +5,7 @@ import * as _ from "lodash";
 
 const SongList = ({ songs, style, pos }) => {
   function _filterQueue(queue, pos) {
-    const numSongs = Object.keys(queue).length;
-    const keys = Array.from(
-      new Array(numSongs - pos - 1),
-      (x, i) => i + pos + 1
-    );
-
-    return _.map(keys, key => queue[key]);
+    return queue.slice(pos+1, queue.length + 1);
   }
 
   function _renderSong(song) {
@@ -21,6 +15,12 @@ const SongList = ({ songs, style, pos }) => {
       <SongView name={song.name} artists={song.artists} color={song.color} />
     );
   }
+
+  // let list = [];
+  // if (songs != {}) {
+  //   list = Object.items(songs);
+  // }
+  console.log("SONGS", songs);
 
   return (
     <List

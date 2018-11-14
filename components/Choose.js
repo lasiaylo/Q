@@ -51,17 +51,12 @@ export default class Choose extends Component {
   }
 
   goHome(userMode, partyID) {
-    partyID = "AAAA";
-    this.manager.getSongs(partyID, songs => {
-      console.log("YOOOOO", songs);
-      this.setState({songs}, () => {
-        this.navigation.navigate("QHome", {
-          qHeader: navStyle[userMode + "Header"],
-          userMode: userMode,
-          songs: this.state.songs,
-          manager: this.manager,
-        });
-      });
+    this.navigation.navigate("QHome", {
+      qHeader: navStyle[userMode + "Header"],
+      userMode: userMode,
+      songs: this.state.songs,
+      manager: this.manager,
+      partyID: partyID,
     });
   }
 
