@@ -51,12 +51,13 @@ export default class Choose extends Component {
   }
 
   goHome(userMode, partyID) {
+    console.log("goHOME received id: " + partyID);
     this.navigation.navigate("QHome", {
       qHeader: navStyle[userMode + "Header"],
       userMode: userMode,
       songs: this.state.songs,
       manager: this.manager,
-      partyID: partyID,
+      partyID: partyID
     });
   }
 
@@ -113,7 +114,9 @@ export default class Choose extends Component {
           <JoinQR
             done={partyID => {
               this.toggleJoinVis();
-              this.manager.joinParty(partyID, id => this.goHome("listen", id));
+              this.manager.joinParty(partyID, id =>
+                this.goHome("listen", partyID)
+              );
             }}
             cancelClose={this.toggleJoinVis}
           />

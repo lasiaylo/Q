@@ -5,13 +5,12 @@ import * as _ from "lodash";
 
 const SongList = ({ songs, style, pos }) => {
   function _filterQueue(queue, pos) {
-    return queue.slice(pos+1, queue.length + 1);
+    return queue.slice(pos + 1, queue.length + 1);
   }
 
   function _renderSong(song) {
-    console.log("SONGGGG", song);
+    console.log("SONGGGG", song.color);
     return (
-
       <SongView name={song.name} artists={song.artists} color={song.color} />
     );
   }

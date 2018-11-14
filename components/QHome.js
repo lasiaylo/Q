@@ -119,10 +119,17 @@ export default class QHome extends Component {
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
 
-    const partyID = this.navigation.getParam("partyID", "");
+    this.partyID = this.navigation.getParam("partyID", "");
+    console.log("QHOME RECEIVED ID : " + this.partyID);
     const manager = this.navigation.getParam("manager", null);
-    manager.getSongs(partyID, queue => {
+    manager.getSongs(this.partyID, queue => {
       this.setState({ queue, playing: true }, console.log(queue));
+    });
+    manager.getPos(this.partyID, pos => {
+      this.setState(
+        { queuePos: pos },
+        console.log("queue position updated to: " + pos)
+      );
     });
   }
 
@@ -187,16 +194,18 @@ export default class QHome extends Component {
       this.state.queuePos < Object.keys(this.state.queue).length - 1 ||
       (Object.keys(this.state.queue).length === 2 && this.state.queuePos === 0)
     ) {
-      callback(this.state.queue[this.state.queuePos + 1]);
-      this.setState({
-        queuePos: this.state.queuePos + 1,
-        currSong: this.state.queue[this.state.queuePos + 1]
+      this.manager.updatePos(this.state.queuePos + 1, this.partyID, () => {
+        callback(this.state.queue[this.state.queuePos + 1]);
+        this.setState({
+          queuePos: this.state.queuePos + 1,
+          currSong: this.state.queue[this.state.queuePos + 1]
+        });
+        enable(
+          this.state.queuePos < Object.keys(this.state.queue).length - 2,
+          this.state.queuePos >= 0
+        );
       });
     }
-    enable(
-      this.state.queuePos < Object.keys(this.state.queue).length - 2,
-      this.state.queuePos >= 0
-    );
   }
 
   navProps() {
@@ -374,16 +383,15 @@ export default class QHome extends Component {
               })
             }
             done={selected => {
-              const i = Object.keys(this.state.queue);
+              const i = Object.keys(this.state.queue).length;
               let copy = this.state.queue;
               copy[i] = selected;
               console.log("SELECTED", JSON.stringify(selected));
               manager.addSong(selected, partyID, () =>
                 this.setState({
-                  qsearchVisible: !this.state.qsearchVisible,
+                  qsearchVisible: !this.state.qsearchVisible
                 })
               );
-
             }}
           />
         </QModal>
@@ -421,9 +429,9 @@ export default class QHome extends Component {
           toggleVis={() => this.setState({ joinQRVis: !this.state.joinQRVis })}
         >
           <JoinQR
-            done={() => {
+            done={partyID => {
               this.toggleJoinVis();
-              this.goHome("listen", 1234);
+              this.goHome("listen", partyID);
             }}
             cancelClose={() => {
               this.setState({ joinQRVis: !this.state.joinQRVis });

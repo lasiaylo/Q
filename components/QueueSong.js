@@ -47,6 +47,7 @@ export default class QueueSong extends Component {
       let diet = ({ name, artists, uri }) => {
         artists = artists.map(a => a.name);
         color = this.chooseColor();
+        console.log(color);
         return { name, artists, uri, color };
       };
       results.push(diet(songs[i]));
@@ -61,8 +62,8 @@ export default class QueueSong extends Component {
   }
 
   chooseColor() {
-    // var randomColor = require("randomcolor"); // import the script
-    // return randomColor([0.6, 0.5]); // a hex code for an attractive color
+    var randomColor = require("random-color"); // import the script
+    return randomColor(0.6, 0.85).hexString(); // a hex code for an attractive color
   }
 
   chooseResult(song) {

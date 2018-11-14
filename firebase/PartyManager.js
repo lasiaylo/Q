@@ -32,20 +32,18 @@ class PartyManager {
 
     this.uid = uid;
     this.ref = firebase.database().ref();
-
   }
 
   makeUser(uid, name, image) {
-    this.ref.child(`users/${uid}`).once('value', (child) => {
+    this.ref.child(`users/${uid}`).once("value", child => {
       if (child.val() == null) {
-        const updates =  {};
+        const updates = {};
         updates[`users/${uid}/profile/user`] = "ASDSAD";
         // updates[`users/${uid}/profile/userIcon`] = image;
         this.ref.update(updates);
       }
-    })
+    });
   }
-
 
   addMember(uid, partyID, callback) {
     const updates = {};
@@ -62,7 +60,7 @@ class PartyManager {
   }
 
   makeParty(name, callback) {
-    const date = new Date()
+    const date = new Date();
     const format = dateFormat(date, "mm.dd.yy").toString();
     const partyRef = this.ref.child("parties").push();
 
@@ -71,8 +69,9 @@ class PartyManager {
         meta: {
           name,
           date: format,
-          songs: 0
-        },
+          songs: 0,
+          queuePos: 0
+        }
       })
       .then(() =>
         this.addHost(this.uid, partyRef.key, () => callback(partyRef.key))
@@ -95,19 +94,34 @@ class PartyManager {
   }
 
   joinParty(partyID, callback) {
-    this.addMember(this.uid, partyID, (partyID) => callback());
+    this.addMember(this.uid, partyID, partyID => callback(partyID));
   }
 
   getSongs(partyID, callback) {
     this.ref.child(`parties/${partyID}/queue`).on("value", child => {
       if (child.val() != null) {
-        callback(child.val())
+        callback(child.val());
       }
     });
   }
 
+  updatePos(pos, partyID, callback) {
+    this.ref
+      .child(`parties/${partyID}/pos`)
+      .set(pos)
+      .then(res => callback());
+  }
+
+  getPos(partyID, callback) {
+    this.ref
+      .child(`parties/${partyID}/pos`)
+      .once("value")
+      .then(snapshot => {
+        callback(snapshot.val());
+      });
+  }
+
   addSong(song, partyID, callback) {
-    song.color = "black";
     const partyRef = this.ref;
     partyRef.child(`parties/${partyID}/length`).once("value", child => {
       let index = 0;

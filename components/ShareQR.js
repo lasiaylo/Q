@@ -9,6 +9,7 @@ import {
   Text,
   Right,
   Button,
+  Card,
   Icon,
   Content,
   Grid,
@@ -28,12 +29,21 @@ const ShareQR = ({ action, partyID }) => (
     <Content style={[style.listenHeader]}>
       <Grid>
         <Row style={[style.center, { marginTop: 20 }]}>
-          <QRCode
-            value={partyID}
-            size={250}
-            bgColor={color.gray}
-            fgColor={color.white}
-          />
+          <Card
+            style={{
+              padding: 10,
+              margin: 10,
+              backgroundColor: "white",
+              outlineStyle: "solid",
+              outlineColor: "white",
+              borderColor: "white",
+              borderStyle: "solid",
+              height: 270,
+              width: 270
+            }}
+          >
+            <QRCode value={partyID} size={250} />
+          </Card>
         </Row>
         <Row style={[style.center]}>
           <Text style={[style.qrHeader]}>{`${partyID}`}</Text>
