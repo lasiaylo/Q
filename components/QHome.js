@@ -318,6 +318,7 @@ export default class QHome extends Component {
           this.state.queue.length &&
           this.state.queue[this.state.queuePos] && (
             <NowPlaying
+              id="nowPlaying"
               currSong={this.state.queue[this.state.queuePos]}
               userMode={this.state.userMode}
               queuePos={this.state.queuePos}

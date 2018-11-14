@@ -61,6 +61,7 @@ export default class NowPlaying extends Component {
     Spotify.addListener("trackDelivered", result => {
       this.skip();
     });
+    this.height = document.getElementById("nowPlaying").clientHeight;
   }
 
   async playPause() {
@@ -99,7 +100,7 @@ export default class NowPlaying extends Component {
             square
             large
             source={{ uri: "https://i.imgur.com/RfZvIlj.png" }}
-            style={{ height: "90%", width: "auto" }}
+            style={{ height: this.height * 8, width: this.height * 0.8 }}
           />
         </Left>
         <Card
