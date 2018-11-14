@@ -34,6 +34,7 @@ export default class App extends Component {
   }
 
   render() {
+
     const { fontLoaded } = this.state;
     RootStack = createStackNavigator(
       {
