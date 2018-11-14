@@ -39,7 +39,7 @@ export default class JoinQR extends Component {
   }
 
   onScanned({ data }) {
-    console.log(data);
+    console.log("SCANNED THIS VALUE: " + data);
     this.props.done(data);
     Vibration.vibrate(80);
   }
