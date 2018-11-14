@@ -36,7 +36,8 @@ export default class Choose extends Component {
     this.state = {
       joinQRVis: false,
       createLPVis: false,
-      songs: []
+      songs: [],
+      profile: {}
     };
 
     this.toggleJoinVis = this.toggleJoinVis.bind(this);
@@ -48,16 +49,19 @@ export default class Choose extends Component {
     const { id, name, image } = this.navigation.getParam("profile", "");
     this.manager = new PartyManager(id);
     this.manager.makeUser(id, name, image);
+    this.setState({ profile: { id, name, image } });
   }
 
-  goHome(userMode, partyID) {
+  goHome(userMode, partyID, name) {
     console.log("goHOME received id: " + partyID);
     this.navigation.navigate("QHome", {
       qHeader: navStyle[userMode + "Header"],
       userMode: userMode,
       songs: this.state.songs,
       manager: this.manager,
-      partyID: partyID
+      partyID: partyID,
+      profile: this.state.profile,
+      homeTitle: name
     });
   }
 
@@ -115,7 +119,7 @@ export default class Choose extends Component {
             done={partyID => {
               this.toggleJoinVis();
               this.manager.joinParty(partyID, id =>
-                this.goHome("listen", partyID)
+                this.goHome("listen", partyID, "")
               );
             }}
             cancelClose={this.toggleJoinVis}
@@ -132,8 +136,8 @@ export default class Choose extends Component {
           <CreateLP
             done={partyName => {
               this.toggleCreateVis();
-              this.manager.makeParty(partyName, partyID =>
-                this.goHome("host", partyID)
+              this.manager.makeParty(partyName, (partyID, partyName) =>
+                this.goHome("host", partyID, partyName)
               );
             }}
             cancelClose={this.toggleCreateVis}

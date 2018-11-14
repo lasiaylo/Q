@@ -9,17 +9,10 @@ const SongList = ({ songs, style, pos }) => {
   }
 
   function _renderSong(song) {
-    console.log("SONGGGG", song.color);
     return (
       <SongView name={song.name} artists={song.artists} color={song.color} />
     );
   }
-
-  // let list = [];
-  // if (songs != {}) {
-  //   list = Object.items(songs);
-  // }
-  console.log("SONGS", songs);
 
   return (
     <List

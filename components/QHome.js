@@ -33,6 +33,7 @@ import navStyle from "../style/navStyle";
 import { FloatingAction } from "react-native-floating-action";
 import SongList from "./SongList";
 import colors from "../style/colors";
+import SongView from "./SongView";
 import PartyManager from "../firebase/PartyManager";
 
 const listenActions = [{}];
@@ -61,37 +62,6 @@ const hostActions = [
   }
 ];
 
-const fakeQueue = {
-  0: {
-    name: "thank u, next",
-    artists: ["Ariana Grande"],
-    uri: "spotify:track:2rPE9A1vEgShuZxxzR2tZH",
-    color: colors.purple,
-    index: 0
-  },
-  3: {
-    name: "Potato Salad",
-    artists: ["Tyler, the Creator", "A$AP Rocky"],
-    uri: "spotify:track:1jzIJcHCXneHw7ojC6LXiF",
-    color: colors.white,
-    index: 3
-  },
-  1: {
-    name: "CANT GET OVER YOU",
-    artists: ["papa franku"],
-    uri: "spotify:track:7ewESHEg3P3JN66IcWwDho",
-    color: colors.gray,
-    index: 1
-  },
-  2: {
-    name: "WAKE UP",
-    artists: ["Travis Scott", "The Weeknd"],
-    uri: "spotify:track:20MuVazoNMv6xjKPnRFOxG",
-    color: colors.green,
-    index: 2
-  }
-};
-
 export default class QHome extends Component {
   constructor(props) {
     super(props);
@@ -99,19 +69,22 @@ export default class QHome extends Component {
     const { params, routeName } = this.navigation.state;
     const { partyID, userMode, profile } = params;
     console.log("\n\n TABBED IS not: " + !this.props.tabbed);
+    console.log("USER ID: " + profile.id);
     this.state = {
       profile: profile,
       qsearchVisible: false,
       shareVisible: false,
       settingsVisible: false,
       playing: false,
-      homeTitle: "",
+      homeTitle: params.homeTitle,
       userMode: userMode ? userMode : routeName,
       joinQRVis: false,
       createLPVis: false,
+      currSong: {},
       party: null,
       queue: [],
       queuePos: 0
+      // refresh: false
     };
     this.width = Dimensions.get("window").width;
     this.height = Dimensions.get("window").height;
@@ -119,6 +92,7 @@ export default class QHome extends Component {
     this.settingsHandler = this.settingsHandler.bind(this);
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
+    // this.child = React.createRef();
 
     this.partyID = this.navigation.getParam("partyID", "");
     console.log("QHOME RECEIVED ID : " + this.partyID);
@@ -127,10 +101,12 @@ export default class QHome extends Component {
       this.setState({ queue, playing: true }, console.log(queue));
     });
     manager.getPos(this.partyID, pos => {
-      this.setState(
-        { queuePos: pos },
-        console.log("queue position updated to: " + pos)
-      );
+      // this.setState({ refresh: !this.state.refresh });
+      this.setState({ queuePos: pos });
+      this.setState({ currSong: this.state.queue[this.state.queuePos] });
+      // if (this.userMode != "host") {
+      //   this.child.current.play(this.state.queue[this.state.queuePos], false);
+      // }
     });
   }
 
@@ -171,39 +147,54 @@ export default class QHome extends Component {
   }
 
   prev(callback, enable) {
-    console.log("prev called on pos: " + this.state.queuePos);
-    if (this.state.queuePos > 0) {
-      callback(this.state.queue[this.state.queuePos - 1]);
-      this.setState({
-        queuePos: this.state.queuePos - 1,
-        currSong: this.state.queue[this.state.queuePos - 1]
-      });
-    }
-    enable(
-      this.state.queuePos < Object.keys(this.state.queue).length,
-      this.state.queuePos > 1
+    console.log("next called on pos: " + this.state.queuePos);
+    console.log(
+      "LENGTH OF QUEUE TO ME: ",
+      Object.keys(this.state.queue).length - 1
     );
+    if (this.state.queuePos > 0) {
+      const manager = this.navigation.getParam("manager", null);
+      manager.updatePos(this.state.queuePos - 1, this.partyID, () => {
+        console.log("INSIDE UPDATE POS");
+        callback(this.state.queue[this.state.queuePos], true);
+        this.setState({
+          queuePos: this.state.queuePos,
+          currSong: this.state.queue[this.state.queuePos]
+        });
+        enable(
+          this.state.queuePos < Object.keys(this.state.queue).length,
+          this.state.queuePos > 0
+        );
+      });
+    } else {
+      callback(this.state.queue[this.state.queuePos], false);
+    }
   }
 
   componentDidMount() {
+    BackHandler.addEventListener("hardwareBackPress", function() {
+      this.navigation.navigate("Choose");
+      return true;
+    });
     const partyID = this.navigation.getParam("partyID", "");
     const userMode = this.navigation.getParam("userMode", "listen");
-    this.manager = new PartyManager(this.state.profile.id);
+    const manager = this.navigation.getParam("manager", null);
     const parties = this.navigation.getParam(`${userMode}Parties`, []);
-    if (this.props.tabbed) {
-      console.log("fuck me right????");
-      this.setState({
-        homeTitle: userMode == "host" ? "Hosted Parties" : "Listening Parties"
-      });
-      this.manager.getParty("listening", listenParties => {
-        this.setState({ listenParties });
-        console.log("Listener parties: ", listenParties);
-      });
-      this.manager.getParty("hosted", hostParties => {
-        this.setState({ hostParties });
-        console.log("Hosted parties: ", hostParties);
-      });
-    }
+    // if (this.props.tabbed) {
+    //   console.log("fuck me right????");
+    //   this.setState({
+    //     homeTitle: userMode == "host" ? "Hosted Parties" : "Listening Parties"
+    //   });
+    // this.manager.getParty("listening", listenParties => {
+    //   this.setState({ listenParties });
+    //   console.log("Listener parties: ", listenParties);
+    // });
+    // this.manager.getParty("hosted", hostParties => {
+    //   this.setState({ hostParties });
+    //   console.log("Hosted parties: ", hostParties);
+    // });
+    // }
+    manager.updatePos(0, partyID, () => console.log("init queue pos"));
   }
 
   next(callback, enable) {
@@ -216,18 +207,32 @@ export default class QHome extends Component {
       this.state.queuePos < Object.keys(this.state.queue).length - 1 ||
       (Object.keys(this.state.queue).length === 2 && this.state.queuePos === 0)
     ) {
-      this.manager.updatePos(this.state.queuePos + 1, this.partyID, () => {
-        callback(this.state.queue[this.state.queuePos + 1]);
+      const manager = this.navigation.getParam("manager", null);
+      manager.updatePos(this.state.queuePos + 1, this.partyID, () => {
+        console.log("INSIDE UPDATE POS");
+        callback(this.state.queue[this.state.queuePos], true);
         this.setState({
-          queuePos: this.state.queuePos + 1,
-          currSong: this.state.queue[this.state.queuePos + 1]
+          queuePos: this.state.queuePos,
+          currSong: this.state.queue[this.state.queuePos]
         });
         enable(
-          this.state.queuePos < Object.keys(this.state.queue).length - 2,
+          this.state.queuePos < Object.keys(this.state.queue).length - 1,
           this.state.queuePos >= 0
         );
       });
+    } else {
+      callback(this.state.queue[this.state.queuePos], false);
     }
+  }
+
+  _filterQueue(queue, pos) {
+    return queue.slice(pos + 1, queue.length + 1);
+  }
+
+  _renderSong(song) {
+    return (
+      <SongView name={song.name} artists={song.artists} color={song.color} />
+    );
   }
 
   navProps() {
@@ -248,18 +253,6 @@ export default class QHome extends Component {
       queue = Object.values(queue);
     }
 
-    let PLAYING = null;
-    if (this.state.playing && this.state.queue.length) {
-      PLAYING = (
-        <NowPlaying
-          currSong={this.state.queue[this.state.queuePos]}
-          userMode={this.state.userMode}
-          next={this.next}
-          prev={this.prev}
-        />
-      );
-    }
-
     return (
       <Container style={{ backgroundColor: "#090909" }}>
         <View
@@ -267,7 +260,7 @@ export default class QHome extends Component {
             style[this.state.userMode + "Header"],
             {
               minWidth: this.width,
-              minHeight: this.height * 0.125
+              minHeight: this.height * 0.12
             }
           ]}
         >
@@ -286,7 +279,7 @@ export default class QHome extends Component {
                   }}
                 >
                   {(!this.props.tabbed ||
-                    this.navigation.state.routeName == "QHome") && (
+                    this.navigation.state.routeName == "Choose") && (
                     <Button
                       icon
                       light
@@ -295,7 +288,7 @@ export default class QHome extends Component {
                       style={{
                         position: "absolute",
                         left: 5,
-                        paddingTop: StatusBar.currentHeight + 25
+                        paddingTop: StatusBar.currentHeight + 30
                       }}
                     >
                       <Icon
@@ -309,7 +302,7 @@ export default class QHome extends Component {
                   )}
                   <Text
                     style={[
-                      { paddingTop: StatusBar.currentHeight + 5 },
+                      { paddingTop: StatusBar.currentHeight + 12 },
                       style.headerTitle,
                       style[this.state.userMode + "HeaderText"]
                     ]}
@@ -321,20 +314,73 @@ export default class QHome extends Component {
             </Content>
           </Container>
         </View>
-        {PLAYING}
-
-
+        {this.state.playing &&
+          this.state.queue.length &&
+          this.state.queue[this.state.queuePos] && (
+            <NowPlaying
+              currSong={this.state.queue[this.state.queuePos]}
+              userMode={this.state.userMode}
+              queuePos={this.state.queuePos}
+              queue={this.state.queue}
+              next={this.next}
+              prev={this.prev}
+              refr={this.state.refresh}
+              ref={this.child}
+            />
+          )}
         <Content
           contentContainerStyle={{
             justifyContent: "flex-start",
             paddingTop: 20
           }}
         >
-          <SongList
-            songs={queue}
+          <List
+            dataArray={this._filterQueue(this.state.queue, this.state.queuePos)}
+            renderRow={song => this._renderSong(song)}
             style={{ paddingLeft: -40 }}
-            pos={this.state.queuePos}
           />
+          {this._filterQueue(this.state.queue, this.state.queuePos).length ===
+            0 && (
+            <Container
+              style={{
+                backgroundColor: "rgba(0,0,0,0)",
+                minHeight: this.height,
+                alignItems: "center"
+              }}
+              contentContainerStyle={{
+                alignContent: "center",
+                justifyContent: "center"
+              }}
+            >
+              <Content
+                style={{
+                  backgroundColor: "rgba(0,0,0,0)",
+                  minHeight: this.height
+                }}
+                contentContainerStyle={{
+                  alignContent: "center",
+                  justifyContent: "center"
+                }}
+              >
+                <Text
+                  style={[
+                    style.nowPlaying,
+
+                    {
+                      flex: 1,
+                      fontSize: 22,
+                      opacity: 0.6,
+                      margin: "auto",
+                      width: 0.8 * this.width
+                    }
+                  ]}
+                >
+                  No songs... Click the action button to add a song to the
+                  queue!
+                </Text>
+              </Content>
+            </Container>
+          )}
         </Content>
         {this.state.userMode === "host" ? (
           !this.props.tabbed ? (
@@ -457,7 +503,7 @@ export default class QHome extends Component {
           <JoinQR
             done={partyID => {
               this.toggleJoinVis();
-              this.goHome("listen", partyID);
+              this.goHome("listen", partyID, partyID);
             }}
             cancelClose={() => {
               this.setState({ joinQRVis: !this.state.joinQRVis });
@@ -475,10 +521,10 @@ export default class QHome extends Component {
           }
         >
           <CreateLP
-            done={() => {
+            done={name => {
               this.toggleCreateVis();
-              this.manager.makeParty("partyName", partyID =>
-                this.goHome("host", partyID)
+              this.manager.makeParty(name, (partyID, name) =>
+                this.goHome("host", partyID, name)
               );
             }}
             cancelClose={() =>

@@ -38,9 +38,9 @@ class PartyManager {
     this.ref.child(`users/${uid}`).once("value", child => {
       if (child.val() == null) {
         const updates = {};
-]
+
         // updates[`users/${uid}/profile/user`] = "ASDSAD";
-        
+
         updates[`users/${uid}/profile/user`] = name;
         // updates[`users/${uid}/profile/userIcon`] = image;
         this.ref.update(updates);
@@ -104,7 +104,7 @@ class PartyManager {
         }
       })
       .then(() =>
-        this.addHost(this.uid, partyRef.key, () => callback(partyRef.key))
+        this.addHost(this.uid, partyRef.key, () => callback(partyRef.key, name))
       );
   }
 
@@ -139,16 +139,18 @@ class PartyManager {
     this.ref
       .child(`parties/${partyID}/pos`)
       .set(pos)
-      .then(res => callback());
+      .then(res => {
+        console.log("updatePos finished with result: " + res);
+        callback();
+      });
   }
 
   getPos(partyID, callback) {
-    this.ref
-      .child(`parties/${partyID}/pos`)
-      .once("value")
-      .then(snapshot => {
-        callback(snapshot.val());
-      });
+    this.ref.child(`parties/${partyID}/pos`).on("value", child => {
+      console.log(child);
+      console.log(child.val());
+      callback(child.val());
+    });
   }
 
   addSong(song, partyID, callback) {

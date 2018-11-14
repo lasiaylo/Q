@@ -27,11 +27,14 @@ export default class NowPlaying extends Component {
     this.userMode = props.userMode;
     this.state = {
       playing: true,
+      queue: this.props.queue,
       currSong: this.props.currSong,
       currName: this.props.currSong.name,
+      queuePos: this.props.queuePos,
       currArtist: this.props.currSong.artists[0],
       canSkip: true,
-      canBack: true
+      canBack: true,
+      refresh: this.props.refresh
     };
     this.play = this.play.bind(this);
   }
@@ -40,7 +43,7 @@ export default class NowPlaying extends Component {
     Spotify.getMe().then(result => {
       if (this.userMode === "host") {
         this.setState({ playing: true });
-        this.play(this.state.currSong);
+        this.play(this.state.currSong, true);
       }
     });
     Spotify.addListener("trackDelivered", result => {
@@ -54,27 +57,26 @@ export default class NowPlaying extends Component {
 
   back() {
     this.props.prev(
-      song => this.play(song),
+      song => this.play(song, true),
       (b, c) => this.setState({ canSkip: b, canBack: c })
     );
   }
 
   skip() {
     this.props.next(
-      song => this.play(song),
+      song => this.play(song, true),
       (b, c) => this.setState({ canSkip: b, canBack: c })
     );
   }
 
-  async play(song) {
+  async play(song, b) {
     console.log("play called on:" + song.name);
     this.setState({
       currSong: song,
       currName: song.name,
       currArtist: song.artists[0]
     });
-
-    await Spotify.playURI(song.uri, 0, 0);
+    if (b) await Spotify.playURI(song.uri, 0, 0);
   }
 
   render() {
