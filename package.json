@@ -33,7 +33,7 @@
     "react-native-qrcode": "^0.2.7",
     "react-native-qrcode-scanner": "^1.1.0",
     "react-navigation": "^2.18.1",
-    "rn-spotify-sdk": "^1.1.1",
+    "rn-spotify-sdk": "^1.1.5",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
