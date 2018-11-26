@@ -44,11 +44,12 @@ export default class QueueSong extends Component {
     let songs = response.tracks.items;
     let results = [];
     for (var i = 0; i < songs.length; i++) {
-      let diet = ({ name, artists, uri }) => {
+      let diet = ({ name, artists, uri, album }) => {
         artists = artists.map(a => a.name);
         color = this.chooseColor();
+        img = album.images[0];
         console.log(color);
-        return { name, artists, uri, color };
+        return { name, artists, uri, color, img };
       };
       results.push(diet(songs[i]));
       this.setState({ searchResults: results });

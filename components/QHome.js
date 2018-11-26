@@ -96,11 +96,11 @@ export default class QHome extends Component {
 
     this.partyID = this.navigation.getParam("partyID", "");
     console.log("QHOME RECEIVED ID : " + this.partyID);
-    const manager = this.navigation.getParam("manager", null);
-    manager.getSongs(this.partyID, queue => {
+    this.manager = this.navigation.getParam("manager", null);
+    this.manager.getSongs(this.partyID, queue => {
       this.setState({ queue, playing: true }, console.log(queue));
     });
-    manager.getPos(this.partyID, pos => {
+    this.manager.getPos(this.partyID, pos => {
       // this.setState({ refresh: !this.state.refresh });
       this.setState({ queuePos: pos });
       this.setState({ currSong: this.state.queue[this.state.queuePos] });
@@ -318,6 +318,7 @@ export default class QHome extends Component {
           this.state.queue.length &&
           this.state.queue[this.state.queuePos] && (
             <NowPlaying
+              id="nowPlaying"
               currSong={this.state.queue[this.state.queuePos]}
               userMode={this.state.userMode}
               queuePos={this.state.queuePos}
@@ -326,6 +327,8 @@ export default class QHome extends Component {
               prev={this.prev}
               refr={this.state.refresh}
               ref={this.child}
+              partyID={this.state.partyID}
+              manager={this.manager}
             />
           )}
         <Content

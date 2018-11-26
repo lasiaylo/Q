@@ -34,9 +34,23 @@ export default class NowPlaying extends Component {
       currArtist: this.props.currSong.artists[0],
       canSkip: true,
       canBack: true,
-      refresh: this.props.refresh
+      refresh: this.props.refresh,
+      partyID: this.props.partyID,
+      manager: this.props.manager
     };
     this.play = this.play.bind(this);
+    console.log("USERMODE", this.userMode);
+    if (this.userMode === "listen") {
+      console.log("THINGS ARE FALLING APART")
+      this.props.manager.getPos(this.partyID, pos => {
+        console.log("LISTENING", pos);
+        console.log("QUEUE", this.props.queue);
+        console.log("CURRSONG", this.props.queue[pos]);
+        this.setState({ queuePos: pos });
+        this.setState({ currSong: this.props.queue[pos] });
+
+      });
+    }
   }
 
   componentDidMount() {
@@ -49,6 +63,7 @@ export default class NowPlaying extends Component {
     Spotify.addListener("trackDelivered", result => {
       this.skip();
     });
+    // this.height = document.getElementById("nowPlaying").clientHeight;
   }
 
   async playPause() {
@@ -86,8 +101,8 @@ export default class NowPlaying extends Component {
           <Thumbnail
             square
             large
-            source={{ uri: "https://i.imgur.com/RfZvIlj.png" }}
-            style={{ height: "90%", width: "auto" }}
+            source={{ uri: this.props.currSong.img.url }}
+            style={{ height: 120, width: 120 }}
           />
         </Left>
         <Card
@@ -116,10 +131,10 @@ export default class NowPlaying extends Component {
                   numberOfLines={1}
                   style={[style.nowPlaying, style.songText]}
                 >
-                  {this.state.currName}
+                  {this.props.currSong.name}
                 </Text>
                 <Text style={[style.nowPlaying, style.artistText]} light note>
-                  {this.state.currArtist}
+                  {this.props.currSong.artists[0]}
                 </Text>
               </Body>
             </Left>
